@@ -102,13 +102,37 @@ void test_create_from_hex(TestObjs *objs) {
   (void) objs;
 
   Fixedpoint val1 = fixedpoint_create_from_hex("f6a5865.00f2");
-
   // ASSERT(fixedpoint_is_valid(val1));
   //TODO: write this
-
   ASSERT(0xf6a5865UL == fixedpoint_whole_part(val1));
-
   ASSERT(0x00f2000000000000UL == fixedpoint_frac_part(val1));
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("934.ade8d38a");
+  ASSERT(val2.tag==1);
+  ASSERT(0x934UL == fixedpoint_whole_part(val2));
+  ASSERT(0xade8d38a00000000UL == fixedpoint_frac_part(val2));
+  Fixedpoint val3 = fixedpoint_create_from_hex("-edef814.21f023189");
+  ASSERT(val3.tag==-1);
+  ASSERT(0xedef814UL == fixedpoint_whole_part(val3));
+  ASSERT(0x21f0231890000000UL == fixedpoint_frac_part(val3));
+  //check overflow for frac part
+  Fixedpoint val4 = fixedpoint_create_from_hex("8bd.0e344920250651111");
+  ASSERT(val4.tag==0); //assert invalid
+  //check overflow for whole part
+  Fixedpoint val5 = fixedpoint_create_from_hex("0e344920250651111.8bd");
+  ASSERT(val5.tag==0);
+  Fixedpoint val6 = fixedpoint_create_from_hex("ab0ec.");
+  ASSERT(val6.tag==1);
+  ASSERT(0xab0ecUL == fixedpoint_whole_part(val6));
+  ASSERT(0x0000000000000000UL == fixedpoint_frac_part(val6));
+  Fixedpoint val7 = fixedpoint_create_from_hex(".82a9b99ad4e76");
+  ASSERT(val7.tag==1);
+  ASSERT(0x0000000000000000UL == fixedpoint_whole_part(val7));
+  ASSERT(0x82a9b99ad4e76000UL == fixedpoint_frac_part(val7));
+  //check invalid format
+  Fixedpoint val8 = fixedpoint_create_from_hex("1-9b99ad4e76");
+  ASSERT(val8.tag==0);
+
 }
 
 void test_format_as_hex(TestObjs *objs) {
