@@ -81,6 +81,10 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
   int dot_idx = find_unique_dot_index(hex);  //get index of decimal point
   int whole_len = dot_idx + 1;    //set length for whole part's string (+1 for null terminator)
   int frac_len = hex_len - dot_idx; //set length for frac part's string
+  if (whole_len -1 > 16 || frac_len -1 > 16){ //check for overflow
+    fp.tag = 0;
+    return fp;
+  }
   char* whole_str = NULL;
   char* frac_str= NULL;
   if (whole_len != 0){  //if contains whole part
@@ -95,7 +99,7 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
     strncpy(frac_str,&(hex[dot_idx+1]),frac_len-1); //copy parts after the decimal point to the new string
     frac_str[frac_len-1]=0;
   }
-  if(whole_str && frac_str == NULL){ //if 
+  if(whole_str && frac_str == NULL){ //if both empty
     fp.tag=0;
     return fp;
   }
