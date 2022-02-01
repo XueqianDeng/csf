@@ -1,3 +1,10 @@
+/*
+ * Functions for Fixedpoint values operation
+ * CSF Assignment 1
+ * Chujian Yu, Xueqian Deng
+ * cyu62@jh.edu, xdeng13@jh.edu
+ */
+
 #ifndef FIXEDPREC_H
 #define FIXEDPREC_H
 
