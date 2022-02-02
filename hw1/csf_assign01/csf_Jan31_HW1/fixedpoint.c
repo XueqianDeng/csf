@@ -193,7 +193,7 @@ int fixedpoint_is_underflow_neg(Fixedpoint val) {
 }
 
 int fixedpoint_is_underflow_pos(Fixedpoint val) {
-  return val.tag = 3;
+  return val.tag == 3;
 }
 
 int fixedpoint_is_valid(Fixedpoint val) {
