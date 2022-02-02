@@ -217,6 +217,6 @@ char *fixedpoint_format_as_hex(Fixedpoint val) {
   }
   int length = strlen(temp);
   char *finaltemp = malloc(length);
-  finaltemp = strcpy(temp, length);
+  strncpy(finaltemp, temp, length);
   return finaltemp;
 }
