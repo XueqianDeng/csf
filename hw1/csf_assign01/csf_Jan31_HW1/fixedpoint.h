@@ -58,7 +58,7 @@ int find_unique_dot_index(const char * str);
 //
 // Returns:
 //   -1 if invalid, 0 if valid with no decimal point, 1 if valid with decimal point
-int is_valid_hex_string(const char *hex){ 
+int is_valid_hex_string(const char *hex);
 
 // Create a Fixedpoint value from a string representation.
 // The string will have one of the following forms:
