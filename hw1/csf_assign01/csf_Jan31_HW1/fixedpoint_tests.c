@@ -132,7 +132,11 @@ void test_create_from_hex(TestObjs *objs) {
   //check invalid format
   Fixedpoint val8 = fixedpoint_create_from_hex("1-9b99ad4e76");
   ASSERT(val8.tag==0);
-
+  //test capitalized
+  Fixedpoint val9 = fixedpoint_create_from_hex("-EDEf814.21F023189");
+  ASSERT(val9.tag==-1);
+  ASSERT(0xedef814UL == fixedpoint_whole_part(val9));
+  ASSERT(0x21f0231890000000UL == fixedpoint_frac_part(val9));
 }
 
 void test_format_as_hex(TestObjs *objs) {
