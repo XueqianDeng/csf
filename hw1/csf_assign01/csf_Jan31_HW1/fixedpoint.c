@@ -118,12 +118,10 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
 }
 
 uint64_t fixedpoint_whole_part(Fixedpoint val) {
-  // TODO: implement
   return val.whole_part;
 }
 
 uint64_t fixedpoint_frac_part(Fixedpoint val) {
-  // TODO: implement
   return val.frac_part;
 }
 
