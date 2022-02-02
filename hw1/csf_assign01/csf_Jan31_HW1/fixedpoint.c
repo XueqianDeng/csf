@@ -204,5 +204,19 @@ int fixedpoint_is_valid(Fixedpoint val) {
 
 char *fixedpoint_format_as_hex(Fixedpoint val) {
   char *temp[35];
-  if 
+  char *pointer = temp;
+  if (fixedpoint_is_neg(val)) {
+    temp[0] = '-';
+    pointer++;
+  }
+  if (val.frac == 0){
+    springtf(pointer, "%lx", val.whole);
+  }
+  if (val.frac != 0) {
+    springtf(pointer, "%lx.%016lx", val.whole, val.frac);
+  }
+  int length = strlen(temp);
+  char *finaltemp = malloc(length);
+  finaltemp = strcpy(temp, length);
+  return finaltemp;
 }
