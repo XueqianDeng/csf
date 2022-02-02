@@ -177,33 +177,23 @@ int fixedpoint_is_err(Fixedpoint val) {
 }
 
 int fixedpoint_is_neg(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0;
+  return val.tag == -1;
 }
 
 int fixedpoint_is_overflow_neg(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0;
+  return val.tag == -2;
 }
 
 int fixedpoint_is_overflow_pos(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0;
+  return val.tag == 2;
 }
 
 int fixedpoint_is_underflow_neg(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0;
+  return val.tag == -3;
 }
 
 int fixedpoint_is_underflow_pos(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0;
+  return val.tag = 3;
 }
 
 int fixedpoint_is_valid(Fixedpoint val) {
@@ -213,6 +203,6 @@ int fixedpoint_is_valid(Fixedpoint val) {
 }
 
 char *fixedpoint_format_as_hex(Fixedpoint val) {
-  char *s = malloc(20);
-  strcpy(s, "<invalid>");
+  char *temp[35];
+  if 
 }
