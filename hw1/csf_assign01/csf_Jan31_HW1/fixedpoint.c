@@ -94,7 +94,7 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
   char* whole_str = NULL;
   char* frac_str= NULL;
   if (whole_len != 0){  //if contains whole part
-    whole_str = malloc(whole_len);
+    whole_str = (char*) malloc(whole_len);
     assert(whole_str);
     strncpy(whole_str,hex,whole_len-1); //copy whole parts to the new string
     whole_str[whole_len-1] = 0; //null-terminated
@@ -102,7 +102,7 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
     fp.whole_part=whole;
   }
   if (frac_len != 0){ //if contains frac part
-    frac_str = malloc(frac_len);
+    frac_str = (char*)malloc(frac_len);
     assert(frac_str);
     strncpy(frac_str,&(hex[dot_idx+1]),frac_len-1); //copy parts after the decimal point to the new string
     frac_str[frac_len-1]=0;
