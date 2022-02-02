@@ -213,9 +213,6 @@ int fixedpoint_is_valid(Fixedpoint val) {
 }
 
 char *fixedpoint_format_as_hex(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
   char *s = malloc(20);
   strcpy(s, "<invalid>");
-  return s;
 }
