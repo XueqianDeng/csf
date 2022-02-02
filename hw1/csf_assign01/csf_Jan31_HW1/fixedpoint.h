@@ -42,6 +42,24 @@ Fixedpoint fixedpoint_create(uint64_t whole);
 //   the Fixedpoint value
 Fixedpoint fixedpoint_create2(uint64_t whole, uint64_t frac);
 
+// Find the index of the unique decimal point (if any) in a string
+//
+// Parameters:
+//   str - the pointer to a string
+//
+// Returns:
+//   index of decimal points, or -1 if not found decimal point, -2 if error
+int find_unique_dot_index(const char * str);
+
+// Check if the string is a valid base-16 representation
+//
+// Parameters:
+//   hex - the pointer to a hex string
+//
+// Returns:
+//   -1 if invalid, 0 if valid with no decimal point, 1 if valid with decimal point
+int is_valid_hex_string(const char *hex){ 
+
 // Create a Fixedpoint value from a string representation.
 // The string will have one of the following forms:
 //
