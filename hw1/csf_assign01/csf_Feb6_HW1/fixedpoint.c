@@ -6,9 +6,6 @@
 #include "fixedpoint.h"
 #include <stdbool.h>
 
-// You can remove this once all of the functions are fully implemented
-static Fixedpoint DUMMY;
-
 Fixedpoint fixedpoint_create(uint64_t whole) {
   Fixedpoint fp = {whole,0, 1}; //create a Fixedpoint struct, with tag defaulted to 1 (valid and non-negative)
   return fp;
@@ -109,20 +106,17 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
     free(frac_str);
   }
   if(whole == 0 && frac == 0)fp.tag=1;
-  
-  
   return fp;
 }
 
 uint64_t fixedpoint_whole_part(Fixedpoint val) {
-  // TODO: implement
   return val.whole_part;
 }
 
 uint64_t fixedpoint_frac_part(Fixedpoint val) {
-  // TODO: implement
   return val.frac_part;
 }
+
 // Compute the sum of two valid Fixedpoint values.
 //
 // Parameters:
@@ -137,7 +131,6 @@ uint64_t fixedpoint_frac_part(Fixedpoint val) {
 //   fixedpoint_is_overflow_neg returns true is returned (depending on whether
 //   the overflow was positive or negative)
 Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
-  // TODO: implement
   Fixedpoint sum = {0,0,left.tag};
   int frac_carry = 0, whole_overflow = 0;
   if ( abs(left.tag)!=1 || abs(right.tag)!=1 ){ //if not valid input
@@ -151,7 +144,6 @@ Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
       }
     sum.whole_part = left.whole_part + right.whole_part + frac_carry;
     if(sum.whole_part < left.whole_part || sum.whole_part < right.whole_part) {
-      //TODO: check if positive and negative overflow are both detected
       sum.tag = sum.tag*2; //overflow TODO: maybe it should be only positive overflow
       return sum;
     }
@@ -182,14 +174,12 @@ Fixedpoint fixedpoint_negate(Fixedpoint val) {
 }
 
 Fixedpoint fixedpoint_halve(Fixedpoint val) {
-  // TODO: implement 2.5 10.1 1.25 1.01
   int new_tag = (val.frac_part & 1) == 1 ? (val.tag)*3: val.tag;
   Fixedpoint half = {val.whole_part >> 1, (val.frac_part >> 1) + ( (val.whole_part & 1) << 63), new_tag};
   return half;
 }
 
 Fixedpoint fixedpoint_double(Fixedpoint val) {
-  // TODO: implement
   int new_tag = (val.whole_part>>63 & 1) == 1 ? (val.tag)*2: val.tag;
   Fixedpoint doubled = {(val.whole_part<< 1)+ ( (val.frac_part>>63) & 1 ), (val.frac_part << 1) , new_tag};
   return doubled;
@@ -225,7 +215,6 @@ int fixedpoint_is_zero(Fixedpoint val) {
 }
 
 int fixedpoint_is_err(Fixedpoint val) {
-  // TODO: implement
   return val.tag==99;
 }
 
