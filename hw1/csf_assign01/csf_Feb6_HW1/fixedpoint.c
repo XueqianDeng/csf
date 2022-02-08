@@ -110,11 +110,11 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
     assert(return_code == 1); // make sure there's at most only one decimal point
     frac=strtoul(frac_str,NULL,16);
     padding = (strlen(frac_str) ) *4;
-    frac = frac << (64-padding); //left shift
+    frac = frac << (64-padding); //left shift the frac part
     fp.frac_part=frac;
     free(frac_str);
   }
-  if(whole == 0 && frac == 0)fp.tag=1;
+  if(whole == 0 && frac == 0) fp.tag=1;
   return fp;
 }
 
@@ -257,11 +257,11 @@ int fixedpoint_is_valid(Fixedpoint val) {
 
 //trims leading and trailing 0's (if has fraction part)                                                        
 char* trim_zeros(char* str, int has_frac){ 
-  while(str && *str == '0' && *(str+1) && *(str+1)!='.') str++;
+  while(str && *str == '0' && *(str+1) && *(str+1)!='.') str++; //move past leading 0's
   if (has_frac == 1){
     int i = strlen(str)-1;
-    while(str && str[i] != '.' && str[i] == '0') i--;
-    str[i+1] = 0;
+    while(str && str[i] != '.' && str[i] == '0') i--; //reversely iterate the traiing 0's
+    str[i+1] = 0; //null terminate the string before trailing 0's
   }
   return str;
 }
