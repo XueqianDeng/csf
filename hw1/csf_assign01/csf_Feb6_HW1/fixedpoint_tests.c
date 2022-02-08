@@ -15,8 +15,6 @@ typedef struct {
   Fixedpoint large1;
   Fixedpoint large2;
   Fixedpoint max;
-
-  // TODO: add more objects to the test fixture
 } TestObjs;
 
 // functions to create and destroy the test fixture
@@ -110,7 +108,6 @@ void test_create_from_hex(TestObjs *objs) {
   Fixedpoint val1 = fixedpoint_create_from_hex("f6a5865.00f2");
 
   ASSERT(fixedpoint_is_valid(val1));
-  //TODO: write this
 
   ASSERT(0xf6a5865UL == fixedpoint_whole_part(val1));
 
@@ -213,9 +210,8 @@ void test_create_from_hex(TestObjs *objs) {
 }
 
 void test_format_as_hex(TestObjs *objs) {
-  //TODO: add test more negative values for negative signs
   char *s;
-
+  
   s = fixedpoint_format_as_hex(objs->zero);
   ASSERT(0 == strcmp(s, "0"));
   free(s);
@@ -239,6 +235,17 @@ void test_format_as_hex(TestObjs *objs) {
   s = fixedpoint_format_as_hex(objs->large2);
   ASSERT(0 == strcmp(s, "fcbf3d5.00004d1a23c24faf"));
   free(s);
+
+  ASSERT(0 == strcmp("-2", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-2"))));
+  ASSERT(0 == strcmp("2.33", fixedpoint_format_as_hex(fixedpoint_create_from_hex("2.33"))));
+  ASSERT(0 == strcmp("-3.9", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-3.9"))));
+  ASSERT(0 == strcmp("-0.8", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-0.8"))));
+  ASSERT(0 == strcmp("-93939123.8", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-93939123.8"))));
+  ASSERT(0 == strcmp("bbbbb.8", fixedpoint_format_as_hex(fixedpoint_create_from_hex("bbbbb.8"))));
+  ASSERT(0 == strcmp("-bbbbb.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-bbbbb.ffff"))));
+  ASSERT(0 == strcmp("-1.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-1.ffff"))));
+  ASSERT(0 == strcmp("-1.fddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-1.fddd"))));
+  ASSERT(0 == strcmp("-238.98888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-238.98888"))));
 }
 
 void test_negate(TestObjs *objs) {
