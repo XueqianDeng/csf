@@ -11,11 +11,13 @@
 #include "fixedpoint.h"
 #include <stdbool.h>
 
+//create fixedpoint with only the whole part
 Fixedpoint fixedpoint_create(uint64_t whole) {
   Fixedpoint fp = {whole,0, 1}; //create a Fixedpoint struct, with tag defaulted to 1 (valid and non-negative)
   return fp;
 }
 
+//creat fixedpoint with both the whole and the frac part
 Fixedpoint fixedpoint_create2(uint64_t whole, uint64_t frac) {
   Fixedpoint fp = {whole,frac,1}; //create a Fixedpoint struct, with tag defaulted to 1 (valid and non-negative)
   return fp;
@@ -60,6 +62,8 @@ int is_valid_hex_string(const char *hex){
   }
   return 0;
 }
+
+//create fixedpoint object from hexidecimal
 Fixedpoint fixedpoint_create_from_hex(const char *hex) {
   int padding = 0, is_negative = 0;
   uint64_t whole=0, frac=0;
@@ -114,10 +118,12 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
   return fp;
 }
 
+//return the whole part of fixedpoint
 uint64_t fixedpoint_whole_part(Fixedpoint val) {
   return val.whole_part;
 }
 
+//return the frac part of fixedpoint
 uint64_t fixedpoint_frac_part(Fixedpoint val) {
   return val.frac_part;
 }
@@ -167,29 +173,34 @@ Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
   return sum;
 }
 
+//perform fixedpoint substraction 
 Fixedpoint fixedpoint_sub(Fixedpoint left, Fixedpoint right) {
   Fixedpoint right_negated = {right.whole_part,right.frac_part,-right.tag};
   return fixedpoint_add(left,right_negated);
 
 }
 
+//perform fixedpoint negation
 Fixedpoint fixedpoint_negate(Fixedpoint val) {
   Fixedpoint fp = {val.whole_part, val.frac_part, fixedpoint_is_zero(val)? val.tag: -val.tag }; //must be valid and not zero to be negated; if is 0 or not valid, no changes are made
   return fp;
 }
 
+//divde fixedpoint by half
 Fixedpoint fixedpoint_halve(Fixedpoint val) {
   int new_tag = (val.frac_part & 1) == 1 ? (val.tag)*3: val.tag;
   Fixedpoint half = {val.whole_part >> 1, (val.frac_part >> 1) + ( (val.whole_part & 1) << 63), new_tag};
   return half;
 }
 
+//double fixedpoint
 Fixedpoint fixedpoint_double(Fixedpoint val) {
   int new_tag = (val.whole_part>>63 & 1) == 1 ? (val.tag)*2: val.tag;
   Fixedpoint doubled = {(val.whole_part<< 1)+ ( (val.frac_part>>63) & 1 ), (val.frac_part << 1) , new_tag};
   return doubled;
 }
 
+//perform fixedpoint comparison
 int fixedpoint_compare(Fixedpoint left, Fixedpoint right) {
   // Returns:
 //    -1 if left < right;
@@ -219,34 +230,43 @@ int fixedpoint_is_zero(Fixedpoint val) {
   return is_zero;
 }
 
+//return tag 99 if is in error
 int fixedpoint_is_err(Fixedpoint val) {
   return val.tag==99;
 }
 
+//return tag -1 if is negative
 int fixedpoint_is_neg(Fixedpoint val) {
   return (val.tag == -1);
 }
 
+//return tag -2 if negative overflow
 int fixedpoint_is_overflow_neg(Fixedpoint val) {
   return val.tag==-2;
 }
 
+//return tag 2 if positive overflow
 int fixedpoint_is_overflow_pos(Fixedpoint val) {
   return val.tag==2;
 }
 
+//return tag -3 if negative underflow
 int fixedpoint_is_underflow_neg(Fixedpoint val) {
   return val.tag==-3;
 }
 
+//return tag 3 if positive underflow 
 int fixedpoint_is_underflow_pos(Fixedpoint val) {
   return val.tag==3;
 }
 
+//check if the fixedpoint is valid
 int fixedpoint_is_valid(Fixedpoint val) {
   return (abs(val.tag)==1);
 }
-char* trim_zeros(char* str, int has_frac){ //TODO: comments needed; direction = 1 trims leading 0 for whole, =-1 trims trailing 0 for frac
+
+//direction = 1 trims leading 0 for whole, =-1 trims trailing 0 f\ or frac                                                        
+char* trim_zeros(char* str, int has_frac){ 
   while(str && *str == '0' && *(str+1) && *(str+1)!='.') str++;
   if (has_frac == 1){
     int i = strlen(str)-1;
@@ -255,6 +275,8 @@ char* trim_zeros(char* str, int has_frac){ //TODO: comments needed; direction = 
   }
   return str;
 }
+
+//return the hexidecimal char of the fixedpoint.
 char *fixedpoint_format_as_hex(Fixedpoint val) {
   int has_frac = val.frac_part != 0 ? 1 : 0;
   int has_minus_sign = val.tag == 1 ? 0 : 1;
