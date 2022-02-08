@@ -101,7 +101,7 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
     assert(return_code == 1); // make sure there's at most only one decimal point
     frac=strtoul(frac_str,NULL,16);
     padding = (strlen(frac_str) ) *4;
-    frac = frac << 64-padding; //left shift
+    frac = frac << (64-padding); //left shift
     fp.frac_part=frac;
     free(frac_str);
   }
@@ -132,7 +132,7 @@ uint64_t fixedpoint_frac_part(Fixedpoint val) {
 //   the overflow was positive or negative)
 Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
   Fixedpoint sum = {0,0,left.tag};
-  int frac_carry = 0, whole_overflow = 0;
+  int frac_carry = 0;
   if ( abs(left.tag)!=1 || abs(right.tag)!=1 ){ //if not valid input
     sum.tag = 0;
     return sum;

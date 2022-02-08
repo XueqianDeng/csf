@@ -113,110 +113,100 @@ void test_create_from_hex(TestObjs *objs) {
 
   ASSERT(0x00f2000000000000UL == fixedpoint_frac_part(val1));
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-0");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 0);
+  Fixedpoint val12 = fixedpoint_create_from_hex("-0");
+  ASSERT(val12.tag == 1);
+  ASSERT(val12.whole_part == 0x0UL);
+  ASSERT(val12.frac_part == 0x0UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("3.4");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 3);
-  ASSERT(val2.frac_part == 4);
+  Fixedpoint val22 = fixedpoint_create_from_hex("3.4");
+  ASSERT(val22.tag == 1);
+  ASSERT(val22.whole_part == 0x3UL);
+  ASSERT(val22.frac_part == 0x4000000000000000UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("2.5");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 2);
-  ASSERT(val2.frac_part == 5);
+  Fixedpoint val442 = fixedpoint_create_from_hex("2.5");
+  ASSERT(val442.tag == 1);
+  ASSERT(val442.whole_part == 0x2UL);
+  ASSERT(val442.frac_part == 0x5000000000000000UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-1.7");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.whole_part == 1);
-  ASSERT(val2.frac_part == 7);
+  Fixedpoint val992 = fixedpoint_create_from_hex("-1.7");
+  ASSERT(val992.tag == -1);
+  ASSERT(val992.whole_part == 0x1UL);
+  ASSERT(val992.frac_part == 0x7000000000000000UL);
 
- Fixedpoint val2 = fixedpoint_create_from_hex("-0.4");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 4);
+ Fixedpoint val232 = fixedpoint_create_from_hex("-0.4");
+  ASSERT(val232.tag == -1);
+  ASSERT(val232.whole_part == 0x0UL);
+  ASSERT(val232.frac_part == 0x4000000000000000UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("0.8");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 8);
+  Fixedpoint val12332 = fixedpoint_create_from_hex("0.8");
+  ASSERT(val12332.tag == 1);
+  ASSERT(val12332.whole_part == 0x0UL);
+  ASSERT(val12332.frac_part == 0x8000000000000000UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-0");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 0);
+  Fixedpoint val200 = fixedpoint_create_from_hex("-0");
+  ASSERT(val200.tag == 1);
+  ASSERT(val200.whole_part == 0x0UL);
+  ASSERT(val200.frac_part == 0x0UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex(".2");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 2);
+  Fixedpoint valss2 = fixedpoint_create_from_hex(".2");
+  ASSERT(valss2.tag == 1);
+  ASSERT(valss2.whole_part == 0x0UL);
+  ASSERT(valss2.frac_part == 0x2000000000000000UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-0");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 0);
+  Fixedpoint valssssss2 = fixedpoint_create_from_hex("-0");
+  ASSERT(valssssss2.tag == 1);
+  ASSERT(valssssss2.whole_part == 0x0UL);
+  ASSERT(valssssss2.frac_part == 0x0UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-.2");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 2);
+  Fixedpoint valee2 = fixedpoint_create_from_hex("-.2");
+  ASSERT(valee2.tag == -1);
+  ASSERT(valee2.whole_part == 0x0UL);
+  ASSERT(valee2.frac_part == 0x2000000000000000UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("2");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 2);
-  ASSERT(val2.frac_part == 0);
+  Fixedpoint v2al2 = fixedpoint_create_from_hex("2");
+  ASSERT(v2al2.tag == 1);
+  ASSERT(v2al2.whole_part == 0x2UL);
+  ASSERT(v2al2.frac_part == 0x0UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-2");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.whole_part == 2);
-  ASSERT(val2.frac_part == 0);
+  Fixedpoint vael2 = fixedpoint_create_from_hex("-2");
+  ASSERT(vael2.tag == -1);
+  ASSERT(vael2.whole_part == 0x2UL);
+  ASSERT(vael2.frac_part == 0x0UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("1234567890abcdef.1234567390abcdef");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 1234567890abcdef);
-  ASSERT(val2.frac_part == 1234567390abcdef);
+  Fixedpoint val1232 = fixedpoint_create_from_hex("-2222222222222222.1234567390abcdef");
+  ASSERT(val1232.tag == -1);
+  ASSERT(val1232.whole_part == 0x2222222222222222UL);
+  ASSERT(val1232.frac_part == 0x1234567390abcdefUL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-2222222222222222.1234567390abcdef");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.whole_part == 2222222222222222);
-  ASSERT(val2.frac_part == 1234567390abcdef);
+  Fixedpoint val1d2 = fixedpoint_create_from_hex("-.3333333333333333");
+  ASSERT(val1d2.tag == -1);
+  ASSERT(val1d2.whole_part == 0x0UL);
+  ASSERT(val1d2.frac_part == 0x3333333333333333UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-.3333333333333333");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 3333333333333333);
+  Fixedpoint valasdss2 = fixedpoint_create_from_hex("3333333333333333");
+  ASSERT(valasdss2.tag == 1);
+  ASSERT(valasdss2.frac_part == 0x0UL);
+  ASSERT(valasdss2.whole_part == 0x3333333333333333UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex(".3333333333333333");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.whole_part == 0);
-  ASSERT(val2.frac_part == 3333333333333333);
+  Fixedpoint valh2 = fixedpoint_create_from_hex("-3333333333333333");
+  ASSERT(valh2.tag == -1);
+  ASSERT(valh2.frac_part == 0x0UL);
+  ASSERT(valh2.whole_part == 0x3333333333333333UL);
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("3333333333333333");
-  ASSERT(val2.tag == 1);
-  ASSERT(val2.frac_part == 0);
-  ASSERT(val2.whole_part == 3333333333333333);
+  Fixedpoint valgg2 = fixedpoint_create_from_hex("-333333333333333333333");
+  ASSERT(fixedpoint_is_err(valgg2));
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-3333333333333333");
-  ASSERT(val2.tag == -1);
-  ASSERT(val2.frac_part == 0);
-  ASSERT(val2.whole_part == 3333333333333333);
+  Fixedpoint valdsf2 = fixedpoint_create_from_hex("1234567890abcdef1");
+  ASSERT(fixedpoint_is_err(valdsf2));
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("-333333333333333333333");
-  ASSERT(fixedpoint_is_err(val2));
+  Fixedpoint val2rwc = fixedpoint_create_from_hex("1234567890abcgwwww");
+  ASSERT(fixedpoint_is_err(val2rwc));
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("1234567890abcdef1");
-  ASSERT(fixedpoint_is_err(val2));
+  Fixedpoint vqal2 = fixedpoint_create_from_hex("wwww2390abcgwwww");
+  ASSERT(fixedpoint_is_err(vqal2));
 
-  Fixedpoint val2 = fixedpoint_create_from_hex("1234567890abcgwwww");
-  ASSERT(fixedpoint_is_err(val2));
-
-  Fixedpoint val2 = fixedpoint_create_from_hex("wwww2390abcgwwww");
-  ASSERT(fixedpoint_is_err(val2));
-
-  Fixedpoint val2 = fixedpoint_create_from_hex("...90abcgwwww");
-  ASSERT(fixedpoint_is_err(val2));
+  Fixedpoint vall2 = fixedpoint_create_from_hex("...90abcgwwww");
+  ASSERT(fixedpoint_is_err(vall2));
 }
 
 void test_format_as_hex(TestObjs *objs) {
@@ -292,9 +282,7 @@ void test_negate(TestObjs *objs) {
 
 void test_add(TestObjs *objs) {
   (void) objs;
-
   Fixedpoint lhs, rhs, sum;
-
   lhs = fixedpoint_create_from_hex("-c7252a193ae07.7a51de9ea0538c5");
   rhs = fixedpoint_create_from_hex("d09079.1e6d601");
   sum = fixedpoint_add(lhs, rhs);
@@ -339,9 +327,10 @@ void test_add(TestObjs *objs) {
   ASSERT(sum7.tag==-1);
   ASSERT(0UL== fixedpoint_whole_part(sum7));
   ASSERT(0x0100000000000000UL == fixedpoint_frac_part(sum7));
-  Fixedpoint lhs8 = fixedpoint_create2(0,2UL<<63);
+  Fixedpoint lhs8 = fixedpoint_create2(0,1UL<<63);
   Fixedpoint rhs8 = fixedpoint_create2(__UINT64_MAX__,1UL<<63);
-  rhs8.tag=-1;
+  Fixedpoint sum8 = fixedpoint_add(lhs8, rhs8);
+  ASSERT(sum8.tag ==2);
   Fixedpoint lhs9 = fixedpoint_create_from_hex("-125");
   Fixedpoint rhs9 = fixedpoint_create_from_hex("125");
   Fixedpoint sum9 = fixedpoint_add(lhs9, rhs9);
@@ -433,11 +422,6 @@ void test_halve(TestObjs *objs) {
   ASSERT(0x5800000000000000UL/2 == fixedpoint_frac_part(half1));
   ASSERT(0xf676e8UL == fixedpoint_whole_part(fixedpoint_double(half1)));
   ASSERT(0x5800000000000000UL == fixedpoint_frac_part(fixedpoint_double(half1)));
-
-
-  Fixedpoint val2 = fixedpoint_create_from_hex("1.0000000000000001");
-  Fixedpoint half2 = fixedpoint_halve(val2);
-  // ASSERT(half2.tag ==3);
 
   Fixedpoint val3 = fixedpoint_create_from_hex("-f676e8.58");
   Fixedpoint half3 = fixedpoint_halve(val3);
