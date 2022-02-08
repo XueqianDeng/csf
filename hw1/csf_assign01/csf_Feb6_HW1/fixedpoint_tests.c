@@ -35,7 +35,17 @@ void test_is_overflow_pos(TestObjs *objs);
 void test_is_err(TestObjs *objs);
 void test_halve(TestObjs *objs);
 void test_compare(TestObjs *objs);
-// TODO: add more test functions
+void test_find_unique_dot_index(TestObjs *objs);
+void test_is_valid_hex_string(TestObjs *objs);
+void test_fixedpoint_double(TestObjs *objs);
+void test_fixedpoint_is_zero(TestObjs *objs);
+void test_fixedpoint_is_err(TestObjs *objs);
+void test_fixedpoint_is_neg(TestObjs *objs);
+void test_fixedpoint_is_overflow_neg(TestObjs *objs);
+void test_fixedpoint_is_overflow_pos(TestObjs *objs);
+void testfixedpoint_is_underflow_neg(TestObjs *objs);
+void testfixedpoint_is_underflow_pos(TestObjs *objs);
+void testfixedpoint_is_valid(TestObjs *objs);
 
 int main(int argc, char **argv) {
   // if a testname was specified on the command line, only that
@@ -502,4 +512,26 @@ void test_compare(TestObjs *objs) {
   Fixedpoint lhs8 = fixedpoint_create_from_hex("2.a");
   Fixedpoint rhs8 = fixedpoint_create_from_hex("2.c");
   ASSERT(fixedpoint_compare(lhs8,rhs8)==-1);
+}
+
+
+void test_fixedpoint_double(TestObjs *objs){
+  
+}
+void test_fixedpoint_is_zero(TestObjs *objs){
+  
+}
+void test_fixedpoint_is_err(TestObjs *objs){
+}
+void test_fixedpoint_is_neg(TestObjs *objs){
+}
+void test_fixedpoint_is_overflow_neg(TestObjs *objs){
+}
+void test_fixedpoint_is_overflow_pos(TestObjs *objs){
+}
+void testfixedpoint_is_underflow_neg(TestObjs *objs){
+}
+void testfixedpoint_is_underflow_pos(TestObjs *objs){
+}
+void testfixedpoint_is_valid(TestObjs *objs){
 }
