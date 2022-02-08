@@ -173,7 +173,7 @@ Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
   return sum;
 }
 
-//perform fixedpoint substraction 
+//perform fixedpoint subtraction 
 Fixedpoint fixedpoint_sub(Fixedpoint left, Fixedpoint right) {
   Fixedpoint right_negated = {right.whole_part,right.frac_part,-right.tag};
   return fixedpoint_add(left,right_negated);
@@ -188,14 +188,14 @@ Fixedpoint fixedpoint_negate(Fixedpoint val) {
 
 //divde fixedpoint by half
 Fixedpoint fixedpoint_halve(Fixedpoint val) {
-  int new_tag = (val.frac_part & 1) == 1 ? (val.tag)*3: val.tag;
+  int new_tag = (val.frac_part & 1) == 1 ? (val.tag)*3: val.tag; //if underflow, set tag to 3 or -3
   Fixedpoint half = {val.whole_part >> 1, (val.frac_part >> 1) + ( (val.whole_part & 1) << 63), new_tag};
   return half;
 }
 
 //double fixedpoint
 Fixedpoint fixedpoint_double(Fixedpoint val) {
-  int new_tag = (val.whole_part>>63 & 1) == 1 ? (val.tag)*2: val.tag;
+  int new_tag = (val.whole_part>>63 & 1) == 1 ? (val.tag)*2: val.tag; //if overflow, set tag to 2 or -2
   Fixedpoint doubled = {(val.whole_part<< 1)+ ( (val.frac_part>>63) & 1 ), (val.frac_part << 1) , new_tag};
   return doubled;
 }
@@ -206,7 +206,7 @@ int fixedpoint_compare(Fixedpoint left, Fixedpoint right) {
 //    -1 if left < right;
 //     0 if left == right;
 //     1 if left > right
-if (left.tag == right.tag){
+if (left.tag == right.tag){ // if they have the same tag, then compare values
   if(left.whole_part == right.whole_part && left.frac_part == right.frac_part){
     return 0;
   }
@@ -215,10 +215,10 @@ if (left.tag == right.tag){
   }
   else return left.tag == 1? -1 : 1;
 }
-else if (left.tag > right.tag){
+else if (left.tag > right.tag){ // if left is positive and right is negative, return 1;
     return 1;
   }
-else return -1;
+else return -1; //if left is negative and right is positive, return -1
 }
 
 // Returns:
@@ -265,7 +265,7 @@ int fixedpoint_is_valid(Fixedpoint val) {
   return (abs(val.tag)==1);
 }
 
-//direction = 1 trims leading 0 for whole, =-1 trims trailing 0 f\ or frac                                                        
+//direction = 1 trims leading 0 for whole, =-1 trims trailing 0 for frac                                                        
 char* trim_zeros(char* str, int has_frac){ 
   while(str && *str == '0' && *(str+1) && *(str+1)!='.') str++;
   if (has_frac == 1){
