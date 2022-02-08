@@ -462,12 +462,4 @@ void test_compare(TestObjs *objs) {
   Fixedpoint lhs8 = fixedpoint_create_from_hex("2.a");
   Fixedpoint rhs8 = fixedpoint_create_from_hex("2.c");
   ASSERT(fixedpoint_compare(lhs8,rhs8)==-1);
-
-  // Fixedpoint val3 = fixedpoint_create_from_hex("-f676e8.58");
-  // Fixedpoint half3 = fixedpoint_halve(val3);
-  // ASSERT(half3.tag ==-1);
-  // ASSERT(0xf676e8UL/2 == fixedpoint_whole_part(half3));
-  // ASSERT(0x5800000000000000UL/2 == fixedpoint_frac_part(half3));
-  // ASSERT(0xf676e8UL == fixedpoint_whole_part(fixedpoint_double(half3)));
-  // ASSERT(0x5800000000000000UL == fixedpoint_frac_part(fixedpoint_double(half3)));
 }
