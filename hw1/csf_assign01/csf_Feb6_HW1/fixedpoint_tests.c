@@ -245,7 +245,33 @@ void test_format_as_hex(TestObjs *objs) {
   ASSERT(0 == strcmp("-bbbbb.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-bbbbb.ffff"))));
   ASSERT(0 == strcmp("-1.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-1.ffff"))));
   ASSERT(0 == strcmp("-1.fddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-1.fddd"))));
-  ASSERT(0 == strcmp("-238.98888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-238.98888"))));
+  ASSERT(0 == strcmp("-2111138.988", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-2111138.988"))));
+  ASSERT(0 == strcmp("21111111233", fixedpoint_format_as_hex(fixedpoint_create_from_hex("21111111233"))));
+  ASSERT(0 == strcmp("dddddddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("dddddddd"))));
+  ASSERT(0 == strcmp("aaaaaaa", fixedpoint_format_as_hex(fixedpoint_create_from_hex("aaaaaaa"))));
+  ASSERT(0 == strcmp("-ab123123123", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-ab123123123"))));
+  ASSERT(0 == strcmp("-123123131.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-123123131.ffff"))));
+  ASSERT(0 == strcmp("-1.fddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-1.fddd"))));
+  ASSERT(0 == strcmp("-123123238.98888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-123123238.98888"))));
+  ASSERT(0 == strcmp("-238.98d888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-238.98d888"))));
+  ASSERT(0 == strcmp("-2213123", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-2213123"))));
+  ASSERT(0 == strcmp("2dd.33", fixedpoint_format_as_hex(fixedpoint_create_from_hex("2dd.33"))));
+  ASSERT(0 == strcmp("-3.9ddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-3.9ddd"))));
+  ASSERT(0 == strcmp("-123123.8", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-123123.8"))));
+  ASSERT(0 == strcmp("1112323123", fixedpoint_format_as_hex(fixedpoint_create_from_hex("1112323123"))));
+  ASSERT(0 == strcmp("0", fixedpoint_format_as_hex(fixedpoint_create_from_hex("0"))));
+  ASSERT(0 == strcmp("bb.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("bb.ffff"))));
+  ASSERT(0 == strcmp("-5.dd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-5.dd"))));
+  ASSERT(0 == strcmp("-3331.fddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-3331.fddd"))));
+  ASSERT(0 == strcmp("-22111138.988", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-22111138.988"))));
+  ASSERT(0 == strcmp("-21111111233", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-21111111233"))));
+  ASSERT(0 == strcmp("-dddddddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-dddddddd"))));
+  ASSERT(0 == strcmp("-aaaaaaa", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-aaaaaaa"))));
+  ASSERT(0 == strcmp("-d123123123", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-d123123123"))));
+  ASSERT(0 == strcmp("-d123123131.ffff", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-d123123131.ffff"))));
+  ASSERT(0 == strcmp("-aaa1.fddd", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-aaa1.fddd"))));
+  ASSERT(0 == strcmp("-aa123123238.98888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-aa123123238.98888"))));
+  ASSERT(0 == strcmp("-a238.98d888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-a238.98d888"))));
 }
 
 void test_negate(TestObjs *objs) {
