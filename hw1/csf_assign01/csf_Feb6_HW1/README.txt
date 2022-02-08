@@ -1,2 +1,1 @@
-name: Chujian Yu
-I contributed to all parts of the project.
+name: Chujian Yu and Xueqian Deng  contributed to all parts of the project.

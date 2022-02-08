@@ -117,6 +117,106 @@ void test_create_from_hex(TestObjs *objs) {
   ASSERT(val2.tag == 1);
   ASSERT(val2.whole_part == 0);
   ASSERT(val2.frac_part == 0);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("3.4");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 3);
+  ASSERT(val2.frac_part == 4);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("2.5");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 2);
+  ASSERT(val2.frac_part == 5);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-1.7");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.whole_part == 1);
+  ASSERT(val2.frac_part == 7);
+
+ Fixedpoint val2 = fixedpoint_create_from_hex("-0.4");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 4);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("0.8");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 8);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-0");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 0);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex(".2");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 2);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-0");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 0);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-.2");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 2);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("2");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 2);
+  ASSERT(val2.frac_part == 0);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-2");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.whole_part == 2);
+  ASSERT(val2.frac_part == 0);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("1234567890abcdef.1234567390abcdef");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 1234567890abcdef);
+  ASSERT(val2.frac_part == 1234567390abcdef);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-2222222222222222.1234567390abcdef");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.whole_part == 2222222222222222);
+  ASSERT(val2.frac_part == 1234567390abcdef);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-.3333333333333333");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 3333333333333333);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex(".3333333333333333");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 0);
+  ASSERT(val2.frac_part == 3333333333333333);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("3333333333333333");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.frac_part == 0);
+  ASSERT(val2.whole_part == 3333333333333333);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-3333333333333333");
+  ASSERT(val2.tag == -1);
+  ASSERT(val2.frac_part == 0);
+  ASSERT(val2.whole_part == 3333333333333333);
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("-333333333333333333333");
+  ASSERT(fixedpoint_is_err(val2));
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("1234567890abcdef1");
+  ASSERT(fixedpoint_is_err(val2));
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("1234567890abcgwwww");
+  ASSERT(fixedpoint_is_err(val2));
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("wwww2390abcgwwww");
+  ASSERT(fixedpoint_is_err(val2));
+
+  Fixedpoint val2 = fixedpoint_create_from_hex("...90abcgwwww");
+  ASSERT(fixedpoint_is_err(val2));
 }
 
 void test_format_as_hex(TestObjs *objs) {
@@ -146,7 +246,6 @@ void test_format_as_hex(TestObjs *objs) {
   s = fixedpoint_format_as_hex(objs->large2);
   ASSERT(0 == strcmp(s, "fcbf3d5.00004d1a23c24faf"));
   free(s);
-
 }
 
 void test_negate(TestObjs *objs) {
@@ -240,8 +339,8 @@ void test_add(TestObjs *objs) {
   ASSERT(sum7.tag==-1);
   ASSERT(0UL== fixedpoint_whole_part(sum7));
   ASSERT(0x0100000000000000UL == fixedpoint_frac_part(sum7));
-  Fixedpoint lhs8 = fixedpoint_create2(0,2<<63);
-  Fixedpoint rhs8 = fixedpoint_create2(__UINT64_MAX__,1<<63);
+  Fixedpoint lhs8 = fixedpoint_create2(0,2UL<<63);
+  Fixedpoint rhs8 = fixedpoint_create2(__UINT64_MAX__,1UL<<63);
   rhs8.tag=-1;
   Fixedpoint sum8 = fixedpoint_add(lhs8, rhs8);
   // ASSERT(sum8.tag==-2);
@@ -352,6 +451,7 @@ void test_halve(TestObjs *objs) {
   ASSERT(0xf676e8UL == fixedpoint_whole_part(fixedpoint_double(half3)));
   ASSERT(0x5800000000000000UL == fixedpoint_frac_part(fixedpoint_double(half3)));
 }
+
 void test_compare(TestObjs *objs) {
   (void) objs;
 
