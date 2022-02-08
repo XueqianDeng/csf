@@ -342,10 +342,6 @@ void test_add(TestObjs *objs) {
   Fixedpoint lhs8 = fixedpoint_create2(0,2UL<<63);
   Fixedpoint rhs8 = fixedpoint_create2(__UINT64_MAX__,1UL<<63);
   rhs8.tag=-1;
-  Fixedpoint sum8 = fixedpoint_add(lhs8, rhs8);
-  // ASSERT(sum8.tag==-2);
-  // ASSERT(0UL== fixedpoint_whole_part(sum8));
-  // ASSERT(0x0100000000000000UL == fixedpoint_frac_part(sum8));
   Fixedpoint lhs9 = fixedpoint_create_from_hex("-125");
   Fixedpoint rhs9 = fixedpoint_create_from_hex("125");
   Fixedpoint sum9 = fixedpoint_add(lhs9, rhs9);
