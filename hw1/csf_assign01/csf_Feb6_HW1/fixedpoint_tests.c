@@ -417,11 +417,17 @@ void test_sub(TestObjs *objs) {
   Fixedpoint cor1 = fixedpoint_create_from_hex("0");
   ASSERT(fixedpoint_compare(diff1,cor1)==0);
 
-  Fixedpoint lhs2 = fixedpoint_create_from_hex("-0000000000000000.dddddddddddddddddddd");
-  Fixedpoint rhs2 = fixedpoint_create_from_hex("-0000000000000000.dddddddddddddddddddd");
+  Fixedpoint lhs2 = fixedpoint_create_from_hex("-0.dddddddddddd");
+  Fixedpoint rhs2 = fixedpoint_create_from_hex("-0.dddddddddddd");
   Fixedpoint diff2 = fixedpoint_sub(lhs2,rhs2);
   Fixedpoint cor2 = fixedpoint_create_from_hex("0");
   ASSERT(fixedpoint_compare(diff2,cor2)==0);
+
+  Fixedpoint lhs3 = fixedpoint_create_from_hex("-0.3");
+  Fixedpoint rhs3 = fixedpoint_create_from_hex("-0.2");
+  Fixedpoint diff3 = fixedpoint_sub(lhs3,rhs3);
+  Fixedpoint cor3 = fixedpoint_create_from_hex("-0.1");
+  ASSERT(fixedpoint_compare(diff3,cor3)==0);
 }
 
 void test_is_overflow_pos(TestObjs *objs) {
