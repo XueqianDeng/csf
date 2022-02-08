@@ -17,6 +17,38 @@ typedef struct {
   int tag; 
 } Fixedpoint;
 
+
+// Get the index of the unique decimal point in a string.
+//
+// Parameters:
+//   str - the string
+//
+// Returns:
+//   the index of the unique decimal point; -1 if no decimal points; 
+//   -2 if passed in null pointer or has more than one decimal points.
+int find_unique_dot_index(const char * str);
+
+// Determine if a string that contains hexidecimal characters is valid.
+// The string must not contain chars other than a minus sign at its start, 0-9, A-F, decimal point.
+//
+// Parameters:
+//   hex - the string containing hex chars to be validated
+//
+// Returns:
+//   the Fixedpoint value
+int is_valid_hex_string(const char *hex);
+
+
+// Trims leading and trailing zeros(if has fractional part) in string
+//
+// Parameters:
+//   str - the string whose zeros are to be trimmed
+//   has_frac - an int indicating if the string contains fractional part (1) or not (0)
+//
+// Returns:
+//   the Fixedpoint value                                                   
+char* trim_zeros(char* str, int has_frac);
+
 // Create a Fixedpoint value representing an integer.
 //
 // Parameters:
