@@ -1,5 +1,7 @@
-//Harry Yu cyu62@jhu.edu
-//Xueqian Deng xdeng13@jhu.edu
+/* CSF Assignment 1                                                                                                                
+ * Harry Yu cyu62@jhu.edu                                                                                                          
+ * Xueqian Deng xdeng13@jhu.edu                                                                                                   
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
