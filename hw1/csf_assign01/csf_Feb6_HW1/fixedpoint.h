@@ -1,5 +1,7 @@
-//Xueqian Deng xdeng13@jhu.edu
-//Harry Yu cyu62@jhu.edu
+/*
+ * Xueqian Deng xdeng13@jhu.edu
+ * Harry Yu cyu62@jhu.edu
+ */
 
 #ifndef FIXEDPREC_H
 #define FIXEDPREC_H
