@@ -670,6 +670,18 @@ void test_fixedpoint_is_overflow_pos(TestObjs *objs){
   Fixedpoint sum7 = fixedpoint_add(rhs7, lhs7);
   ASSERT(fixedpoint_is_overflow_pos(sum7));
   ASSERT(!fixedpoint_is_valid(sum7));
+
+  lhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  rhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  sum7 = fixedpoint_add(rhs7, lhs7);
+  ASSERT(fixedpoint_is_overflow_pos(sum7));
+  ASSERT(!fixedpoint_is_valid(sum7));
+  //FAILED TEST WITH BOTH D and d I will remove this after this node 
+  lhs7 = fixedpoint_create_from_hex("DFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  rhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  sum7 = fixedpoint_add(rhs7, lhs7);
+  ASSERT(fixedpoint_is_overflow_pos(sum7));
+  ASSERT(!fixedpoint_is_valid(sum7));
 }
 
 //test if fixedpoint is underflow neg function is working
@@ -685,6 +697,12 @@ void testfixedpoint_is_underflow_neg(TestObjs *objs){
   Fixedpoint sum5 = fixedpoint_halve(rhs5);
   ASSERT(fixedpoint_is_underflow_neg(sum5));
   ASSERT(!fixedpoint_is_valid(sum5));
+
+  Fixedpoint rhs6 = fixedpoint_create_from_hex("-0000000000000000.0000000000000007");
+  Fixedpoint sum6 = fixedpoint_halve(rhs6);
+  ASSERT(fixedpoint_is_underflow_neg(sum6));
+  ASSERT(!fixedpoint_is_valid(sum6));
+
 }
 
 //test that if fixedpoint is underflow pos function is working 
