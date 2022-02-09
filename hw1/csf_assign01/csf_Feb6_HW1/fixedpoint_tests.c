@@ -670,12 +670,6 @@ void test_fixedpoint_is_overflow_pos(TestObjs *objs){
   Fixedpoint sum7 = fixedpoint_add(rhs7, lhs7);
   ASSERT(fixedpoint_is_overflow_pos(sum7));
   ASSERT(!fixedpoint_is_valid(sum7));
-
-  Fixedpoint lhse = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  Fixedpoint rhse = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  Fixedpoint sume = fixedpoint_add(rhse, lhse);
-  ASSERT(fixedpoint_is_overflow_pos(sume));
-  ASSERT(!fixedpoint_is_valid(sume));
 }
 
 //test if fixedpoint is underflow neg function is working
