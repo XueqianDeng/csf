@@ -81,6 +81,7 @@ int main(int argc, char **argv) {
   TEST_FINI();
 }
 
+//setting up
 TestObjs *setup(void) {
   TestObjs *objs = malloc(sizeof(TestObjs));
 
@@ -95,10 +96,12 @@ TestObjs *setup(void) {
   return objs;
 }
 
+//to clean up
 void cleanup(TestObjs *objs) {
   free(objs);
 }
 
+//test the whole part is working or not 
 void test_whole_part(TestObjs *objs) {
   ASSERT(0UL == fixedpoint_whole_part(objs->zero));
   ASSERT(1UL == fixedpoint_whole_part(objs->one));
@@ -108,6 +111,7 @@ void test_whole_part(TestObjs *objs) {
   ASSERT(0xfcbf3d5UL == fixedpoint_whole_part(objs->large2));
 }
 
+//test the fract part is working or not 
 void test_frac_part(TestObjs *objs) {
   ASSERT(0UL == fixedpoint_frac_part(objs->zero));
   ASSERT(0UL == fixedpoint_frac_part(objs->one));
@@ -117,6 +121,7 @@ void test_frac_part(TestObjs *objs) {
   ASSERT(0x4d1a23c24fafUL == fixedpoint_frac_part(objs->large2));
 }
 
+//test create from hex functionality
 void test_create_from_hex(TestObjs *objs) {
   (void) objs;
 
@@ -224,6 +229,7 @@ void test_create_from_hex(TestObjs *objs) {
   ASSERT(fixedpoint_is_err(vall2));
 }
 
+//test format_as_hex functionality
 void test_format_as_hex(TestObjs *objs) {
   char *s;
   
@@ -290,6 +296,7 @@ void test_format_as_hex(TestObjs *objs) {
   ASSERT(0 == strcmp("-a238.98d888", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-a238.98d888"))));
 }
 
+//test the negation functionality
 void test_negate(TestObjs *objs) {
   // none of the test fixture objects are negative
   ASSERT(!fixedpoint_is_neg(objs->zero));
@@ -332,6 +339,7 @@ void test_negate(TestObjs *objs) {
   ASSERT(0x4d1a23c24fafUL == fixedpoint_frac_part(objs->large2));
 }
 
+//test add functionality and many other stuff
 void test_add(TestObjs *objs) {
   (void) objs;
   Fixedpoint lhs, rhs, sum;
@@ -411,7 +419,7 @@ void test_add(TestObjs *objs) {
   ASSERT(0UL== fixedpoint_frac_part(sum10));
 }
 
-
+//test the sub functionality
 void test_sub(TestObjs *objs) {
   (void) objs;
   //please note that since sub essentially calls add, the testing efforts for add largely supports sub.
@@ -443,6 +451,7 @@ void test_sub(TestObjs *objs) {
   ASSERT(fixedpoint_compare(diff3,cor3)==0);
 }
 
+//test is_overflow_pos functionality
 void test_is_overflow_pos(TestObjs *objs) {
   Fixedpoint sum;
 
@@ -458,6 +467,7 @@ void test_is_overflow_pos(TestObjs *objs) {
   ASSERT(fixedpoint_is_overflow_pos(sum));
 }
 
+//test if the is_err functionality is working 
 void test_is_err(TestObjs *objs) {
   (void) objs;
 
@@ -491,6 +501,7 @@ void test_is_err(TestObjs *objs) {
   ASSERT(fixedpoint_is_err(err7));
 }
 
+//test if the halve functionality is working 
 void test_halve(TestObjs *objs) {
   (void) objs;
 
@@ -513,6 +524,7 @@ void test_halve(TestObjs *objs) {
   ASSERT(0x5800000000000000UL == fixedpoint_frac_part(fixedpoint_double(half3)));
 }
 
+//test if the compare functionality is working 
 void test_compare(TestObjs *objs) {
   (void) objs;
 
@@ -545,7 +557,7 @@ void test_compare(TestObjs *objs) {
   ASSERT(fixedpoint_compare(lhs8,rhs8)==-1);
 }
 
-
+// test if the double functionality is working 
 void test_fixedpoint_double(TestObjs *objs){
   (void) objs;
   
@@ -583,15 +595,16 @@ void test_fixedpoint_double(TestObjs *objs){
   Fixedpoint sec8 = fixedpoint_double(fis8);
   Fixedpoint cor8 = fixedpoint_create_from_hex("-1b");
   ASSERT(fixedpoint_compare(sec8,cor8));
-
 }
 
+//test if fixedpoint is zero function is working
 void test_fixedpoint_is_zero(TestObjs *objs){
   (void) objs;
   Fixedpoint fis = fixedpoint_create_from_hex("0");
   ASSERT(fixedpoint_is_zero(fis));
 }
 
+//test if fixedpoint is negative function is working 
 void test_fixedpoint_is_neg(TestObjs *objs){
   (void) objs;
   Fixedpoint fis = fixedpoint_create_from_hex("-6");
@@ -613,6 +626,7 @@ void test_fixedpoint_is_neg(TestObjs *objs){
   ASSERT(fixedpoint_is_neg(fis));
 }
 
+//test if fixedpoint is overflow neg is working 
 void test_fixedpoint_is_overflow_neg(TestObjs *objs){
   (void) objs;
 
@@ -641,6 +655,7 @@ void test_fixedpoint_is_overflow_neg(TestObjs *objs){
   ASSERT(!fixedpoint_is_valid(sum7));
 }
 
+//test if fixedpoint is overflow pos function is working 
 void test_fixedpoint_is_overflow_pos(TestObjs *objs){
   (void) objs;
 
@@ -657,6 +672,7 @@ void test_fixedpoint_is_overflow_pos(TestObjs *objs){
   ASSERT(!fixedpoint_is_valid(sum7));
 }
 
+//test if fixedpoint is underflow neg function is working
 void testfixedpoint_is_underflow_neg(TestObjs *objs){
   (void) objs;
   
@@ -671,6 +687,7 @@ void testfixedpoint_is_underflow_neg(TestObjs *objs){
   ASSERT(!fixedpoint_is_valid(sum5));
 }
 
+//test that if fixedpoint is underflow pos function is working 
 void testfixedpoint_is_underflow_pos(TestObjs *objs){
   (void) objs;
   Fixedpoint rhs4 = fixedpoint_create_from_hex("0000000000000000.0000000000000003");
@@ -682,8 +699,14 @@ void testfixedpoint_is_underflow_pos(TestObjs *objs){
   Fixedpoint sum5 = fixedpoint_halve(rhs5);
   ASSERT(fixedpoint_is_underflow_pos(sum5));
   ASSERT(!fixedpoint_is_valid(sum5));
+
+  Fixedpoint rhs6 = fixedpoint_create_from_hex("0000000000000000.0000000000000007");
+  Fixedpoint sum6 = fixedpoint_halve(rhs6);
+  ASSERT(fixedpoint_is_underflow_pos(sum6));
+  ASSERT(!fixedpoint_is_valid(sum6));
 }
 
+//test if the fixedpoint_is_valid function is working 
 void testfixedpoint_is_valid(TestObjs *objs){
   (void) objs;
   Fixedpoint rhs5 = fixedpoint_create_from_hex("3");
