@@ -67,9 +67,9 @@ int is_valid_hex_string(const char *hex){
 Fixedpoint fixedpoint_create_from_hex(const char *hex) {
   int padding = 0, is_negative = 0;
   uint64_t whole=0, frac=0;
-  Fixedpoint fp = {whole,frac,0};
-  if(strlen(hex)==0){
-    return fp; //if empty string, return. (tag defaulted to 0)
+  Fixedpoint fp = {whole,frac,99};
+  if(strlen(hex) == 0){
+    return fp; //if empty string, return.
   }
   int return_code = is_valid_hex_string(hex); //check if valid
   if (return_code == -1){
@@ -78,19 +78,19 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
   }
   if(hex[0] == 45){ // if starts with a minus sign
     is_negative = 1;
-    fp.tag=-1;  //set tag
+    fp.tag = -1;  //set tag
   }
   else{
-    fp.tag=1;
+    fp.tag = 1;
   }
   int hex_len = strlen(hex);  //get string length
   int dot_idx = find_unique_dot_index(hex);  //get index of decimal point
   int whole_len = dot_idx != -1 ? dot_idx-is_negative  : hex_len-is_negative;    //set length for whole part's string (+1 for null terminator)
-  int frac_len = dot_idx != -1 ? hex_len - dot_idx-is_negative: 0; //set length for frac part's string
+  int frac_len = dot_idx != -1 ? hex_len - dot_idx - 1: 0; //set length for frac part's string
   char* whole_str = NULL;
   char* frac_str= NULL;
   if(whole_len > 16 || frac_len >16 ||(whole_len<=0 && frac_len <=0)){ //if 
-    fp.tag=99;
+    fp.tag = 99;
     return fp;
   }
   if (whole_len != 0){  //if contains whole part
@@ -99,7 +99,7 @@ Fixedpoint fixedpoint_create_from_hex(const char *hex) {
     strncpy(whole_str,hex+is_negative,whole_len); //copy whole parts to the new string
     whole_str[whole_len] = 0; //null-terminated
     whole = strtoul(whole_str,NULL,16); //add is_negative to parse the parts without minus sign if any
-    fp.whole_part=whole;
+    fp.whole_part = whole;
     free(whole_str);//deallocate memory
   }
   if (frac_len != 0){ //if contains frac part
@@ -165,9 +165,9 @@ Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
 
 //perform fixedpoint subtraction 
 Fixedpoint fixedpoint_sub(Fixedpoint left, Fixedpoint right) {
+  //please note that since sub essentially calls add, the testing efforts for add largely supports sub.
   Fixedpoint right_negated = {right.whole_part,right.frac_part,-right.tag}; //negate the tag of the rhs
   return fixedpoint_add(left,right_negated);//use add function with negated rhs
-
 }
 
 //perform fixedpoint negation
@@ -278,10 +278,10 @@ char *fixedpoint_format_as_hex(Fixedpoint val) {
     str[16]='.'; //add decimal point if needed
     sprintf(str+17,"%016lx",val.frac_part);
   }
-  char* temp = trim_zeros(str,has_frac);  //trim all zeros from str
+  char* temp = trim_zeros(str,has_frac);  //"trim" all zeros from str
   char* trimmed_str  =(char*) malloc(strlen(temp)+1+has_minus_sign);
   strcpy(trimmed_str + has_minus_sign,temp); //copy the string and make space for the minus sign (if needed)
   if(has_minus_sign == 1) trimmed_str[0] = '-'; //add minus sign if needed
   free(str); //free original string
-  return trimmed_str;
+  return trimmed_str; 
 }

@@ -11,7 +11,7 @@ typedef struct {
   uint64_t whole_part;
   uint64_t frac_part;
 
-  // 1 if valid and non-negative, -1 if valid and negative, 99 if created from invalid hex string, 0 if otherwise invalid
+  // 1 if valid and non-negative, -1 if valid and negative, 99 if created from invalid hex strin
   // 2 if positive overflow, -2 if negative overflow
   // 3 if positive underflow, -3 if negative underflow
   int tag; 
@@ -46,7 +46,7 @@ int is_valid_hex_string(const char *hex);
 //   has_frac - an int indicating if the string contains fractional part (1) or not (0)
 //
 // Returns:
-//   the Fixedpoint value                                                   
+//   the pointer to the string                                                  
 char* trim_zeros(char* str, int has_frac);
 
 // Create a Fixedpoint value representing an integer.

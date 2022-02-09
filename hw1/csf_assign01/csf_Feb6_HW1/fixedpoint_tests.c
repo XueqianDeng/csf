@@ -128,40 +128,40 @@ void test_create_from_hex(TestObjs *objs) {
 
   ASSERT(0x00f2000000000000UL == fixedpoint_frac_part(val1));
 
-  Fixedpoint val12 = fixedpoint_create_from_hex("-0");
-  ASSERT(val12.tag == 1);
-  ASSERT(val12.whole_part == 0x0UL);
-  ASSERT(val12.frac_part == 0x0UL);
+  Fixedpoint val2 = fixedpoint_create_from_hex("-0");
+  ASSERT(val2.tag == 1);
+  ASSERT(val2.whole_part == 0x0UL);
+  ASSERT(val2.frac_part == 0x0UL);
 
-  Fixedpoint val22 = fixedpoint_create_from_hex("3.4");
-  ASSERT(val22.tag == 1);
-  ASSERT(val22.whole_part == 0x3UL);
-  ASSERT(val22.frac_part == 0x4000000000000000UL);
+  Fixedpoint val3 = fixedpoint_create_from_hex("3.4");
+  ASSERT(val3.tag == 1);
+  ASSERT(val3.whole_part == 0x3UL);
+  ASSERT(val3.frac_part == 0x4000000000000000UL);
 
-  Fixedpoint val442 = fixedpoint_create_from_hex("2.5");
-  ASSERT(val442.tag == 1);
-  ASSERT(val442.whole_part == 0x2UL);
-  ASSERT(val442.frac_part == 0x5000000000000000UL);
+  Fixedpoint val4 = fixedpoint_create_from_hex("2.5");
+  ASSERT(val4.tag == 1);
+  ASSERT(val4.whole_part == 0x2UL);
+  ASSERT(val4.frac_part == 0x5000000000000000UL);
 
-  Fixedpoint val992 = fixedpoint_create_from_hex("-1.7");
-  ASSERT(val992.tag == -1);
-  ASSERT(val992.whole_part == 0x1UL);
-  ASSERT(val992.frac_part == 0x7000000000000000UL);
+  Fixedpoint val5 = fixedpoint_create_from_hex("-1.7");
+  ASSERT(val5.tag == -1);
+  ASSERT(val5.whole_part == 0x1UL);
+  ASSERT(val5.frac_part == 0x7000000000000000UL);
 
- Fixedpoint val232 = fixedpoint_create_from_hex("-0.4");
-  ASSERT(val232.tag == -1);
-  ASSERT(val232.whole_part == 0x0UL);
-  ASSERT(val232.frac_part == 0x4000000000000000UL);
+ Fixedpoint val6 = fixedpoint_create_from_hex("-0.4");
+  ASSERT(val6.tag == -1);
+  ASSERT(val6.whole_part == 0x0UL);
+  ASSERT(val6.frac_part == 0x4000000000000000UL);
 
-  Fixedpoint val12332 = fixedpoint_create_from_hex("0.8");
-  ASSERT(val12332.tag == 1);
-  ASSERT(val12332.whole_part == 0x0UL);
-  ASSERT(val12332.frac_part == 0x8000000000000000UL);
+  Fixedpoint val7 = fixedpoint_create_from_hex("0.8");
+  ASSERT(val7.tag == 1);
+  ASSERT(val7.whole_part == 0x0UL);
+  ASSERT(val7.frac_part == 0x8000000000000000UL);
 
-  Fixedpoint val200 = fixedpoint_create_from_hex("-0");
-  ASSERT(val200.tag == 1);
-  ASSERT(val200.whole_part == 0x0UL);
-  ASSERT(val200.frac_part == 0x0UL);
+  Fixedpoint val8 = fixedpoint_create_from_hex("-0");
+  ASSERT(val8.tag == 1);
+  ASSERT(val8.whole_part == 0x0UL);
+  ASSERT(val8.frac_part == 0x0UL);
 
   Fixedpoint valss2 = fixedpoint_create_from_hex(".2");
   ASSERT(valss2.tag == 1);
@@ -250,7 +250,8 @@ void test_format_as_hex(TestObjs *objs) {
   s = fixedpoint_format_as_hex(objs->large2);
   ASSERT(0 == strcmp(s, "fcbf3d5.00004d1a23c24faf"));
   free(s);
-
+  
+  //please note that these pointers are not free'd, but if freed there will not be memory leaks
   ASSERT(0 == strcmp("-2", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-2"))));
   ASSERT(0 == strcmp("2.33", fixedpoint_format_as_hex(fixedpoint_create_from_hex("2.33"))));
   ASSERT(0 == strcmp("-3.9", fixedpoint_format_as_hex(fixedpoint_create_from_hex("-3.9"))));
@@ -334,6 +335,7 @@ void test_negate(TestObjs *objs) {
 void test_add(TestObjs *objs) {
   (void) objs;
   Fixedpoint lhs, rhs, sum;
+  //test different signs
   lhs = fixedpoint_create_from_hex("-c7252a193ae07.7a51de9ea0538c5");
   rhs = fixedpoint_create_from_hex("d09079.1e6d601");
   sum = fixedpoint_add(lhs, rhs);
@@ -352,27 +354,35 @@ void test_add(TestObjs *objs) {
   ASSERT(fixedpoint_is_neg(sum3));
   ASSERT(0xC7252A2643E80UL == fixedpoint_whole_part(sum3));
   ASSERT(0x98BF3EAEA0538C50UL == fixedpoint_frac_part(sum3));
+
+  //test add zeros
   Fixedpoint lhs4 = fixedpoint_create_from_hex("0");
   Fixedpoint rhs4 = fixedpoint_create_from_hex("0");
   Fixedpoint sum4 = fixedpoint_add(lhs4, rhs4);
   ASSERT(!fixedpoint_is_neg(sum4));
   ASSERT(0UL == fixedpoint_whole_part(sum4));
   ASSERT(0UL == fixedpoint_frac_part(sum4));
+  
+  //test positive overflow
   Fixedpoint lhs5 = fixedpoint_create2(__UINT64_MAX__,(1UL<<63));
   Fixedpoint rhs5 = fixedpoint_create2(0,1UL<<63);
   Fixedpoint sum5 = fixedpoint_add(lhs5, rhs5);
   ASSERT(sum5.tag==2);
   ASSERT(0UL== fixedpoint_whole_part(sum5));
   ASSERT(0UL == fixedpoint_frac_part(sum5));
+
+  //test negative overflow
   Fixedpoint lhs6 = fixedpoint_create2(__UINT64_MAX__,(1UL<<63));
-  lhs6.tag=-1;
+  lhs6.tag=-1; //negate
   Fixedpoint rhs6 = fixedpoint_create2(0,1UL<<63);
   rhs6.tag=-1;
   Fixedpoint sum6 = fixedpoint_add(lhs6, rhs6);
   ASSERT(sum6.tag==-2);
   ASSERT(0UL== fixedpoint_whole_part(sum6));
   ASSERT(0UL == fixedpoint_frac_part(sum6));
-  Fixedpoint lhs7 = fixedpoint_create_from_hex("-0.02");//test that they have the same whole part, but one has greater negative frac part
+
+  //test that they have the same whole part, but one has greater negative frac part
+  Fixedpoint lhs7 = fixedpoint_create_from_hex("-0.02");
   Fixedpoint rhs7 = fixedpoint_create_from_hex("0.01");
   Fixedpoint sum7 = fixedpoint_add(lhs7, rhs7);
   ASSERT(sum7.tag==-1);
@@ -385,7 +395,9 @@ void test_add(TestObjs *objs) {
   Fixedpoint lhs9 = fixedpoint_create_from_hex("-125");
   Fixedpoint rhs9 = fixedpoint_create_from_hex("125");
   Fixedpoint sum9 = fixedpoint_add(lhs9, rhs9);
-  ASSERT(sum9.tag==1); //check tag nonnegative
+
+  //check tag nonnegative
+  ASSERT(sum9.tag==1); 
   ASSERT(0UL== fixedpoint_frac_part(lhs9));
   ASSERT(0UL== fixedpoint_frac_part(rhs9));
   ASSERT(0UL== fixedpoint_whole_part(sum9));
@@ -393,7 +405,8 @@ void test_add(TestObjs *objs) {
   Fixedpoint lhs10 = fixedpoint_create_from_hex("125");
   Fixedpoint rhs10 = fixedpoint_create_from_hex("-125");
   Fixedpoint sum10 = fixedpoint_add(lhs10, rhs10);
-  ASSERT(sum10.tag==1); //check tag nonnegative
+  //check tag nonnegative
+  ASSERT(sum10.tag==1); 
   ASSERT(0UL== fixedpoint_whole_part(sum10));
   ASSERT(0UL== fixedpoint_frac_part(sum10));
 }
@@ -401,7 +414,7 @@ void test_add(TestObjs *objs) {
 
 void test_sub(TestObjs *objs) {
   (void) objs;
-
+  //please note that since sub essentially calls add, the testing efforts for add largely supports sub.
   Fixedpoint lhs, rhs, diff;
 
   lhs = fixedpoint_create_from_hex("-ccf35aa3a04a3b.b105");
@@ -478,7 +491,6 @@ void test_is_err(TestObjs *objs) {
   ASSERT(fixedpoint_is_err(err7));
 }
 
-// TODO: implement more test functions
 void test_halve(TestObjs *objs) {
   (void) objs;
 
@@ -635,13 +647,13 @@ void test_fixedpoint_is_overflow_pos(TestObjs *objs){
   Fixedpoint lhs5 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
   Fixedpoint rhs5 = fixedpoint_create_from_hex("0000000000000000.0000000100000001");
   Fixedpoint sum5 = fixedpoint_add(lhs5, rhs5);
-  ASSERT(!fixedpoint_is_overflow_pos(sum5));
+  ASSERT(fixedpoint_is_overflow_pos(sum5));
   ASSERT(!fixedpoint_is_valid(sum5));
   
   Fixedpoint lhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  Fixedpoint rhs7 = fixedpoint_create_from_hex("0000000000000000.0010000000000001");
+  Fixedpoint rhs7 = fixedpoint_create_from_hex("100000000.001000000001");
   Fixedpoint sum7 = fixedpoint_add(rhs7, lhs7);
-  ASSERT(!fixedpoint_is_overflow_pos(sum7));
+  ASSERT(fixedpoint_is_overflow_pos(sum7));
   ASSERT(!fixedpoint_is_valid(sum7));
 }
 
@@ -663,12 +675,12 @@ void testfixedpoint_is_underflow_pos(TestObjs *objs){
   (void) objs;
   Fixedpoint rhs4 = fixedpoint_create_from_hex("0000000000000000.0000000000000003");
   Fixedpoint sum4 = fixedpoint_halve(rhs4);
-  ASSERT(!fixedpoint_is_underflow_pos(sum4));
+  ASSERT(fixedpoint_is_underflow_pos(sum4));
   ASSERT(!fixedpoint_is_valid(sum4));
   
   Fixedpoint rhs5 = fixedpoint_create_from_hex("0000000000000000.0000000000000005");
   Fixedpoint sum5 = fixedpoint_halve(rhs5);
-  ASSERT(!fixedpoint_is_underflow_pos(sum5));
+  ASSERT(fixedpoint_is_underflow_pos(sum5));
   ASSERT(!fixedpoint_is_valid(sum5));
 }
 
