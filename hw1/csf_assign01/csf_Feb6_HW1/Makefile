@@ -12,16 +12,11 @@ all : fixedpoint_tests
 fixedpoint_tests : fixedpoint.o fixedpoint_tests.o tctest.o
 	$(CC) -o $@ fixedpoint.o fixedpoint_tests.o tctest.o
 
-tttttt: fixedpoint.o tttttt.o
-	$(CC) -o $@ fixedpoint.o tttttt.o
-
 fixedpoint.o : fixedpoint.c fixedpoint.h
 
 fixedpoint_tests.o : fixedpoint_tests.c fixedpoint.h tctest.h
 
 tctest.o : tctest.c tctest.h
-
-tttttt.o: tttttt.c fixedpoint.h
 
 clean :
 	rm -f fixedpoint_tests *.o
