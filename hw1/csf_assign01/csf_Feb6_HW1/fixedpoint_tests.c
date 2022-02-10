@@ -659,21 +659,20 @@ void test_fixedpoint_is_overflow_neg(TestObjs *objs){
 //test if fixedpoint is overflow pos function is working 
 void test_fixedpoint_is_overflow_pos(TestObjs *objs){
   (void) objs;
-  Fixedpoint lhs7,rhs7,sum7;
+  Fixedpoint lhs1,rhs1,sum1,lhs2,rhs2,sum2;
 
-  lhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  rhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  sum7 = fixedpoint_add(rhs7, lhs7);
-  ASSERT(fixedpoint_is_overflow_pos(sum7));
-  ASSERT(!fixedpoint_is_valid(sum7));
+  lhs1 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  rhs1 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  sum1 = fixedpoint_add(rhs1, lhs1);
+  ASSERT(fixedpoint_is_overflow_pos(sum1));
+  ASSERT(!fixedpoint_is_valid(sum1));
 
 
-  //FAILED TEST WITH BOTH D and d I will remove this after this node 
-  // lhs7 = fixedpoint_create_from_hex("DFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  // rhs7 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
-  // sum7 = fixedpoint_add(rhs7, lhs7);
-  // ASSERT(fixedpoint_is_overflow_pos(sum7));
-  // ASSERT(!fixedpoint_is_valid(sum7));
+  lhs2 = fixedpoint_create_from_hex("DFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  rhs2 = fixedpoint_create_from_hex("FFFFFFFFFFFFFFFF.FFFFFFFFFFFFFFFF");
+  sum2 = fixedpoint_add(rhs2, lhs2);
+  ASSERT(fixedpoint_is_overflow_pos(sum2));
+  ASSERT(!fixedpoint_is_valid(sum2));
 }
 
 //test if fixedpoint is underflow neg function is working
@@ -681,19 +680,19 @@ void testfixedpoint_is_underflow_neg(TestObjs *objs){
   (void) objs;
   
   Fixedpoint rhs4 = fixedpoint_create_from_hex("-0000000000000000.0000000000000003");
-  Fixedpoint sum4 = fixedpoint_halve(rhs4);
-  ASSERT(fixedpoint_is_underflow_neg(sum4));
-  ASSERT(!fixedpoint_is_valid(sum4));
+  Fixedpoint result4 = fixedpoint_halve(rhs4);
+  ASSERT(fixedpoint_is_underflow_neg(result4));
+  ASSERT(!fixedpoint_is_valid(result4));
 
   Fixedpoint rhs5 = fixedpoint_create_from_hex("-0000000000000000.0000000000000005");
-  Fixedpoint sum5 = fixedpoint_halve(rhs5);
-  ASSERT(fixedpoint_is_underflow_neg(sum5));
-  ASSERT(!fixedpoint_is_valid(sum5));
+  Fixedpoint result5 = fixedpoint_halve(rhs5);
+  ASSERT(fixedpoint_is_underflow_neg(result5));
+  ASSERT(!fixedpoint_is_valid(result5));
 
   Fixedpoint rhs6 = fixedpoint_create_from_hex("-0000000000000000.0000000000000007");
-  Fixedpoint sum6 = fixedpoint_halve(rhs6);
-  ASSERT(fixedpoint_is_underflow_neg(sum6));
-  ASSERT(!fixedpoint_is_valid(sum6));
+  Fixedpoint result6 = fixedpoint_halve(rhs6);
+  ASSERT(fixedpoint_is_underflow_neg(result6));
+  ASSERT(!fixedpoint_is_valid(result6));
 
 }
 
@@ -701,19 +700,19 @@ void testfixedpoint_is_underflow_neg(TestObjs *objs){
 void testfixedpoint_is_underflow_pos(TestObjs *objs){
   (void) objs;
   Fixedpoint rhs4 = fixedpoint_create_from_hex("0000000000000000.0000000000000003");
-  Fixedpoint sum4 = fixedpoint_halve(rhs4);
-  ASSERT(fixedpoint_is_underflow_pos(sum4));
-  ASSERT(!fixedpoint_is_valid(sum4));
+  Fixedpoint result4 = fixedpoint_halve(rhs4);
+  ASSERT(fixedpoint_is_underflow_pos(result4));
+  ASSERT(!fixedpoint_is_valid(result4));
   
   Fixedpoint rhs5 = fixedpoint_create_from_hex("0000000000000000.0000000000000005");
-  Fixedpoint sum5 = fixedpoint_halve(rhs5);
-  ASSERT(fixedpoint_is_underflow_pos(sum5));
-  ASSERT(!fixedpoint_is_valid(sum5));
+  Fixedpoint result5 = fixedpoint_halve(rhs5);
+  ASSERT(fixedpoint_is_underflow_pos(result5));
+  ASSERT(!fixedpoint_is_valid(result5));
 
   Fixedpoint rhs6 = fixedpoint_create_from_hex("0000000000000000.0000000000000007");
-  Fixedpoint sum6 = fixedpoint_halve(rhs6);
-  ASSERT(fixedpoint_is_underflow_pos(sum6));
-  ASSERT(!fixedpoint_is_valid(sum6));
+  Fixedpoint result6 = fixedpoint_halve(rhs6);
+  ASSERT(fixedpoint_is_underflow_pos(result6));
+  ASSERT(!fixedpoint_is_valid(result6));
 }
 
 //test if the fixedpoint_is_valid function is working 
