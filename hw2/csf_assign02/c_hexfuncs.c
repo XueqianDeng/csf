@@ -10,4 +10,5 @@ unsigned hex_read(char data_buf[]) {
   //function in the standard GNU C library. For file descriptor, 0=stdin and 
   // 2=stderr. 
   int actual_number_of_bytes = read(0, *data_buf, 16);
+  return actual_number_of_bytes;
 }
