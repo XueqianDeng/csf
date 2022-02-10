@@ -35,3 +35,15 @@ void hex_write_string(const char s[]){
   // implementation of write. 
   unsigned operationmonitor = write(1, s, 16);
 }
+
+/*
+ * Format a long value as an offset string consisting of exactly 8
+ * hex digits.  The formatted offset is stored in sbuf, which must
+ * have enough room for a string of length 8.
+ * Parameters:
+ *  offset - the number to offset the string.
+ *  sbuf - the pointer for keeping the string. 
+ */
+void hex_format_offset(unsigned offset, char sbuf[]){
+
+}
