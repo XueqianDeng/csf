@@ -22,7 +22,11 @@ unsigned hex_read(char data_buf[]) {
   return actual_number_of_bytes;
 }
 
-// Write given nul-terminated string to standard output.
+/*
+ * Write given nul-terminated string to standard output.
+ * Parameters:
+ *  s - pointer to the s string to be the stdin output.
+ */
 void hex_write_string(const char s[]){
   
 }
