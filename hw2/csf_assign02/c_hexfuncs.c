@@ -1,4 +1,4 @@
-/* CSF Assignment 1
+/* CSF Assignment 2
  * C implementation of hexdump functions
  * Harry Yu cyu62@jhu.edu
  * Xueqian Deng xdeng13@jhu.edu
