@@ -8,7 +8,11 @@
 #include "hexfuncs.h"
 
 /*
- * 
+ * This function is to read in from the standard in to the data buffer.
+ * Parameters:
+ *  data_buf - pointer to the data_buf string to keep the stdin input.
+ * Returns:
+ *  actual bytes that read in. 
  */
 unsigned hex_read(char data_buf[]) {
   //this line uses the ssize_t read (int filedes, void *buffer, size_t size)
