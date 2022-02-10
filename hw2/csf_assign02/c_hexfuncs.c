@@ -28,5 +28,10 @@ unsigned hex_read(char data_buf[]) {
  *  s - pointer to the s string to be the stdin output.
  */
 void hex_write_string(const char s[]){
-  
+  // this uses ssize_t write (int filedes, const void *buffer, size_t size)
+  // function for the standard GNU C library. 
+  // STDOUT_FILENO file descriptor = 1
+  // since write is a return function, we will keep an index to monitor the 
+  // implementation of write. 
+  unsigned operationmonitor = write(1, s, 16);
 }
