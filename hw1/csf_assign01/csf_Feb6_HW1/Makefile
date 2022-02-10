@@ -18,5 +18,7 @@ fixedpoint_tests.o : fixedpoint_tests.c fixedpoint.h tctest.h
 
 tctest.o : tctest.c tctest.h
 
+
+
 clean :
 	rm -f fixedpoint_tests *.o

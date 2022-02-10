@@ -131,17 +131,20 @@ uint64_t fixedpoint_frac_part(Fixedpoint val) {
 // Compute the sum of two valid Fixedpoint values.
 Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
   Fixedpoint sum = {0,0,left.tag};
-  int frac_carry = 0;
   if ( abs(left.tag)!=1 || abs(right.tag)!=1 ){ //if not valid input
     sum.tag = 0;
     return sum;
   }
   if (left.tag == right.tag){
+    sum.whole_part = left.whole_part + right.whole_part; //this can detect overflow in 0xFFFF.FFFF + 0xFFFF.FFFF
+    if(sum.whole_part < left.whole_part || sum.whole_part < right.whole_part) { //if the sum is smaller than either operands
+      sum.tag = sum.tag*2; //overflow
+      return sum;
+    }
     sum.frac_part = left.frac_part + right.frac_part;
     if(sum.frac_part < left.frac_part || sum.frac_part < right.frac_part) { //determine if carrying is needed
-      frac_carry = 1;
+      sum.whole_part++;
       }
-    sum.whole_part = left.whole_part + right.whole_part + frac_carry;
     if(sum.whole_part < left.whole_part || sum.whole_part < right.whole_part) { //if the sum is smaller than either operands
       sum.tag = sum.tag*2; //overflow
       return sum;
