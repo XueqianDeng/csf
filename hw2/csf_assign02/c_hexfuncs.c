@@ -45,5 +45,5 @@ void hex_write_string(const char s[]){
  *  sbuf - the pointer for keeping the string. 
  */
 void hex_format_offset(unsigned offset, char sbuf[]){
-
+  // we cannot use sprintf, it's in the stdio library.
 }
