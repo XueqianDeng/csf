@@ -1,5 +1,8 @@
-// C implementation of hexdump functions
-
+/* CSF Assignment 1
+ * C implementation of hexdump functions
+ * Harry Yu cyu62@jhu.edu
+ * Xueqian Deng xdeng13@jhu.edu
+ */
 
 #include <unistd.h>  // this is the only system header file you may include!
 #include "hexfuncs.h"
