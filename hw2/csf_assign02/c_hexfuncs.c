@@ -85,7 +85,7 @@ void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
  */
 char hex_to_printable(unsigned char byteval) {
   if (byteval < 0x20 || byteval > 0x7E) {
-    byteval = 0x2E; // ASCII table tells this
+    byteval = 0x2E; // ASCII table
   }
   return byteval;
 }
