@@ -49,8 +49,6 @@ void testFormatOffset(TestObjs *objs) {
   (void) objs; // suppress warning about unused parameter
   char buf[16];
   hex_format_offset(1L, buf);
-  hex_write_string("point3");
-  hex_write_string(buf);
   ASSERT(0 == strcmp(buf, "00000001"));
 }
 
