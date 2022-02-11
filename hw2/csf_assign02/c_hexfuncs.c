@@ -68,8 +68,9 @@ void hex_format_offset(unsigned offset, char sbuf[]){
  *  sbuf - the pointer for keeping the string. 
  */
 void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
-  sbuf[1] = byteval & 0xF;
+  char[] tablet = "0123456789abcdef";
+  sbuf[1] = tablet[byteval & 0xF];
   byteval >>= 4;
-  sbuf[0] = byteval & 0xF;
-  byteval >>= 4;
+  sbuf[0] = tablet[byteval & 0xF];
+  sbuf[2] = '\0'; // mechanism as the previous function
 }
