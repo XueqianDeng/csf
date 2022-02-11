@@ -34,6 +34,10 @@ void hex_write_string(const char s[]){
   // since write is a return function, we will keep an index to monitor the 
   // implementation of write. 
   unsigned operationmonitor = write(1, s, 16);
+  if (operationmonitor) {
+    write(1, "ERROR", 6);
+    // this if statement should never happen
+  }
 }
 
 /*
