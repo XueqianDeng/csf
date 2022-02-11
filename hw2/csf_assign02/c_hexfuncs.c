@@ -47,15 +47,25 @@ void hex_write_string(const char s[]){
 void hex_format_offset(unsigned offset, char sbuf[]){
   // we cannot use sprintf, it's in the stdio library.
   unsigned contemporaryholderofoffset = offset; // we make a copy of offset in case of unwanted operation
+  char *position = sbuf; // take the pointer of sbuf
+  char[] tablet = "0123456789abcdef"; // for taking the character
   for (int i = 0; i < 8; i++) {
     unsigned currentbyteholder = contemporaryholderofoffset & 0xF;
     // in binary OxF is 0000..0001111, so it takes the last 4 bits of the unsigned
-    contemporaryholderofoffset >> 4;
-    char[] tablet = "0123456789abcdef";
-    sbuf[i] = tablet[currentbyteholder];
+    contemporaryholderofoffset >>= 4;
+    *position++ = tablet[currentbyteholder];
   }
+  *position = '\0'; // end the string
 }
 
+
+/*
+ * Format a byte value (in the range 0-255) as string consisting
+ * of two hex digits.  The string is stored in sbuf.
+ * Parameters:
+ *  byteval - the byte value to be translated. 
+ *  sbuf - the pointer for keeping the string. 
+ */
 void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
   
 }
