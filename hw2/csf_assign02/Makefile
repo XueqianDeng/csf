@@ -43,7 +43,7 @@ solution.zip :
 	zip -9r $@ Makefile README.txt *.h *.c *.S
 
 clean :
-	rm -f *.o c_hexdump asm_hexdump casm_hexdump depend.mak solution.zip
+	rm -f *.o c_hexdump c_hextests asm_hexdump casm_hexdump depend.mak solution.zip
 
 depend.mak :
 	touch $@

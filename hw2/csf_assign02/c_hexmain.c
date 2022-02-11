@@ -20,7 +20,7 @@ int main(void) {
     // should be 16 bytes except the last line
     hex_format_offset(offsetcounter, stringbuffer);
     // hexidecimal offset is translated into stringbuffer
-    hex_write_string(*stringbuffer);
+    hex_write_string(stringbuffer);
     // let's ouput the first 8 hex  
     hex_write_string(": ");
     // column and space before the ASCII code for each char
@@ -33,7 +33,7 @@ int main(void) {
       // this should reset every in stringbuffer as 0
       // and a null terminator at the end. 
       hex_format_byte_as_hex(byteval, stringbuffer);
-      hex_write_string((*stringbuffer));
+      hex_write_string(stringbuffer);
       hex_write_string(" ");
       // this would print out the hex char of the character
     }
@@ -45,7 +45,7 @@ int main(void) {
     hex_write_string("  ");
     // this is the end of writing hex char 
     for(; *databufferhexextractor; databufferhexextractor++) {
-      hex_write_string(hex_to_printable(databufferhexextractor[0]));
+      hex_write_string(hex_to_printable(databufferhexextractor[0]) + "");
       //this should output the character if printable
     }
     hex_write_string("\n");
