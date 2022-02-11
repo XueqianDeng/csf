@@ -34,7 +34,7 @@ void hex_write_string(const char s[]){
   // since write is a return function, we will keep an index to monitor the 
   // implementation of write. 
   unsigned operationmonitor = write(1, s, 16);
-  if (operationmonitor) {
+  if (operationmonitor == -1) {
     write(1, "ERROR", 6);
     // this if statement should never happen
   }
@@ -60,6 +60,7 @@ void hex_format_offset(unsigned offset, char sbuf[]){
     position[7-i] = tablet[currentbyteholder]; // shift leftward.
    hex_write_string[position];
   }
+  sbuf = position;
 }
 
 
