@@ -69,12 +69,23 @@ void hex_format_offset(unsigned offset, char sbuf[]){
  */
 void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
   char[] tablet = "0123456789abcdef";
-  sbuf[1] = tablet[byteval & 0xF];
+  sbuf[1] = tablet[byteval & 15]; // or & 0xF
   byteval >>= 4;
-  sbuf[0] = tablet[byteval & 0xF];
+  sbuf[0] = tablet[byteval & 15]; // or & 0xF
   sbuf[2] = '\0'; // mechanism as the previous function
 }
 
+/*
+ * Convert a byte value (in the range 0-255) to a printable character
+ * value.  If byteval is already a printable character, it is returned
+ * unmodified.  If byteval is not a printable character, then the
+ * ASCII code for '.' should be returned.
+ *  byteval - the byte value to be translated. 
+ *  sbuf - the pointer for keeping the string. 
+ */
 char hex_to_printable(unsigned char byteval) {
-
+  if (byteval < 0x20 || byteval > 0x7E) {
+    byteval = 0x2E; // ASCII table tells this
+  }
+  return byteval;
 }
