@@ -48,6 +48,7 @@ int main(void) {
       hex_write_string(hex_to_printable(databufferhexextractor[0]));
       //this should output the character if printable
     }
+    hex_write_string('\n');
   }
   // I believe we are all set with this while loop
 }
