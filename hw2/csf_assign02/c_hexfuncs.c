@@ -55,7 +55,7 @@ void hex_format_offset(unsigned offset, char sbuf[]){
     unsigned currentbyteholder = contemporaryholderofoffset & 0xF;
     // in binary OxF is 0000..0001111, so it takes the last 4 bits of the unsigned
     contemporaryholderofoffset >>= 4;
-    *position-- = tablet[currentbyteholder]; // shift leftward.
+    *(position--) = tablet[currentbyteholder]; // shift leftward.
   }
 }
 
