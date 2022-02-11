@@ -29,7 +29,7 @@ int main(void) {
     for (; position < togo; position++) {
       unsigned char byteval = databufferhexextractor[0];
       // this shoud take out the character byte
-      stringbuffer = (stringbuffer | 0) & ('\0');
+      *stringbuffer = (*stringbuffer | 0) & ('\0');
       // this should reset every in stringbuffer as 0
       // and a null terminator at the end. 
       hex_format_byte_as_hex(byteval, stringbuffer);
