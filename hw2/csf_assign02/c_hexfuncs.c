@@ -47,8 +47,11 @@ void hex_write_string(const char s[]){
 void hex_format_offset(unsigned offset, char sbuf[]){
   // we cannot use sprintf, it's in the stdio library.
   unsigned contemporaryholderofoffset = offset; // we make a copy of offset in case of unwanted operation
-  for int i 
-  unsigned currentbyteholder = contemporaryholderofoffset & 0xF;
-  // in binary OxF is 0000..0001111, so it takes the last 4 bits of the unsigned
-  contemporaryholderofoffset >> 4;
+  for (int i = 0; i < 8; i++) {
+    unsigned currentbyteholder = contemporaryholderofoffset & 0xF;
+    // in binary OxF is 0000..0001111, so it takes the last 4 bits of the unsigned
+    contemporaryholderofoffset >> 4;
+    char[] tablet = "0123456789abcdef";
+    sbuf[i] = tablet[currentbyteholder];
+  }
 }
