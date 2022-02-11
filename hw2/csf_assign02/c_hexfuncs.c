@@ -61,6 +61,8 @@ void hex_format_offset(unsigned offset, char sbuf[]){
    hex_write_string[position];
   }
   sbuf = position;
+ hex_write_string[position]
+  //weird
 }
 
 
