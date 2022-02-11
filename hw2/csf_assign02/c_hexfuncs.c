@@ -55,3 +55,7 @@ void hex_format_offset(unsigned offset, char sbuf[]){
     sbuf[i] = tablet[currentbyteholder];
   }
 }
+
+void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
+  
+}
