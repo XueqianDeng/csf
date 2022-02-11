@@ -74,3 +74,7 @@ void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
   sbuf[0] = tablet[byteval & 0xF];
   sbuf[2] = '\0'; // mechanism as the previous function
 }
+
+char hex_to_printable(unsigned char byteval) {
+
+}
