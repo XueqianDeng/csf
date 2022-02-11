@@ -48,7 +48,7 @@ void hex_format_offset(unsigned offset, char sbuf[]){
   // we cannot use sprintf, it's in the stdio library.
   unsigned contemporaryholderofoffset = offset; // we make a copy of offset in case of unwanted operation
   char *position = sbuf; // take the pointer of sbuf
-  char[] tablet = "0123456789abcdef"; // for taking the character
+  char tablet[] = "0123456789abcdef"; // for taking the character
   *position += 8; // shift 8 position
   *position = '\0'; // end the offset
   for (int i = 0; i < 8; i++) {
@@ -68,7 +68,7 @@ void hex_format_offset(unsigned offset, char sbuf[]){
  *  sbuf - the pointer for keeping the string. 
  */
 void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
-  char[] tablet = "0123456789abcdef";
+  char tablet[] = "0123456789abcdef";
   sbuf[1] = tablet[byteval & 15]; // or & 0xF
   byteval >>= 4;
   sbuf[0] = tablet[byteval & 15]; // or & 0xF
