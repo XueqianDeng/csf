@@ -33,8 +33,7 @@ int main(void) {
       // this should reset every in stringbuffer as 0
       // and a null terminator at the end. 
       hex_format_byte_as_hex(byteval, stringbuffer);
-      char icannottakecareofwarning[] = ((char*)(*stringbuffer));
-      hex_write_string(icannottakecareofwarning);
+      hex_write_string((*stringbuffer));
       hex_write_string(" ");
       // this would print out the hex char of the character
     }
@@ -46,8 +45,7 @@ int main(void) {
     hex_write_string("  ");
     // this is the end of writing hex char 
     for(; *databufferhexextractor; databufferhexextractor++) {
-      icannottakecareofwarning = ((char*)hex_to_printable(databufferhexextractor[0]));
-      hex_write_string(icannottakecareofwarning);
+      hex_write_string(hex_to_printable(databufferhexextractor[0]));
       //this should output the character if printable
     }
     hex_write_string("\n");
