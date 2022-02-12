@@ -53,13 +53,19 @@ void hex_format_offset(unsigned offset, char sbuf[]){
   unsigned contemporaryholderofoffset = offset; // we make a copy of offset in case of unwanted operation
   char *position = sbuf; // take the pointer of sbuf
   char tablet[] = "0123456789abcdef"; // for taking the character
+  int numberholder[8]; 
   for (int i = 0; i < 8; i++) {
-    unsigned currentbyteholder = contemporaryholderofoffset & 0xF;
-    // in binary OxF is 0000..0001111, so it takes the last 4 bits of the unsigned
+    numberholder[i] = contemporaryholderofoffset & 0xF;
     contemporaryholderofoffset >>= 4;
-    position[7-i] = tablet[currentbyteholder]; // shift leftward.
   }
-  sbuf = position;
+  // this for loop will take each digit of the offset into an int array
+  for (int i = 0; i < 8; i++){
+     *position = tablet[numberholder[7-i]];
+     position++;
+  }
+  // this for loop push the int array into the string
+  *position = '\0';
+  // end the string by null terminator
 }
 
 
@@ -72,9 +78,9 @@ void hex_format_offset(unsigned offset, char sbuf[]){
  */
 void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
   char tablet[] = "0123456789abcdef";
-  sbuf[1] = tablet[byteval & 15]; // or & 0xF
+  sbuf[1] = tablet[byteval & 15]; // take off the value of the last 4 digit by 1111 binary
   byteval >>= 4;
-  sbuf[0] = tablet[byteval & 15]; // or & 0xF
+  sbuf[0] = tablet[byteval & 15]; 
   sbuf[2] = '\0'; // mechanism as the previous function
 }
 

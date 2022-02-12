@@ -28,6 +28,7 @@ void cleanup(TestObjs *objs) {
 void testFormatOffset(TestObjs *objs);
 void testFormatByteAsHex(TestObjs *objs);
 void testHexToPrintable(TestObjs *objs);
+void testhex_write_string(TestObjs *objs);
 
 int main(int argc, char **argv) {
   if (argc > 1) {
@@ -39,7 +40,8 @@ int main(int argc, char **argv) {
   TEST(testFormatOffset);
   TEST(testFormatByteAsHex);
   TEST(testHexToPrintable);
-
+  TEST(testhex_write_string);
+  
   TEST_FINI();
 
   return 0;
@@ -61,4 +63,10 @@ void testFormatByteAsHex(TestObjs *objs) {
 void testHexToPrintable(TestObjs *objs) {
   ASSERT('H' == hex_to_printable(objs->test_data_1[0]));
   ASSERT('.' == hex_to_printable(objs->test_data_1[13]));
+}
+
+void testhex_write_string(TestObjs *objs) {
+  (void) objs; // suppress warning about unused parameter
+  hex_write_string("Hello, World, this is a test for hex_write \n");
+  hex_write_string("Yes, it's all right, this is a test for hex_write \n");
 }
