@@ -29,8 +29,8 @@ int main(void) {
     char *databufferhexextractor2 = databuffer; // hex char counter
     int position = 0; // there are case that the line is not full.
     for (; position < togo; position++) {
-      unsigned char byteval = *databufferhexextractor;
-      databufferhexextractor++;
+      unsigned char byteval = *databufferhexextractor1;
+      databufferhexextractor1++;
       // this shoud take out the character byte
       char bytevalkeep[2];
       // bytevalkeep is to keep the two bytes
@@ -46,7 +46,7 @@ int main(void) {
     // this is to make up the space if there is no 16 byte to write in the line
     hex_write_string("  ");
     // this is the end of writing hex char 
-    for(; *databufferhexextractor2; databufferhexextractor++) {
+    for(; *databufferhexextractor2; databufferhexextractor2++) {
       hex_write_string(hex_to_printable(databufferhexextractor2[0]) + "");
       //this should output the character if printable
     }
