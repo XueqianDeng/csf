@@ -32,8 +32,14 @@ void hex_write_string(const char s[]){
   // function for the standard GNU C library. 
   // STDOUT_FILENO file descriptor = 1
   // since write is a return function, we will keep an index to monitor the 
-  // implementation of write. 
-  unsigned operationmonitor = write(1, s, 16);
+  // implementation of write.
+  int nullterminatorfinder = 0; 
+  while (s[nullterminatorfinder] != '\n') {
+    nullterminatorfinder += 1;
+  }
+  // find where is the null terminator
+  nullterminatorfinder += 1; // include the null terminator
+  unsigned operationmonitor = write(1, s, nullterminatorfinder);
   if (operationmonitor == -1) {
     write(1, "ERROR", 6);
     // this if statement should never happen

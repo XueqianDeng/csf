@@ -29,6 +29,7 @@ void testFormatOffset(TestObjs *objs);
 void testFormatByteAsHex(TestObjs *objs);
 void testHexToPrintable(TestObjs *objs);
 void testhex_write_string(TestObjs *objs);
+void test_hex_read(TestObjs *objs);
 
 int main(int argc, char **argv) {
   if (argc > 1) {
@@ -41,12 +42,14 @@ int main(int argc, char **argv) {
   TEST(testFormatByteAsHex);
   TEST(testHexToPrintable);
   TEST(testhex_write_string);
+  TEST(test_hex_read);
   
   TEST_FINI();
 
   return 0;
 }
 
+//test format offset
 void testFormatOffset(TestObjs *objs) {
   (void) objs; // suppress warning about unused parameter
   char buf[16];
@@ -54,19 +57,41 @@ void testFormatOffset(TestObjs *objs) {
   ASSERT(0 == strcmp(buf, "00000001"));
 }
 
+//test format as byte
 void testFormatByteAsHex(TestObjs *objs) {
   char buf[16];
   hex_format_byte_as_hex(objs->test_data_1[0], buf);
   ASSERT(0 == strcmp(buf, "48"));
 }
 
+//test printable
 void testHexToPrintable(TestObjs *objs) {
   ASSERT('H' == hex_to_printable(objs->test_data_1[0]));
   ASSERT('.' == hex_to_printable(objs->test_data_1[13]));
+  //this will test the untestable range
+  ASSERT(0x2E == hex_to_printable(0x12));
+  ASSERT(0x2E == hex_to_printable(0x11));
+  ASSERT(0x2E == hex_to_printable(0x02));
+  ASSERT(0x2E == hex_to_printable(0x13));
+  ASSERT(0x2E == hex_to_printable(0x10));
+  //this will test the testable range
+  ASSERT('S' == hex_to_printable('S'));
+  ASSERT('b' == hex_to_printable('b'));
 }
 
+//test hex_write
 void testhex_write_string(TestObjs *objs) {
   (void) objs; // suppress warning about unused parameter
-  hex_write_string("Hello, World, this is a test for hex_write \n");
+  hex_write_string("Hello, World \n");
   hex_write_string("Yes, it's all right, this is a test for hex_write \n");
+}
+
+//test hex_read
+void test_hex_read(TestObjs *objs) {
+  (void) objs;
+  hex_write_string("This is hex_read testing\n");
+  hex_write_string("The program will once return everything(not too long) you type \n");
+  char databuffer[100];
+  hex_read(databuffer);
+  hex_write_string(databuffer);
 }
