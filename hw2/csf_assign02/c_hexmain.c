@@ -10,30 +10,32 @@ int main(void) {
   char databuffer[16]; // this string to keep input data
   int togo = 1; // maintainence of while loop
   unsigned offsetcounter = 0; //number of hexidecimal offset
-  char stringbuffer[8]; //formatted offset keeper
   
   while (togo) {
-    togo = hex_read(databuffer); 
-    // if not 0, then it's still reading; error should not happen if everthing is
-    // correctly implemented. 
-    offsetcounter += togo;
-    // should be 16 bytes except the last line
-    hex_format_offset(offsetcounter, stringbuffer);
-    // hexidecimal offset is translated into stringbuffer
-    hex_write_string(stringbuffer);
+    togo = hex_read(databuffer);
+    togo = togo <= 16 ? 1 : 0;
+    // everytime there should be exact 16 read-in, unless the line ends 
+    offsetcounter += 16;
+    // note: up to requirements, the program runs only one time, instead runnning
+    // until CTRL^D; until it reaches the end of statement.
+    char offsetkeeper[16];
+    hex_format_offset(offsetcounter, offsetkeeper);
+    // hexidecimal offset is translated into offsetkeeper
+    hex_write_string(offsetkeeper);
     // let's ouput the first 8 hex  
     hex_write_string(": ");
     // column and space before the ASCII code for each char
+    char *databufferhexextractor1 = databuffer; // hex char counter
+    char *databufferhexextractor2 = databuffer; // hex char counter
     int position = 0; // there are case that the line is not full.
-    char *databufferhexextractor = databuffer; // hex char counter
     for (; position < togo; position++) {
-      unsigned char byteval = databufferhexextractor[0];
+      unsigned char byteval = *databufferhexextractor;
+      databufferhexextractor++;
       // this shoud take out the character byte
-      *stringbuffer = (*stringbuffer | 0) & ('\0');
-      // this should reset every in stringbuffer as 0
-      // and a null terminator at the end. 
-      hex_format_byte_as_hex(byteval, stringbuffer);
-      hex_write_string(stringbuffer);
+      char bytevalkeep[2];
+      // bytevalkeep is to keep the two bytes
+      hex_format_byte_as_hex(byteval, bytevalkeep);
+      hex_write_string(bytevalkeep);
       hex_write_string(" ");
       // this would print out the hex char of the character
     }
@@ -44,8 +46,8 @@ int main(void) {
     // this is to make up the space if there is no 16 byte to write in the line
     hex_write_string("  ");
     // this is the end of writing hex char 
-    for(; *databufferhexextractor; databufferhexextractor++) {
-      hex_write_string(hex_to_printable(databufferhexextractor[0]) + "");
+    for(; *databufferhexextractor2; databufferhexextractor++) {
+      hex_write_string(hex_to_printable(databufferhexextractor2[0]) + "");
       //this should output the character if printable
     }
     hex_write_string("\n");
