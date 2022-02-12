@@ -77,6 +77,23 @@ void testHexToPrintable(TestObjs *objs) {
   //this will test the testable range
   ASSERT('S' == hex_to_printable('S'));
   ASSERT('b' == hex_to_printable('b'));
+  ASSERT('p' == hex_to_printable('p'));
+  ASSERT('&' == hex_to_printable('&'));
+  ASSERT('*' == hex_to_printable('*'));
+  ASSERT('2' == hex_to_printable('2'));
+  ASSERT('1' == hex_to_printable('1'));
+  ASSERT(';' == hex_to_printable(';'));
+  ASSERT(']' == hex_to_printable(']'));
+  ASSERT(' ' == hex_to_printable(' '));
+  ASSERT('#' == hex_to_printable('#'));
+  ASSERT('a' == hex_to_printable('a'));
+  ASSERT('0' == hex_to_printable('0'));
+  ASSERT('%' == hex_to_printable('%'));
+  ASSERT('@' == hex_to_printable('@'));
+  ASSERT('C' == hex_to_printable('C'));
+  ASSERT('>' == hex_to_printable('>'));
+  ASSERT('K' == hex_to_printable('K'));
+  ASSERT('R' == hex_to_printable('R'));
 }
 
 //test hex_write
