@@ -46,11 +46,15 @@ int main(void) {
     }
     // this is to make up the space if there is no 16 byte to write in the line
     hex_write_string("  ");
-    // this is the end of writing hex char 
-    for(; *databufferhexextractor2; databufferhexextractor2++) {
-      hex_write_string(hex_to_printable(*databufferhexextractor2));
+    // this is the end of writing hex char
+    char printable[17];
+    for(; *databufferhexextractor2 != '\0'; databufferhexextractor2++) {
+      *printable = hex_to_printable(*databufferhexextractor2);
+      *printable++;
       //this should output the character if printable
     }
+    *printable = '\0';
+    hex_write_string(printable);
     hex_write_string("\n");
   }
   // I believe we are all set with this while loop
