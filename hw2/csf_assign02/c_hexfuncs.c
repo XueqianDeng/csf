@@ -34,7 +34,7 @@ void hex_write_string(const char s[]){
   // since write is a return function, we will keep an index to monitor the 
   // implementation of write.
   int nullterminatorfinder = 0; 
-  while (s[nullterminatorfinder] != '\n') {
+  while (s[nullterminatorfinder] != '\0') {
     nullterminatorfinder += 1;
   }
   // find where is the null terminator

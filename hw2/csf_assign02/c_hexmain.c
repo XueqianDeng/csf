@@ -13,7 +13,8 @@ int main(void) {
   
   while (togo) {
     togo = hex_read(databuffer);
-    togo = togo <= 16 ? 1 : 0;
+    int counter = togo;
+    togo = togo < 16 ? 0 : 1;
     // everytime there should be exact 16 read-in, unless the line ends 
     offsetcounter += 16;
     // note: up to requirements, the program runs only one time, instead runnning
@@ -28,7 +29,7 @@ int main(void) {
     char *databufferhexextractor1 = databuffer; // hex char counter
     char *databufferhexextractor2 = databuffer; // hex char counter
     int position = 0; // there are case that the line is not full.
-    for (; position < togo; position++) {
+    for (; position < counter; position++) {
       unsigned char byteval = *databufferhexextractor1;
       databufferhexextractor1++;
       // this shoud take out the character byte
@@ -47,7 +48,7 @@ int main(void) {
     hex_write_string("  ");
     // this is the end of writing hex char 
     for(; *databufferhexextractor2; databufferhexextractor2++) {
-      hex_write_string(hex_to_printable(databufferhexextractor2[0]) + "");
+      hex_write_string(hex_to_printable(*databufferhexextractor2));
       //this should output the character if printable
     }
     hex_write_string("\n");
