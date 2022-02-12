@@ -102,6 +102,10 @@ void testFormatByteAsHex(TestObjs *objs) {
   char buf[16];
   hex_format_byte_as_hex(objs->test_data_1[0], buf);
   ASSERT(0 == strcmp(buf, "48"));
+  
+  char buf1[16];
+  hex_format_byte_as_hex(0x34, buf);
+  ASSERT(0 == strcmp(buf1, "34"));
 }
 
 //test printable
