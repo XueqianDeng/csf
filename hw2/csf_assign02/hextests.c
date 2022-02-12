@@ -87,6 +87,14 @@ void testFormatOffset(TestObjs *objs) {
   char buf8[16]; 
   hex_format_offset(1192724, buf8);
   ASSERT(0 == strcmp(buf8, "00123314"));
+  
+  char buf9[16]; 
+  hex_format_offset(119223, buf9);
+  ASSERT(0 == strcmp(buf9, "0001d1b7"));
+  
+  char buf10[16]; 
+  hex_format_offset(4122232, buf10);
+  ASSERT(0 == strcmp(buf9, "003ee678"));
 }
 
 //test format as byte
