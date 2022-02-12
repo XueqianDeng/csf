@@ -10,7 +10,7 @@ int main(void) {
   char databuffer[16]; // this string to keep input data
   int togo = 1; // maintainence of while loop
   unsigned offsetcounter = 0; //number of hexidecimal offset
-  char stringbuffer[16]; //formatted offset keeper
+  char stringbuffer[8]; //formatted offset keeper
   
   while (togo) {
     togo = hex_read(databuffer); 
