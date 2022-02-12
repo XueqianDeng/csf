@@ -106,6 +106,38 @@ void testFormatByteAsHex(TestObjs *objs) {
   char buf1[16];
   hex_format_byte_as_hex(0x34, buf1);
   ASSERT(0 == strcmp(buf1, "34"));
+  
+  char buf2[16];
+  hex_format_byte_as_hex(0x23, buf2);
+  ASSERT(0 == strcmp(buf2, "23"));
+  
+  char buf3[16];
+  hex_format_byte_as_hex(0x2b, buf3);
+  ASSERT(0 == strcmp(buf3, "2b"));
+  
+  char buf4[16];
+  hex_format_byte_as_hex(0x3c, buf4);
+  ASSERT(0 == strcmp(buf4, "3c"));
+  
+  char buf5[16];
+  hex_format_byte_as_hex(0xb1, buf5);
+  ASSERT(0 == strcmp(buf5, "b1"));
+  
+  char buf6[16];
+  hex_format_byte_as_hex(0x8c, buf6);
+  ASSERT(0 == strcmp(buf6, "8c"));
+  
+  char buf7[16];
+  hex_format_byte_as_hex(0xc3, buf2);
+  ASSERT(0 == strcmp(buf7, "c3"));
+  
+  char buf8[16];
+  hex_format_byte_as_hex(0xa3, buf8);
+  ASSERT(0 == strcmp(buf8, "a3"));
+  
+  char buf0[16];
+  hex_format_byte_as_hex(0x00, buf0);
+  ASSERT(0 == strcmp(buf0, "00"));
 }
 
 //test printable
