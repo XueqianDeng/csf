@@ -94,7 +94,7 @@ void testFormatOffset(TestObjs *objs) {
   
   char buf10[16]; 
   hex_format_offset(4122232, buf10);
-  ASSERT(0 == strcmp(buf9, "003ee678"));
+  ASSERT(0 == strcmp(buf10, "003ee678"));
 }
 
 //test format as byte
@@ -104,7 +104,7 @@ void testFormatByteAsHex(TestObjs *objs) {
   ASSERT(0 == strcmp(buf, "48"));
   
   char buf1[16];
-  hex_format_byte_as_hex(0x34, buf);
+  hex_format_byte_as_hex(0x34, buf1);
   ASSERT(0 == strcmp(buf1, "34"));
 }
 
