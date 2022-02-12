@@ -1,6 +1,10 @@
-// Unit tests for hex functions
-// These tests should work for both your C implementations and your
-// assembly language implementations
+/* CSF Assignment 2
+ * Unit tests for hex functions
+ * These tests should work for both your C implementations and your
+ * assembly language implementations
+ * Harry Yu cyu62@jhu.edu
+ * Xueqian Deng xdeng13@jhu.edu
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
