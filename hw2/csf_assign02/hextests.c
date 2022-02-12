@@ -128,7 +128,7 @@ void testFormatByteAsHex(TestObjs *objs) {
   ASSERT(0 == strcmp(buf6, "8c"));
   
   char buf7[16];
-  hex_format_byte_as_hex(0xc3, buf2);
+  hex_format_byte_as_hex(0xc3, buf7);
   ASSERT(0 == strcmp(buf7, "c3"));
   
   char buf8[16];
