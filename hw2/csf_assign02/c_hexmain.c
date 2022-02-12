@@ -50,7 +50,7 @@ int main(void) {
     char printable[17];
     for(; *databufferhexextractor2 != '\0'; databufferhexextractor2++) {
       *printable = hex_to_printable(*databufferhexextractor2);
-      *printable++;
+      printable++;
       //this should output the character if printable
     }
     *printable = '\0';
