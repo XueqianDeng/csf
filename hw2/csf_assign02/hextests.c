@@ -55,6 +55,38 @@ void testFormatOffset(TestObjs *objs) {
   char buf[16];
   hex_format_offset(1L, buf);
   ASSERT(0 == strcmp(buf, "00000001"));
+  
+  char buf1[16]; 
+  hex_format_offset(0x7b, buf1);
+  ASSERT(0 == strcmp(buf1, "0000007b"));
+  
+  char buf2[16]; 
+  hex_format_offset(0x20, buf2);
+  ASSERT(0 == strcmp(buf2, "00000020"));
+  
+  char buf3[16]; 
+  hex_format_offset(32, buf3);
+  ASSERT(0 == strcmp(buf3, "00000020"));
+  
+  char buf4[16]; 
+  hex_format_offset(48, buf3);
+  ASSERT(0 == strcmp(buf4, "00000030"));
+  
+  char buf5[16]; 
+  hex_format_offset(49, buf5);
+  ASSERT(0 == strcmp(buf5, "00000030"));
+  
+  char buf6[16]; 
+  hex_format_offset(1192722, buf6);
+  ASSERT(0 == strcmp(buf6, "01192722"));
+
+  char buf7[16]; 
+  hex_format_offset(1192722, buf7);
+  ASSERT(0 == strcmp(buf7, "01192722"));
+  
+  char buf8[16]; 
+  hex_format_offset(1192722, buf8);
+  ASSERT(0 == strcmp(buf8, "000087ba"));
 }
 
 //test format as byte
