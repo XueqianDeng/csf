@@ -28,7 +28,6 @@ int main(void) {
 
     // column and space before the ASCII code for each char
     char *databufferhexextractor1 = databuffer; // hex char counter
-    char *databufferhexextractor2 = databuffer; // hex char counter
     int position = 0; // there are case that the line is not full.
     for (; position < counter; position++) {
       unsigned char byteval = *databufferhexextractor1;
