@@ -25,6 +25,7 @@ int main(void) {
     hex_write_string(offsetkeeper);
     // let's ouput the first 8 hex  
     hex_write_string(": ");
+
     // column and space before the ASCII code for each char
     char *databufferhexextractor1 = databuffer; // hex char counter
     char *databufferhexextractor2 = databuffer; // hex char counter
@@ -48,12 +49,11 @@ int main(void) {
     hex_write_string("  ");
     // this is the end of writing hex char
     char printable[17];
-    for(; *databufferhexextractor2 != '\0'; databufferhexextractor2++) {
-      *printable = hex_to_printable(*databufferhexextractor2);
-      printable++;
+    for(int i=0; i < counter; i++) {
+      printable[i] = hex_to_printable(databuffer[i]);
       //this should output the character if printable
     }
-    *printable = '\0';
+    printable[counter] = '\0';
     hex_write_string(printable);
     hex_write_string("\n");
   }
