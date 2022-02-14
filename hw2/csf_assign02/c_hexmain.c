@@ -15,8 +15,7 @@ int main(void) {
     togo = hex_read(databuffer);
     int counter = togo;
     togo = togo < 16 ? 0 : 1;
-    // everytime there should be exact 16 read-in, unless the line ends 
-    offsetcounter += 16;
+    
     // note: up to requirements, the program runs only one time, instead runnning
     // until CTRL^D; until it reaches the end of statement.
     char offsetkeeper[16];
@@ -45,7 +44,7 @@ int main(void) {
       hex_write_string("   ");
     }
     // this is to make up the space if there is no 16 byte to write in the line
-    hex_write_string("  ");
+    hex_write_string(" ");
     // this is the end of writing hex char
     char printable[17];
     for(int i=0; i < counter; i++) {
@@ -55,6 +54,8 @@ int main(void) {
     printable[counter] = '\0';
     hex_write_string(printable);
     hex_write_string("\n");
+    // everytime there should be exact 16 read-in, unless the line ends 
+    offsetcounter += 16;
   }
   // I believe we are all set with this while loop
 }
