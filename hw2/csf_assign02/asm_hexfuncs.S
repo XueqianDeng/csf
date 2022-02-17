@@ -24,7 +24,7 @@ hex_format_offset:
 
 	.globl hex_format_byte_as_hex
 hex_format_byte_as_hex:
-	subq $8, %rsp
+	subq $8, %rsp	/* Get 8 bytes of information from the stack pointer*/
 	movq %rdi, %r10
 	andq $15, %r10
 	inc %rsi
