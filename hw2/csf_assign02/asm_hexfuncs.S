@@ -24,35 +24,45 @@ hex_format_offset:
 
 	.globl hex_format_byte_as_hex
 hex_format_byte_as_hex:
-	subq $8, %rsp	/* Get 8 bytes of information from the stack pointer*/
-	movq %rdi, %r10
-	andq $15, %r10
+	subq $8, %rsp	/* Get 8 bytes of information from the stack pointer */
+	movq %rdi, %r10 /* Move the information in rdi register to r10 */
+	andq $15, %r10  /* Perform bitwise operation &1111 on r10 register */
 	inc %rsi
-	movq $hex_tablet, %r11
+	/*
+	 * rsi register contains the secod arg to the value, by doing so,
+	 * we move to the second byte of the input
+	 */
+	movq $hex_tablet, %r11 
 	movb (%r11,%r10), %cl
 	movb %cl, (%rsi)
+	/* we get the first char value of the 8 bytes here */
 	movq %rdi, %r10
 	sarq $4, %r10
+	/* we move the first byte out and get the secod byte */
 	andq $15, %r10
 	subq $1, %rsi
 	movb (%r11,%r10), %cl
 	movb %cl, (%rsi)
+	/* we get the second char value of the 8 byte here */
 	movb $0, 2(%rsi)
 	addq $8, %rsp
+	/* reset everything back */
 	ret
 
 
 	.globl hex_to_printable
 hex_to_printable:
-	subq $8, %rsp
-    cmpl $32, %edi
+	subq $8, %rsp /* adjust stack pointer */
+	cmpl $32, %edi
 	movl $46, %r10d
-    cmovl %r10d,  %edi
-    cmpl $126, %edi
+	cmovl %r10d,  %edi
+	cmpl $126, %edi
 	cmovg %r10d, %edi
-    movl %edi, %eax
-    addq $8, %rsp
-    ret
+	movl %edi, %eax
+	/* if smaller or bigger than 32 and 126, make 46 */
+	addq $8, %rsp
+	/* adjust stack pointer back*/
+	ret
     
 
 /* vim:ft=gas:
