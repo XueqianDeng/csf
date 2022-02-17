@@ -18,7 +18,12 @@ unsigned hex_read(char data_buf[]) {
   //this line uses the ssize_t read (int filedes, void *buffer, size_t size)
   //function in the standard GNU C library. For file descriptor, 0=stdin and 
   // 2=stderr. 
-  unsigned actual_number_of_bytes = read(0, data_buf, 16);
+  unsigned actual_number_of_bytes = 0;
+  unsigned new_number_of_bytes = 0;
+  do{
+    new_number_of_bytes = read(0, data_buf + actual_number_of_bytes, 16 - actual_number_of_bytes);
+    actual_number_of_bytes += new_number_of_bytes;
+  } while (new_number_of_bytes != 0 && actual_number_of_bytes != 16);
   return actual_number_of_bytes;
 }
 

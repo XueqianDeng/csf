@@ -15,7 +15,9 @@ int main(void) {
     togo = hex_read(databuffer);
     int counter = togo;
     togo = togo < 16 ? 0 : 1;
-    
+    if (counter == 0){ //if empty file from the start
+      break;
+    }
     // note: up to requirements, the program runs only one time, instead runnning
     // until CTRL^D; until it reaches the end of statement.
     char offsetkeeper[16];
