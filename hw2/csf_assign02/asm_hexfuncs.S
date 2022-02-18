@@ -24,44 +24,39 @@ hex_format_offset:
 
 	.globl hex_format_byte_as_hex
 hex_format_byte_as_hex:
-	subq $8, %rsp	/* Get 8 bytes of information from the stack pointer */
-	movq %rdi, %r10 /* Move the information in rdi register to r10 */
+	subq $8, %rsp	/* align stack pointer */
+	movq %rdi, %r10 /* Move byteval in rdi register to r10 */
 	andq $15, %r10  /* Perform bitwise operation &1111 on r10 register */
-	inc %rsi
-	/*
-	 * rsi register contains the secod arg to the value, by doing so,
-	 * we move to the second byte of the input
-	 */
-	movq $hex_tablet, %r11 
-	movb (%r11,%r10), %cl
-	movb %cl, (%rsi)
-	/* we get the first char value of the 8 bytes here */
-	movq %rdi, %r10
-	sarq $4, %r10
-	/* we move the first byte out and get the secod byte */
-	andq $15, %r10
-	subq $1, %rsi
-	movb (%r11,%r10), %cl
-	movb %cl, (%rsi)
-	/* we get the second char value of the 8 byte here */
-	movb $0, 2(%rsi)
-	addq $8, %rsp
-	/* reset everything back */
+	/* increment rsi so that it now has the address of second element in array */
+	inc %rsi 
+	movq $hex_tablet, %r11 /* store the address of hex_tablet into r11 */
+	/* put the char value at address (%r10 + %r11) into %cl register (getting hex char) */
+	movb (%r11,%r10), %cl 
+	movb %cl, (%rsi) /* set the second element of the array (rsi reference) to the char value */
+	movq %rdi, %r10 /* Move byteval in rdi register to r10 */
+	/* we move the rightmost 4 bits out and retain the leftmost 4 bits, by rightshifting by 4 */
+	sarq $4, %r10 /* put the char value at address (%r10 + %r11) into %cl register */
+	andq $15, %r10 /* Perform bitwise operation &1111 on r10 register */
+	subq $1, %rsi /* decrement by 1 so that rsi has the address of the first element in array */
+	movb (%r11,%r10), %cl /* put the char value at address (%r10 + %r11) into %cl register */
+	movb %cl, (%rsi) /* set the first element of the array (rsi reference) to the char value */
+	movb $0, 2(%rsi) /* set null terminator in array at index 2*/
+	addq $8, %rsp /* align stack pointer */
 	ret
 
 
 	.globl hex_to_printable
 hex_to_printable:
 	subq $8, %rsp /* adjust stack pointer */
-	cmpl $32, %edi
-	movl $46, %r10d
-	cmovl %r10d,  %edi
-	cmpl $126, %edi
-	cmovg %r10d, %edi
-	movl %edi, %eax
-	/* if smaller or bigger than 32 and 126, make 46 */
-	addq $8, %rsp
-	/* adjust stack pointer back*/
+	/* check if byteval (passed in edi) is smaller than 0x20 (smallest printable ascii val) */
+	cmpl $32, %edi 
+	movl $46, %r10d /* put the ascii val of dot (46) to r10d */
+	cmovl %r10d,  %edi /* conditionally (if byteval < 0x20), store 46 in edi */
+	cmpl $126, %edi /* check if byteval is greater than 0x7E (largest printable ascii val)*/
+	cmovg %r10d, %edi /* conditionally (if byteval > 0x7E), store 46 in edi */
+	/* move the ascii val in edi to eax as return value (if byteval is within printable range, leave unchanged; otherwise, 46) */
+	movl %edi, %eax 
+	addq $8, %rsp /* adjust stack pointer back*/
 	ret
     
 
