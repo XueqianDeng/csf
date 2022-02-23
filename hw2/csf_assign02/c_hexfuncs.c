@@ -43,8 +43,6 @@ void hex_write_string(const char s[]){
     nullterminatorfinder += 1;
   }
   // find where is the null terminator
-  //TODO: check if needs null terminator
-  // nullterminatorfinder += 1; // include the null terminator
   unsigned operationmonitor = write(1, s, nullterminatorfinder);
   if (operationmonitor == -1) {
     write(1, "ERROR", 6);
