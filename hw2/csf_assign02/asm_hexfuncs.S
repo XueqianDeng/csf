@@ -26,8 +26,8 @@ hex_format_offset:
  * Format a byte value (in the range 0-255) as string consisting
  * of two hex digits.  The string is stored in sbuf.
  * Parameters:
- *  byteval - the byte value to be translated. 
- *  sbuf - the pointer for keeping the string. 
+ *  byteval (%rdi) - the byte value to be translated. 
+ *  sbuf (%rsi) - the pointer to the string. 
  */
 	.globl hex_format_byte_as_hex
 hex_format_byte_as_hex:
@@ -56,7 +56,7 @@ hex_format_byte_as_hex:
  * value.  If byteval is already a printable character, it is returned
  * unmodified.  If byteval is not a printable character, then the
  * ASCII code for '.' should be returned.
- *  byteval - the byte value to be translated. 
+ *  byteval (%rdi) - the byte value to be translated. 
  */
 	.globl hex_to_printable
 hex_to_printable:
