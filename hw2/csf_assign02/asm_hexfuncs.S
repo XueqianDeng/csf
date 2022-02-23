@@ -22,6 +22,13 @@ hex_read:
 hex_format_offset:
 	ret
 
+/*
+ * Format a byte value (in the range 0-255) as string consisting
+ * of two hex digits.  The string is stored in sbuf.
+ * Parameters:
+ *  byteval - the byte value to be translated. 
+ *  sbuf - the pointer for keeping the string. 
+ */
 	.globl hex_format_byte_as_hex
 hex_format_byte_as_hex:
 	subq $8, %rsp	/* align stack pointer */
@@ -44,7 +51,13 @@ hex_format_byte_as_hex:
 	addq $8, %rsp /* align stack pointer */
 	ret
 
-
+/*
+ * Convert a byte value (in the range 0-255) to a printable character
+ * value.  If byteval is already a printable character, it is returned
+ * unmodified.  If byteval is not a printable character, then the
+ * ASCII code for '.' should be returned.
+ *  byteval - the byte value to be translated. 
+ */
 	.globl hex_to_printable
 hex_to_printable:
 	subq $8, %rsp /* adjust stack pointer */

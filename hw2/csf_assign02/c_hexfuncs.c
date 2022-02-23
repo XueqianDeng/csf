@@ -101,8 +101,7 @@ void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
  * value.  If byteval is already a printable character, it is returned
  * unmodified.  If byteval is not a printable character, then the
  * ASCII code for '.' should be returned.
- *  byteval - the byte value to be translated. 
- *  sbuf - the pointer for keeping the string. 
+ *  byteval - the byte value to be translated.  
  */
 char hex_to_printable(unsigned char byteval) {
   if (byteval < 0x20 || byteval > 0x7E) {
