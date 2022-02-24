@@ -37,12 +37,11 @@ hex_format_byte_as_hex:
 	/* increment rsi so that it now has the address of second element in array */
 	inc %rsi 
 	movq $hex_tablet, %r11 /* store the address of hex_tablet into r11 */
-	/* put the char value at address (%r10 + %r11) into %cl register (getting hex char) */
-	movb (%r11,%r10), %cl 
+	movb (%r11,%r10), %cl /* put the char value at address (%r10 + %r11) into %cl register */
 	movb %cl, (%rsi) /* set the second element of the array (rsi reference) to the char value */
 	movq %rdi, %r10 /* Move byteval in rdi register to r10 */
 	/* we move the rightmost 4 bits out and retain the leftmost 4 bits, by rightshifting by 4 */
-	sarq $4, %r10 /* put the char value at address (%r10 + %r11) into %cl register */
+	shrq $4, %r10 
 	andq $15, %r10 /* Perform bitwise operation &1111 on r10 register */
 	subq $1, %rsi /* decrement by 1 so that rsi has the address of the first element in array */
 	movb (%r11,%r10), %cl /* put the char value at address (%r10 + %r11) into %cl register */
