@@ -4,8 +4,13 @@
 
 	.globl main
 main:
-	/* TODO: add your code here */
+	subq $8, %rsp
 
+
+
+
+
+	addq $8, %rsp
 	ret
 
 /* vim:ft=gas:

@@ -8,13 +8,11 @@
 
 int main(void) {
   char databuffer[16]; // this string to keep input data
-  int togo = 1; // maintainence of while loop
+  int counter = 0;
   unsigned offsetcounter = 0; //number of hexidecimal offset
   
-  while (togo) {
-    togo = hex_read(databuffer);
-    int counter = togo;
-    togo = togo < 16 ? 0 : 1;
+  do{
+    counter = hex_read(databuffer);
     if (counter == 0){ //if empty file from the start
       break;
     }
@@ -58,6 +56,6 @@ int main(void) {
     hex_write_string("\n");
     // everytime there should be exact 16 read-in, unless the line ends 
     offsetcounter += 16;
-  }
+  }while (counter == 16);
   // I believe we are all set with this while loop
 }
