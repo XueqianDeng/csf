@@ -188,7 +188,7 @@ void test_hex_read(TestObjs *objs) {
   (void) objs;
   hex_write_string("This is hex_read testing\n");
   hex_write_string("The program will once return everything(not too long) you type \n");
-  char databuffer[100];
+  char databuffer[100] = {0};
   hex_read(databuffer);
   hex_write_string(databuffer);
 }

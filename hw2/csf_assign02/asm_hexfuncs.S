@@ -9,17 +9,91 @@ hex_tablet: .string "0123456789abcdef"
 	
 
 	
-	/* TODO: add functions here */
+/*
+ * Write given nul-terminated string to standard output.
+ * Parameters:
+ *  s (%rdi) - pointer to the s string to be the stdin output.
+ */
 	.globl hex_write_string
 hex_write_string:
+	pushq %rbx
+	movq %rdi, %rbx /* move string address to rbx before calling strLen */
+	call strLen
+	movq %rax, %rdx /* move string length to rdx (3rd argument) */
+	movq %rbx, %rsi /* move string address to rsi (2nd argument) */
+	movq $1, %rdi /* move 1 (indicating stdout) to rdi (1st argument) */
+	call write
+	popq %rbx
 	ret
 
+
+/*
+ * This function is to read in from the standard in to the data buffer.
+ * Parameters:
+ *  data_buf (%rdi) - pointer to the data_buf string to keep the stdin input.
+ * Returns:
+ *  actual bytes that read in. 
+ */
 	.globl hex_read
 hex_read:
+	pushq %rbx
+	pushq %r12
+	pushq %r13
+
+	movq %rdi, %rbx /* move address of data_buf to rbx */
+	movq $0, %r12 /* store total number of bytes read */
+	movq $0, %r13 /* store number of new bytes read */
+
+.Lread_loop:
+	movq $0, %rdi /* indicate stdin as 1st argument*/
+	movq %rbx, %rsi /* address of string buffer as 2nd argument */
+	addq %r12, %rsi /* make sure new input is read in at right position */
+	movq $16, %rdx /* read at most 16 bytes */
+	subq %r12, %rdx /* subtract number of byte already read */
+	call read 
+	movq %rax, %r13 /* keep track of number of new bytes read */
+	addq %r13, %r12 /* keep track of total number of bytes read */
+	cmpq $0, %r13 /* check if read any new byte at all */
+	jz .Lread_out
+	cmpq $16, %r12 /* check if read 16 bytes */
+	jz .Lread_out
+	jmp .Lread_loop
+.Lread_out:
+	popq %r13
+	popq %r12
+	popq %rbx
 	ret
 
+/*
+ * Format a long value as an offset string consisting of exactly 8
+ * hex digits.  The formatted offset is stored in sbuf, which must
+ * have enough room for a string of length 8.
+ * Parameters:
+ *  offset (%rdi) - the number to offset the string.
+ *  sbuf (%rsi) - the pointer for keeping the string. 
+ */
 	.globl hex_format_offset
 hex_format_offset:
+	pushq %rbx /* push rbx to stack */
+	movq %rdi, %rbx /* move offset value to rbx */
+	movq $hex_tablet, %r11 /* move hex_tablet to r11 register */
+	movl $8, %r10d /* keep track of sbuf index and zero upper bits as well*/
+	movb $0, (%rsi, %r10) /* move null terminator to sbuf at index 8 */
+	decb %r10b /* decrement to index 7 */
+.Lformat_offset_loop:
+	cmpb $0, %r10b /* check loop condition */
+	jl .Lformat_offset_out /* if formatting is complete, quit loop */
+	movq %rbx, %rdi /* move the offset to rdi */
+	andb $15, %dil /* and the lower 8 bits of rdi */
+	xorq %rdx, %rdx /* clear rdx */
+	movb %dil, %dl /* move the result of and to lower 8 bits of rdx */
+	movb (%r11, %rdx), %cl /* move the hex char val to cl */
+	movb %cl, (%rsi, %r10) /* move hex char val to corresponding position in sbuf */
+	shrq $4, %rbx /* discard the rightmost 4 bits by rightshifting */
+	decb %r10b /* decrement index */
+	jmp .Lformat_offset_loop
+.Lformat_offset_out:
+	popq %rbx
 	ret
 
 /*

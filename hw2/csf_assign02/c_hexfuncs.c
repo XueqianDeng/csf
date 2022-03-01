@@ -38,13 +38,13 @@ void hex_write_string(const char s[]){
   // STDOUT_FILENO file descriptor = 1
   // since write is a return function, we will keep an index to monitor the 
   // implementation of write.
-  int nullterminatorfinder = 0; 
-  while (s[nullterminatorfinder] != '\0') {
-    nullterminatorfinder += 1;
+  int null_terminator_finder = 0; 
+  while (s[null_terminator_finder] != '\0') {
+    null_terminator_finder += 1;
   }
   // find where is the null terminator
-  unsigned operationmonitor = write(1, s, nullterminatorfinder);
-  if (operationmonitor == -1) {
+  unsigned operation_monitor = write(1, s, null_terminator_finder);
+  if (operation_monitor == -1) {
     write(1, "ERROR", 6);
     // this if statement should never happen
   }
@@ -60,13 +60,13 @@ void hex_write_string(const char s[]){
  */
 void hex_format_offset(unsigned offset, char sbuf[]){
   // we cannot use sprintf, it's in the stdio library.
-  unsigned contemporaryholderofoffset = offset; // we make a copy of offset in case of unwanted operation
+  unsigned contemporary_holder_offset = offset; // we make a copy of offset in case of unwanted operation
   char *position = sbuf; // take the pointer of sbuf
   char tablet[] = "0123456789abcdef"; // for taking the character
   int numberholder[8]; 
   for (int i = 0; i < 8; i++) {
-    numberholder[i] = contemporaryholderofoffset & 0xF;
-    contemporaryholderofoffset >>= 4;
+    numberholder[i] = contemporary_holder_offset & 0xF;
+    contemporary_holder_offset >>= 4;
   }
   // this for loop will take each digit of the offset into an int array
   for (int i = 0; i < 8; i++){
