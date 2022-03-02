@@ -7,7 +7,7 @@
 #include "hexfuncs.h"  // this is the only header file which may be included!
 
 int main(void) {
-  char databuffer[16]; // this string to keep input data
+  char databuffer[17]; // this string to keep input data
   int counter = 0;
   unsigned offsetcounter = 0; //number of hexidecimal offset
   
@@ -46,13 +46,12 @@ int main(void) {
     // this is to make up the space if there is no 16 byte to write in the line
     hex_write_string(" ");
     // this is the end of writing hex char
-    char printable[17];
     for(int i=0; i < counter; i++) {
-      printable[i] = hex_to_printable(databuffer[i]);
+      databuffer[i] = hex_to_printable(databuffer[i]);
       //this should output the character if printable
     }
-    printable[counter] = '\0';
-    hex_write_string(printable);
+    databuffer[counter] = '\0';
+    hex_write_string(databuffer);
     hex_write_string("\n");
     // everytime there should be exact 16 read-in, unless the line ends 
     offsetcounter += 16;

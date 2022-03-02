@@ -59,9 +59,11 @@ hex_read:
 	jz .Lread_out
 	jmp .Lread_loop
 .Lread_out:
+	movq %r12, %rax /* set return value */
 	popq %r13
 	popq %r12
 	popq %rbx
+	
 	ret
 
 /*
