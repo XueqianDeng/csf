@@ -7,35 +7,35 @@
 #include "hexfuncs.h"  // this is the only header file which may be included!
 
 int main(void) {
-  char databuffer[17]; // this string to keep input data
+  char data_buffer[17]; // this string to keep input data
   int counter = 0;
-  unsigned offsetcounter = 0; //number of hexidecimal offset
+  unsigned offset_counter = 0; //number of hexidecimal offset
   
   do{
-    counter = hex_read(databuffer);
+    counter = hex_read(data_buffer);
     if (counter == 0){ //if empty file from the start
       break;
     }
     // note: up to requirements, the program runs only one time, instead runnning
     // until CTRL^D; until it reaches the end of statement.
-    char offsetkeeper[16];
-    hex_format_offset(offsetcounter, offsetkeeper);
+    char offset_keeper[16];
+    hex_format_offset(offset_counter, offset_keeper);
     // hexidecimal offset is translated into offsetkeeper
-    hex_write_string(offsetkeeper);
+    hex_write_string(offset_keeper);
     // let's ouput the first 8 hex  
     hex_write_string(": ");
 
     // column and space before the ASCII code for each char
-    char *databufferhexextractor1 = databuffer; // hex char counter
+    char *data_buffer_hex_extractor1 = data_buffer; // hex char counter
     int position = 0; // there are case that the line is not full.
     for (; position < counter; position++) {
-      unsigned char byteval = *databufferhexextractor1;
-      databufferhexextractor1++;
+      unsigned char byteval = *data_buffer_hex_extractor1;
+      data_buffer_hex_extractor1++;
       // this shoud take out the character byte
-      char bytevalkeep[2];
+      char byte_val_keep[2];
       // bytevalkeep is to keep the two bytes
-      hex_format_byte_as_hex(byteval, bytevalkeep);
-      hex_write_string(bytevalkeep);
+      hex_format_byte_as_hex(byte_val, byte_val_keep);
+      hex_write_string(byte_val_keep);
       hex_write_string(" ");
       // this would print out the hex char of the character
     }
@@ -47,14 +47,14 @@ int main(void) {
     hex_write_string(" ");
     // this is the end of writing hex char
     for(int i=0; i < counter; i++) {
-      databuffer[i] = hex_to_printable(databuffer[i]);
+      data_buffer[i] = hex_to_printable(databuffer[i]);
       //this should output the character if printable
     }
-    databuffer[counter] = '\0';
+    data_buffer[counter] = '\0';
     hex_write_string(databuffer);
     hex_write_string("\n");
     // everytime there should be exact 16 read-in, unless the line ends 
-    offsetcounter += 16;
+    offset_counter += 16;
   }while (counter == 16);
   // I believe we are all set with this while loop
 }
