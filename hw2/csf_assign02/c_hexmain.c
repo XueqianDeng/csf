@@ -29,7 +29,7 @@ int main(void) {
     char *data_buffer_hex_extractor1 = data_buffer; // hex char counter
     int position = 0; // there are case that the line is not full.
     for (; position < counter; position++) {
-      unsigned char byteval = *data_buffer_hex_extractor1;
+      unsigned char byte_val = *data_buffer_hex_extractor1;
       data_buffer_hex_extractor1++;
       // this shoud take out the character byte
       char byte_val_keep[2];
@@ -47,7 +47,7 @@ int main(void) {
     hex_write_string(" ");
     // this is the end of writing hex char
     for(int i=0; i < counter; i++) {
-      data_buffer[i] = hex_to_printable(databuffer[i]);
+      data_buffer[i] = hex_to_printable(data_buffer[i]);
       //this should output the character if printable
     }
     data_buffer[counter] = '\0';
