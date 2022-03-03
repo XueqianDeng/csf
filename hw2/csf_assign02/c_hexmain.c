@@ -51,7 +51,7 @@ int main(void) {
       //this should output the character if printable
     }
     data_buffer[counter] = '\0';
-    hex_write_string(databuffer);
+    hex_write_string(data_buffer);
     hex_write_string("\n");
     // everytime there should be exact 16 read-in, unless the line ends 
     offset_counter += 16;
