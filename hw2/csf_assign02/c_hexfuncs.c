@@ -61,7 +61,7 @@ void hex_write_string(const char s[]){
 void hex_format_offset(unsigned offset, char s_buf[]){
   // we cannot use sprintf, it's in the stdio library.
   unsigned contemporary_holder_offset = offset; // we make a copy of offset in case of unwanted operation
-  char *position = sbuf; // take the pointer of sbuf
+  char *position = s_buf; // take the pointer of sbuf
   char tablet[] = "0123456789abcdef"; // for taking the character
   int number_holder[8]; 
   for (int i = 0; i < 8; i++) {
@@ -86,7 +86,7 @@ void hex_format_offset(unsigned offset, char s_buf[]){
  *  byte_val - the byte value to be translated. 
  *  s_buf - the pointer for keeping the string. 
  */
-void hex_format_byte_as_hex(unsigned char byte_val, char sbuf[]){
+void hex_format_byte_as_hex(unsigned char byte_val, char s_buf[]){
   char tablet[] = "0123456789abcdef";
   s_buf[1] = tablet[byte_val & 15]; // take off the value of the last 4 digit by 1111 binary
   byte_val >>= 4;
