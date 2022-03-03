@@ -58,7 +58,7 @@ void hex_write_string(const char s[]){
  *  offset - the number to offset the string.
  *  sbuf - the pointer for keeping the string. 
  */
-void hex_format_offset(unsigned offset, char sbuf[]){
+void hex_format_offset(unsigned offset, char s_buf[]){
   // we cannot use sprintf, it's in the stdio library.
   unsigned contemporary_holder_offset = offset; // we make a copy of offset in case of unwanted operation
   char *position = sbuf; // take the pointer of sbuf
