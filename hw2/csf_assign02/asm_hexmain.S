@@ -97,6 +97,7 @@ main:
 	popq %rbx
 	popq %r13
 	popq %r12
+	movq $0, %rax /* return 0 */
 	ret
 
 /* vim:ft=gas:
