@@ -63,14 +63,14 @@ void hex_format_offset(unsigned offset, char sbuf[]){
   unsigned contemporary_holder_offset = offset; // we make a copy of offset in case of unwanted operation
   char *position = sbuf; // take the pointer of sbuf
   char tablet[] = "0123456789abcdef"; // for taking the character
-  int numberholder[8]; 
+  int number_holder[8]; 
   for (int i = 0; i < 8; i++) {
-    numberholder[i] = contemporary_holder_offset & 0xF;
+    number_holder[i] = contemporary_holder_offset & 0xF;
     contemporary_holder_offset >>= 4;
   }
   // this for loop will take each digit of the offset into an int array
   for (int i = 0; i < 8; i++){
-     *position = tablet[numberholder[7-i]];
+     *position = tablet[number_holder[7-i]];
      position++;
   }
   // this for loop push the int array into the string
@@ -83,15 +83,15 @@ void hex_format_offset(unsigned offset, char sbuf[]){
  * Format a byte value (in the range 0-255) as string consisting
  * of two hex digits.  The string is stored in sbuf.
  * Parameters:
- *  byteval - the byte value to be translated. 
- *  sbuf - the pointer for keeping the string. 
+ *  byte_val - the byte value to be translated. 
+ *  s_buf - the pointer for keeping the string. 
  */
-void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
+void hex_format_byte_as_hex(unsigned char byte_val, char sbuf[]){
   char tablet[] = "0123456789abcdef";
-  sbuf[1] = tablet[byteval & 15]; // take off the value of the last 4 digit by 1111 binary
-  byteval >>= 4;
-  sbuf[0] = tablet[byteval & 15]; 
-  sbuf[2] = '\0'; // mechanism as the previous function
+  s_buf[1] = tablet[byte_val & 15]; // take off the value of the last 4 digit by 1111 binary
+  byte_val >>= 4;
+  s_buf[0] = tablet[byte_val & 15]; 
+  s_buf[2] = '\0'; // mechanism as the previous function
 }
 
 /*
@@ -99,11 +99,11 @@ void hex_format_byte_as_hex(unsigned char byteval, char sbuf[]){
  * value.  If byteval is already a printable character, it is returned
  * unmodified.  If byteval is not a printable character, then the
  * ASCII code for '.' should be returned.
- *  byteval - the byte value to be translated.  
+ *  byte_val - the byte value to be translated.  
  */
-char hex_to_printable(unsigned char byteval) {
-  if (byteval < 0x20 || byteval > 0x7E) {
-    byteval = 0x2E; // ASCII table
+char hex_to_printable(unsigned char byte_val) {
+  if (byte_val < 0x20 || byte_val > 0x7E) {
+    byte_val = 0x2E; // ASCII table
   }
-  return byteval;
+  return byte_val;
 }
