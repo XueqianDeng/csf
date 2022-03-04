@@ -224,7 +224,7 @@ void test_hex_to_printable(TestObjs *objs) {
   ASSERT(0x2E == hex_to_printable(0x30));
   ASSERT(0x2E == hex_to_printable(128));
   ASSERT(0x2E == hex_to_printable(131));
-  ASSERT(0x2E == hex_to_printable(0x31));
+  ASSERT(0x2E == hex_to_printable(31));
   ASSERT(0x2E == hex_to_printable(127));
   ASSERT(0x2E == hex_to_printable(31)); // bound testing
   ASSERT(0x2E == hex_to_printable(127));
