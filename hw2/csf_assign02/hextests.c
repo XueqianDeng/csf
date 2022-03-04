@@ -219,7 +219,7 @@ void test_hex_to_printable(TestObjs *objs) {
   ASSERT(0x2E == hex_to_printable(0x02));
   ASSERT(0x2E == hex_to_printable(0x13));
   ASSERT(0x2E == hex_to_printable(0x10));
-  ASSERT(0x2E == hex_to_printable(0x32));
+  ASSERT(0x2E == hex_to_printable(32));
   ASSERT(0x2E == hex_to_printable(0x31));
   ASSERT(0x2E == hex_to_printable(0x30));
   ASSERT(0x2E == hex_to_printable(128));
