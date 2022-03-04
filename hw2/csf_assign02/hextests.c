@@ -200,6 +200,10 @@ void test_format_byte_as_hex(TestObjs *objs) {
   char buf12[3];
   hex_format_byte_as_hex(0x01, buf12);
   ASSERT(0 == strcmp(buf12, "01"));
+  
+  char buf13[3];
+  hex_format_byte_as_hex(0x7f, buf13);
+  ASSERT(0 == strcmp(buf13, "7f"));
 }
 
 //test printable
@@ -215,6 +219,13 @@ void test_hex_to_printable(TestObjs *objs) {
   ASSERT(0x2E == hex_to_printable(0x02));
   ASSERT(0x2E == hex_to_printable(0x13));
   ASSERT(0x2E == hex_to_printable(0x10));
+  ASSERT(0x2E == hex_to_printable(0x32));
+  ASSERT(0x2E == hex_to_printable(0x31));
+  ASSERT(0x2E == hex_to_printable(0x30));
+  ASSERT(0x2E == hex_to_printable(0x128));
+  ASSERT(0x2E == hex_to_printable(0x131));
+  ASSERT(0x2E == hex_to_printable(0x31));
+  ASSERT(0x2E == hex_to_printable(0x127));
   ASSERT(0x2E == hex_to_printable(31)); // bound testing
   ASSERT(0x2E == hex_to_printable(127));
   //this will test the printable range
