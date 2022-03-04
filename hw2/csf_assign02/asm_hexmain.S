@@ -24,7 +24,7 @@ main:
 .Lmain_top:
 	leaq 17(%rbp), %r10 /* get addr. of data_buffer */
 	movq %r10, %rdi /* set data_buffer as 1st argument */
-	call hex_read
+	call hex_read /* read into data_buffer 17(%rbp) */
 	movb %al, %r12b /* update number of chars read */
 	cmpb $0, %r12b /* check if read any */
 	jz .Lmain_out /* break if didn't read any */

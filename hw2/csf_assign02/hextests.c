@@ -29,10 +29,10 @@ void cleanup(TestObjs *objs) {
 }
 
 // Prototypes for test functions
-void testFormatOffset(TestObjs *objs);
-void testFormatByteAsHex(TestObjs *objs);
-void testHexToPrintable(TestObjs *objs);
-void testhex_write_string(TestObjs *objs);
+void test_format_offset(TestObjs *objs);
+void test_format_byte_as_hex(TestObjs *objs);
+void test_hex_to_printable(TestObjs *objs);
+void test_hex_write_string(TestObjs *objs);
 void test_hex_read(TestObjs *objs);
 
 int main(int argc, char **argv) {
@@ -42,10 +42,10 @@ int main(int argc, char **argv) {
 
   TEST_INIT();
 
-  TEST(testFormatOffset);
-  TEST(testFormatByteAsHex);
-  TEST(testHexToPrintable);
-  TEST(testhex_write_string);
+  TEST(test_format_offset);
+  TEST(test_format_byte_as_hex);
+  TEST(test_hex_to_printable);
+  TEST(test_hex_write_string);
   TEST(test_hex_read);
   
   TEST_FINI();
@@ -54,10 +54,10 @@ int main(int argc, char **argv) {
 }
 
 //test format offset
-void testFormatOffset(TestObjs *objs) {
+void test_format_offset(TestObjs *objs) {
   (void) objs; // suppress warning about unused parameter
   char buf[16];
-  hex_format_offset(1L, buf);
+  hex_format_offset(1U, buf);
   ASSERT(0 == strcmp(buf, "00000001"));
   
   char buf1[16]; 
@@ -99,10 +99,52 @@ void testFormatOffset(TestObjs *objs) {
   char buf10[16]; 
   hex_format_offset(4122232, buf10);
   ASSERT(0 == strcmp(buf10, "003ee678"));
+
+  char buf11[16]; 
+  hex_format_offset(18802296, buf11);
+  ASSERT(0 == strcmp(buf11, "011ee678"));
+
+  char buf12[16]; 
+  hex_format_offset(16777215, buf12);
+  ASSERT(0 == strcmp(buf12, "00ffffff"));
+
+  char buf13[16]; 
+  hex_format_offset(4294967295, buf13);
+  ASSERT(0 == strcmp(buf13, "ffffffff"));
+
+  char buf14[16]; 
+  hex_format_offset(0U, buf14);
+  ASSERT(0 == strcmp(buf14, "00000000"));
+
+  char buf15[16]; 
+  hex_format_offset(0x100000, buf15);
+  ASSERT(0 == strcmp(buf15, "00100000"));
+
+  char buf16[40]; 
+  hex_format_offset(0xffffffff, buf16);
+  ASSERT(0 == strcmp(buf16, "ffffffff"));
+
+  char buf17[9]; 
+  hex_format_offset(0x100000, buf17);
+  ASSERT(0 == strcmp(buf17, "00100000"));
+
+  char buf18[9]; 
+  hex_format_offset(0xffffffff, buf18);
+  ASSERT(0 == strcmp(buf18, "ffffffff"));
+
+  char buf19[9]; 
+  hex_format_offset(0x01010101, buf19);
+  ASSERT(0 == strcmp(buf19, "01010101"));
+
+  char buf20[9]; 
+  hex_format_offset(0x0, buf20);
+  ASSERT(0 == strcmp(buf20, "00000000"));
+
+
 }
 
 //test format as byte
-void testFormatByteAsHex(TestObjs *objs) {
+void test_format_byte_as_hex(TestObjs *objs) {
   char buf[16];
   hex_format_byte_as_hex(objs->test_data_1[0], buf);
   ASSERT(0 == strcmp(buf, "48"));
@@ -127,7 +169,7 @@ void testFormatByteAsHex(TestObjs *objs) {
   hex_format_byte_as_hex(0xb1, buf5);
   ASSERT(0 == strcmp(buf5, "b1"));
   
-  char buf6[16];
+  char buf6[10];
   hex_format_byte_as_hex(0x8c, buf6);
   ASSERT(0 == strcmp(buf6, "8c"));
   
@@ -142,19 +184,40 @@ void testFormatByteAsHex(TestObjs *objs) {
   char buf0[16];
   hex_format_byte_as_hex(0x00, buf0);
   ASSERT(0 == strcmp(buf0, "00"));
+
+  char buf9[3];
+  hex_format_byte_as_hex(0xff, buf9);
+  ASSERT(0 == strcmp(buf9, "ff"));
+
+  char buf10[3];
+  hex_format_byte_as_hex(0xf0, buf10);
+  ASSERT(0 == strcmp(buf10, "f0"));
+
+  char buf11[3];
+  hex_format_byte_as_hex(0x10, buf11);
+  ASSERT(0 == strcmp(buf11, "10"));
+
+  char buf12[3];
+  hex_format_byte_as_hex(0x01, buf12);
+  ASSERT(0 == strcmp(buf12, "01"));
 }
 
 //test printable
-void testHexToPrintable(TestObjs *objs) {
+void test_hex_to_printable(TestObjs *objs) {
   ASSERT('H' == hex_to_printable(objs->test_data_1[0]));
   ASSERT('.' == hex_to_printable(objs->test_data_1[13]));
-  //this will test the untestable range
+  //this will test the unprintable range
+  ASSERT(0x2E == hex_to_printable(10)); //newline ascii
+  ASSERT(0x2E == hex_to_printable(0x05)); //EOF
+  ASSERT(0x2E == hex_to_printable(0x00));
   ASSERT(0x2E == hex_to_printable(0x12));
   ASSERT(0x2E == hex_to_printable(0x11));
   ASSERT(0x2E == hex_to_printable(0x02));
   ASSERT(0x2E == hex_to_printable(0x13));
   ASSERT(0x2E == hex_to_printable(0x10));
-  //this will test the testable range
+  ASSERT(0x2E == hex_to_printable(31)); // bound testing
+  ASSERT(0x2E == hex_to_printable(127));
+  //this will test the printable range
   ASSERT('S' == hex_to_printable('S'));
   ASSERT('b' == hex_to_printable('b'));
   ASSERT('p' == hex_to_printable('p'));
@@ -174,10 +237,12 @@ void testHexToPrintable(TestObjs *objs) {
   ASSERT('>' == hex_to_printable('>'));
   ASSERT('K' == hex_to_printable('K'));
   ASSERT('R' == hex_to_printable('R'));
+  ASSERT(32 == hex_to_printable(32));
+  ASSERT(126 == hex_to_printable(126));
 }
 
 //test hex_write
-void testhex_write_string(TestObjs *objs) {
+void test_hex_write_string(TestObjs *objs) {
   (void) objs; // suppress warning about unused parameter
   hex_write_string("Hello, World \n");
   hex_write_string("Yes, it's all right, this is a test for hex_write \n");
@@ -188,7 +253,7 @@ void test_hex_read(TestObjs *objs) {
   (void) objs;
   hex_write_string("This is hex_read testing\n");
   hex_write_string("The program will once return everything(not too long) you type \n");
-  char databuffer[100] = {0};
-  hex_read(databuffer);
-  hex_write_string(databuffer);
+  char data_buffer[100] = {0};
+  hex_read(data_buffer);
+  hex_write_string(data_buffer);
 }
