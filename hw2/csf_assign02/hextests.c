@@ -220,14 +220,14 @@ void test_hex_to_printable(TestObjs *objs) {
   ASSERT(0x2E == hex_to_printable(0x13));
   ASSERT(0x2E == hex_to_printable(0x10));
   ASSERT(32 == hex_to_printable(32));
-  ASSERT(0x2E == hex_to_printable(0x31));
-  ASSERT(0x2E == hex_to_printable(0x30));
+  ASSERT(0x31 == hex_to_printable(0x31));
+  ASSERT(0x30 == hex_to_printable(0x30));
   ASSERT(0x2E == hex_to_printable(128));
   ASSERT(0x2E == hex_to_printable(131));
-  ASSERT(0x2E == hex_to_printable(31));
+  ASSERT(0x2E == hex_to_printable(2));
   ASSERT(0x2E == hex_to_printable(127));
   ASSERT(0x2E == hex_to_printable(31)); // bound testing
-  ASSERT(0x2E == hex_to_printable(127));
+  ASSERT(0x2E == hex_to_printable(27));
   //this will test the printable range
   ASSERT('S' == hex_to_printable('S'));
   ASSERT('b' == hex_to_printable('b'));
