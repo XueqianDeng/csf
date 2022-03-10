@@ -1,3 +1,11 @@
+#include <iostream>
+#include <vector>
+#include "cache_funcs.h"
+
 int main(int argc, char* argv[]) {
-  return 0;
+  if (argc != 7) { // missing parameters
+    return 0;
+  }
+  (void) argv;
+
 }
