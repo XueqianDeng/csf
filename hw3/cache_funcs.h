@@ -78,7 +78,7 @@ struct Cache {
     void write_alloc_miss(unsigned, unsigned);
     void no_write_alloc_miss();
     void write_back(std::vector<Slot>::iterator);
-    void write_through();
+    void write_through(std::vector<Slot>::iterator);
     void stats_to_mem(bool);
     void stats_to_cache(bool);
     std::vector<Slot>::iterator find_slot(unsigned, unsigned);

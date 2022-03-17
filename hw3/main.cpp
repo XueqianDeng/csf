@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
       throw std::invalid_argument("incorrect number of arguments");
     }
     Parameters * param = new Parameters(argv);
-    param->print_param();
+    // param->print_param();
     Statistics * stats = new Statistics();
 
     unsigned num_offset_bits = log2(param->block_size);
@@ -39,9 +39,14 @@ int main(int argc, char* argv[]) {
       // std::cout << std::endl;
       // std::cout << std::hex << tag;
       // std::cout << std::endl;
-
+      // if(param->num_blocks == 1){
+      //   tag = 0U;
+      // }
+      // if(param->num_sets == 1){
+      //   index = 0U;
+      // }
       if (is_load){ 
-        
+      
         cache.load_slot(tag, index);
         
         
@@ -54,7 +59,7 @@ int main(int argc, char* argv[]) {
     }
     cache.print_stats();
   } catch(std::invalid_argument& e) {
-      std::cerr << e.what() <<std::endl;
+      std::cerr << "error: "<<e.what() <<std::endl;
       return -1;
   }
 
