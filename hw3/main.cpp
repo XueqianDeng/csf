@@ -42,13 +42,12 @@ int main(int argc, char* argv[]) {
       // if(param->num_blocks == 1){
       //   tag = 0U;
       // }
-      // if(param->num_sets == 1){
-      //   index = 0U;
-      // }
+      if(param->num_sets == 1){
+        index = 0U;
+      }
       if (is_load){ 
       
         cache.load_slot(tag, index);
-        
         
 
       } 
