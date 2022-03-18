@@ -75,9 +75,180 @@ void Parameters::print_param(){
 
 }
 
+// void Set::add_slot(unsigned tag, unsigned load_ts, unsigned access_ts, bool valid, bool dirty){
+//     Slot slot = {tag, timestamp, timestamp, true, false};
+//     push_back({std::vector<Slot>(1,slot), index});
+//     stats->load_misses++;
+//     stats->total_loads += param->block_size/4;
+// }
 
+//in a set given the set's index, find slot based on the tag
+std::vector<Slot>::iterator Cache::find_slot(unsigned tag, unsigned index){
+    // if (param->num_sets == 1) index = 0;
+    auto pred = [tag](const Slot & slot) {
+          return slot.tag == tag;
+    };
+    // find in the vector the slot containing the given tag
+    std::vector<Slot>::iterator it_slot = std::find_if(sets[index].slots.begin(), sets[index].slots.end(), pred);
+    return it_slot;
+} //TODO: change all replacable code to this method after test passed
+
+void Cache::evict(unsigned index){
+    if (param->evict_policy == Param_type::lru){    
+        //TODO: consider case for dirty
+        auto cmp = [](const Slot& lhs, const Slot& rhs){
+            return lhs.access_ts < rhs.access_ts; //compare access timestamp
+        };
+        // find in the slot with the smallest (oldest) timestamp
+        std::vector<Slot>::iterator it_slot = std::min_element(sets[index].slots.begin(), sets[index].slots.end(), cmp);
+        if (it_slot->dirty){ // if dirty, store to memory before evict
+            // stats->total_stores += param->block_size/4;
+            stats->total_cycles += param->block_size/4 * 100;
+            // std::cout<< "dirty evicted" <<std::endl;
+        }
+        // std::cout<<"evicted: " << std::hex << it_slot->tag << std::dec << std::endl;
+        sets[index].slots.erase(it_slot);
+    }
+    else {
+        //TODO: to be implemented for fifo
+    }
+}
+
+void Cache::load_slot(unsigned tag, unsigned index){
+    // find in the vector the slot containing the given tag
+    stats->total_loads += 1;
+    if (param->num_sets == 1) index = 0;
+    std::vector<Slot>::iterator it_slot = param->num_blocks == 1 ? sets[index].slots.begin() : find_slot(tag, index);
+    if ((param->num_blocks == 1 && sets[index].slots.size() == 1 && sets[index].slots[0].tag!=tag)|| it_slot == sets[index].slots.end()) { // if no corresponding slot, add a new slot
+        // std::cout<<"adding new slot: "<<std::hex << tag << std::dec<<std::endl;
+        if (sets[index].slots.size() == param->num_blocks) {
+            evict(index);
+        }
+        sets[index].slots.push_back({tag, timestamp, timestamp, true, false});
+        stats->load_misses++;
+        // stats->total_loads += param->block_size/4;
+        stats->total_cycles += param->block_size/4 * 100; //bring block from memory
+        // stats->total_loads += param->block_size/4;
+        stats->total_cycles++; //load from cache to cpu
+    }
+    else {
+        if (!it_slot->valid) { // if not valid bit
+        // std::cout<<"load invalid at slot: "<<std::hex << tag << std::dec<<std::endl;
+            stats->load_misses++;
+            it_slot->access_ts = timestamp;
+            it_slot->load_ts = timestamp;
+            // stats->total_loads += param->block_size/4;
+            stats->total_cycles += param->block_size/4 * 100; //bring from memory
+            // stats->total_loads += param->block_size/4;
+            stats->total_cycles++; //load from cache to cpu
+            it_slot->valid = true;
+        }
+        else{
+            // std::cout<<"load hit at slot: "<<std::hex << tag << std::dec<<std::endl;
+            stats->load_hits++;
+            it_slot->access_ts = timestamp;
+            it_slot->load_ts = timestamp;
+            // stats->total_loads += 1;
+            stats->total_cycles++;
+        }
+    }
+    
+    timestamp++;
+    //TODO: below to be deleted
+    // if (sets[0].slots.size() > param->num_blocks) std::cout<<"overflow"<<std::endl;
+}
+
+void Cache::write_slot(unsigned tag, unsigned index){
+    // find in the vector the slot containing the given tag
+    if (param->num_sets == 1) index = 0;
+     std::vector<Slot>::iterator it_slot = find_slot(tag, index);
+     stats->total_stores += 1;
+    if (it_slot == sets[index].slots.end()){ // if a write miss
+        if (param->allocation_decision == Param_type::write_allocate){
+            // std::cout<<"writing loading new slot: "<<std::hex << tag << std::dec<<std::endl;
+            write_alloc_miss(tag, index);
+        }
+        else {
+            no_write_alloc_miss();
+        }
+    }
+    else{ // if a write hit (found corresponding tag)
+    // std::cout<<"write hit at slot: "<<std::hex << tag << std::dec<<std::endl;
+        if (param->write_policy == Param_type::write_back){
+            write_back(it_slot);
+        }
+        else {
+            write_through(it_slot);
+        }
+    }
+    timestamp++;
+}
+
+void Cache::write_alloc_miss(unsigned tag, unsigned index){
+    if (sets[index].slots.size() == param->num_blocks){
+        evict(index);
+    }
+    sets[index].slots.push_back({tag, timestamp, timestamp, true, false});
+    stats->store_misses++;
+    // stats->total_loads += param->block_size/4; //load block from memory to cache
+    stats->total_cycles +=  param->block_size/4 * 100; //load block from memory
+    // stats->total_stores += 1; //store to cache
+    // stats->total_cycles++; //store to cache
+    if (param->write_policy == Param_type::write_through) {
+        stats->total_cycles += 100; //write to mem
+        stats->total_cycles++; //store to cache
+    }
+    else { //write back
+        stats->total_cycles++; //store to cache
+    }
+    // std::cout<<"alloc"<<std::endl;
+    timestamp++; 
+}
+
+void Cache::no_write_alloc_miss(){
+    stats->store_misses++;
+    
+    stats->total_cycles += 100; //store to memory
+    timestamp++;
+}
+
+void Cache::write_back(std::vector<Slot>::iterator it_slot){
+    it_slot->access_ts = timestamp;
+    it_slot->dirty = true;
+    stats->store_hits++;
+    
+    stats->total_cycles++; 
+    timestamp++;
+}
+
+void Cache::write_through(std::vector<Slot>::iterator it_slot){
+    stats->store_hits++;
+
+    stats->total_cycles++; //write to cache;
+    it_slot->access_ts = timestamp; // update access timestamp
+    // stats->total_stores += param->block_size/4;
+    stats->total_cycles += 100; // write to memory
+    timestamp++;
+}
+
+
+void Cache::print_stats(){
+    std::cout << "Total loads: " << stats->total_loads << std::endl
+    << "Total stores: " << stats->total_stores << std::endl
+    << "Load hits: "    << stats->load_hits << std::endl
+    << "Load misses: "    << stats->load_misses << std::endl
+    << "Store hits: "   << stats->store_hits << std::endl
+    << "Store misses: " << stats->store_misses << std::endl
+    << "Total cycles: " << stats->total_cycles  << std::endl;
+}
 
 unsigned decode_index(unsigned address){
     //To be implemented
     return address;
 }
+
+
+
+
+
+

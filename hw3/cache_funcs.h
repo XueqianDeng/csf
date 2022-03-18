@@ -6,6 +6,9 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
+#include <math.h>
+#include <algorithm>
+
 enum class Param_type
 {   
     no_write_allocate,
@@ -43,25 +46,47 @@ class Statistics{
 };
 
 
-typedef struct slot {
+struct Slot {
     unsigned tag;
     unsigned load_ts;
     unsigned access_ts;
     bool valid;
     bool dirty;
-} Slot;
 
-typedef struct set {
+
+    
+};
+
+struct Set {
     std::vector<Slot> slots;
-    unsigned index;
-} Set;
 
-typedef struct cache {
+    // void add_slot(unsigned tag, unsigned load_ts, unsigned access_ts, bool valid, bool dirty);
+    // void add_new_slot(Slot);
+};
+
+struct Cache {
     std::vector<Set> sets;
     Parameters * param;
     Statistics * stats;
-} Cache;
+    unsigned timestamp;
+    void append_new_set(std::vector<Slot>, unsigned);
+    void load_slot(unsigned, unsigned);
+    void write_slot(unsigned, unsigned);
+    void write_slot_miss();
+    void write_slot_hit();
+    void evict(unsigned);
+    void write_alloc_miss(unsigned, unsigned);
+    void no_write_alloc_miss();
+    void write_back(std::vector<Slot>::iterator);
+    void write_through(std::vector<Slot>::iterator);
+    void stats_to_mem(bool);
+    void stats_to_cache(bool);
+    std::vector<Slot>::iterator find_slot(unsigned, unsigned);
+    void print_stats();
+    
+};
 
-unsigned decode_index(unsigned address);
+unsigned decode_index(unsigned);
+
 
 #endif 
