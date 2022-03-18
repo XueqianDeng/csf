@@ -2,7 +2,18 @@
 #include <vector>
 #include "cache_funcs.h"
 
+bool compareByTag(const Slot & a, const Slot &b)
+{
+    return a.tag < b.tag;
+}
 
+void print_direct_slot(Cache cache) {
+    std::vector<Slot> vec_slot = cache.sets[0].slots;
+    std::sort(vec_slot.begin(), vec_slot.end(), compareByTag);
+    for (size_t i =0;i<vec_slot.size();i++){
+        std::cout << vec_slot[i].tag <<std::endl;
+    }
+}
 int main(int argc, char* argv[]) {
   try{
     if (argc != 7) { // missing parameters
@@ -14,10 +25,10 @@ int main(int argc, char* argv[]) {
 
     unsigned num_offset_bits = log2(param->block_size);
     unsigned num_index_bits = log2(param->num_sets);
-    if (num_index_bits < 1) num_index_bits = 1;
+    // if (num_index_bits < 1) num_index_bits = 1;
     // unsigned num_tag_bits = 32 - num_offset_bits - num_index_bits;
     if (num_offset_bits + num_index_bits >= 32){
-      throw std::exception();
+      throw std::invalid_argument("exceeds number of bits");
     }
     std::string token;
     
@@ -54,7 +65,7 @@ int main(int argc, char* argv[]) {
       else { // if store
         cache.write_slot(tag,index);
       }
-
+      // print_direct_slot(cache);
     }
     cache.print_stats();
   } catch(std::invalid_argument& e) {

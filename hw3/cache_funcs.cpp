@@ -104,7 +104,7 @@ void Cache::evict(unsigned index){
         if (it_slot->dirty){ // if dirty, store to memory before evict
             // stats->total_stores += param->block_size/4;
             stats->total_cycles += param->block_size/4 * 100;
-            std::cout<< "dirty evicted" <<std::endl;
+            // std::cout<< "dirty evicted" <<std::endl;
         }
         // std::cout<<"evicted: " << std::hex << it_slot->tag << std::dec << std::endl;
         sets[index].slots.erase(it_slot);
@@ -120,6 +120,7 @@ void Cache::load_slot(unsigned tag, unsigned index){
     if (param->num_sets == 1) index = 0;
     std::vector<Slot>::iterator it_slot = param->num_blocks == 1 ? sets[index].slots.begin() : find_slot(tag, index);
     if ((param->num_blocks == 1 && sets[index].slots.size() == 1 && sets[index].slots[0].tag!=tag)|| it_slot == sets[index].slots.end()) { // if no corresponding slot, add a new slot
+        // std::cout<<"adding new slot: "<<std::hex << tag << std::dec<<std::endl;
         if (sets[index].slots.size() == param->num_blocks) {
             evict(index);
         }
@@ -132,6 +133,7 @@ void Cache::load_slot(unsigned tag, unsigned index){
     }
     else {
         if (!it_slot->valid) { // if not valid bit
+        // std::cout<<"load invalid at slot: "<<std::hex << tag << std::dec<<std::endl;
             stats->load_misses++;
             it_slot->access_ts = timestamp;
             it_slot->load_ts = timestamp;
@@ -142,6 +144,7 @@ void Cache::load_slot(unsigned tag, unsigned index){
             it_slot->valid = true;
         }
         else{
+            // std::cout<<"load hit at slot: "<<std::hex << tag << std::dec<<std::endl;
             stats->load_hits++;
             it_slot->access_ts = timestamp;
             it_slot->load_ts = timestamp;
@@ -151,6 +154,8 @@ void Cache::load_slot(unsigned tag, unsigned index){
     }
     
     timestamp++;
+    //TODO: below to be deleted
+    // if (sets[0].slots.size() > param->num_blocks) std::cout<<"overflow"<<std::endl;
 }
 
 void Cache::write_slot(unsigned tag, unsigned index){
@@ -160,6 +165,7 @@ void Cache::write_slot(unsigned tag, unsigned index){
      stats->total_stores += 1;
     if (it_slot == sets[index].slots.end()){ // if a write miss
         if (param->allocation_decision == Param_type::write_allocate){
+            // std::cout<<"writing loading new slot: "<<std::hex << tag << std::dec<<std::endl;
             write_alloc_miss(tag, index);
         }
         else {
@@ -167,6 +173,7 @@ void Cache::write_slot(unsigned tag, unsigned index){
         }
     }
     else{ // if a write hit (found corresponding tag)
+    // std::cout<<"write hit at slot: "<<std::hex << tag << std::dec<<std::endl;
         if (param->write_policy == Param_type::write_back){
             write_back(it_slot);
         }
@@ -239,3 +246,9 @@ unsigned decode_index(unsigned address){
     //To be implemented
     return address;
 }
+
+
+
+
+
+
