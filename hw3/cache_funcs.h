@@ -1,3 +1,12 @@
+/*
+ * Cache functions for Cache simulator
+ * CSF Assignment 3
+ * Chujian Yu cyu62@jhu.edu
+ * Xueqian Deng xdeng13@jhu.edu
+ * 
+ */
+
+
 #ifndef CACHE_FUNCS_H
 #define CACHE_FUNCS_H
 
@@ -52,16 +61,10 @@ struct Slot {
     unsigned access_ts;
     bool valid;
     bool dirty;
-
-
-    
 };
 
 struct Set {
     std::vector<Slot> slots;
-
-    // void add_slot(unsigned tag, unsigned load_ts, unsigned access_ts, bool valid, bool dirty);
-    // void add_new_slot(Slot);
 };
 
 struct Cache {
