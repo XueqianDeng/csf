@@ -1,29 +1,25 @@
+
+/*
+ * Cache functions for Cache simulator
+ * CSF Assignment 3
+ * Chujian Yu cyu62@jhu.edu
+ * Xueqian Deng xdeng13@jhu.edu
+ * 
+ */
+
 #include "cache_funcs.h"
-// unsigned num_sets; //arg1
-//     unsigned num_blocks; //arg2
-//     unsigned block_size; // arg3, number of bytes in each block
-//     int allocation_decision; // arg4
-//     int write_policy;   //arg5
-//     int evict_policy;   //arg6
 
 bool is_power_of_two(unsigned number){
     return ((number & (number - 1)) == 0) && (number != 0);
 }
 
-//TODO: method length
-Parameters::Parameters(char* input[]){
+Parameters::Parameters(char* input[]):num_sets(strtoul(input[1], NULL, 10)), num_blocks(strtoul(input[2], NULL, 10)), block_size(strtoul(input[3], NULL, 10)){
     if (input[1][0] == '-' || input[2][0] == '-' || input[3][0] == '-') {
         throw std::invalid_argument("invalid argument for numerical parameter");
     }
-
-    num_sets = strtoul(input[1], NULL, 10);
-    num_blocks = strtoul(input[2], NULL, 10);
-    block_size = strtoul(input[3], NULL, 10);
-
     if (!is_power_of_two(num_sets) || !is_power_of_two(num_blocks) || block_size < 4){
         throw std::invalid_argument("invalid argument for numerical parameter");
     }
-
     if (strcmp(input[4], "write-allocate") == 0){
         allocation_decision = Param_type::write_allocate;
     }
@@ -33,7 +29,6 @@ Parameters::Parameters(char* input[]){
     else{
         throw std::invalid_argument("invalid argument for write-allocate");
     }
-
     if (strcmp(input[5], "write-through") == 0){
         write_policy = Param_type::write_through;
     }
@@ -43,7 +38,6 @@ Parameters::Parameters(char* input[]){
     else{
         throw std::invalid_argument("invalid argument for write policy");
     }
-
     if (strcmp(input[6], "lru") == 0){
         evict_policy = Param_type::lru;
     }
@@ -53,18 +47,11 @@ Parameters::Parameters(char* input[]){
     else{
         throw std::invalid_argument("invalid argument for lru or fifo");
     }
-
     if (write_policy == Param_type::write_back && allocation_decision == Param_type::no_write_allocate){
         throw std::invalid_argument("write_back conflicts with no_write_allocate");
     }
 }
 
-// unsigned num_sets; //arg1
-//     unsigned num_blocks; //arg2
-//     unsigned block_size; // arg3, number of bytes in each block
-//     int allocation_decision; // arg4
-//     int write_policy;   //arg5
-//     int evict_policy;   //arg6
 void Parameters::print_param(){
     std::cout << "num_sets: " << num_sets << std::endl;
     std::cout << "num_blocks: " << num_blocks << std::endl;
@@ -75,12 +62,6 @@ void Parameters::print_param(){
 
 }
 
-// void Set::add_slot(unsigned tag, unsigned load_ts, unsigned access_ts, bool valid, bool dirty){
-//     Slot slot = {tag, timestamp, timestamp, true, false};
-//     push_back({std::vector<Slot>(1,slot), index});
-//     stats->load_misses++;
-//     stats->total_loads += param->block_size/4;
-// }
 
 //in a set given the set's index, find slot based on the tag
 std::vector<Slot>::iterator Cache::find_slot(unsigned tag, unsigned index){
@@ -91,11 +72,10 @@ std::vector<Slot>::iterator Cache::find_slot(unsigned tag, unsigned index){
     // find in the vector the slot containing the given tag
     std::vector<Slot>::iterator it_slot = std::find_if(sets[index].slots.begin(), sets[index].slots.end(), pred);
     return it_slot;
-} //TODO: change all replacable code to this method after test passed
+} 
 
 void Cache::evict(unsigned index){
     if (param->evict_policy == Param_type::lru){    
-        //TODO: consider case for dirty
         auto cmp = [](const Slot& lhs, const Slot& rhs){
             return lhs.access_ts < rhs.access_ts; //compare access timestamp
         };
@@ -126,36 +106,26 @@ void Cache::load_slot(unsigned tag, unsigned index){
         }
         sets[index].slots.push_back({tag, timestamp, timestamp, true, false});
         stats->load_misses++;
-        // stats->total_loads += param->block_size/4;
         stats->total_cycles += param->block_size/4 * 100; //bring block from memory
-        // stats->total_loads += param->block_size/4;
         stats->total_cycles++; //load from cache to cpu
     }
     else {
         if (!it_slot->valid) { // if not valid bit
-        // std::cout<<"load invalid at slot: "<<std::hex << tag << std::dec<<std::endl;
             stats->load_misses++;
             it_slot->access_ts = timestamp;
             it_slot->load_ts = timestamp;
-            // stats->total_loads += param->block_size/4;
             stats->total_cycles += param->block_size/4 * 100; //bring from memory
-            // stats->total_loads += param->block_size/4;
             stats->total_cycles++; //load from cache to cpu
             it_slot->valid = true;
         }
         else{
-            // std::cout<<"load hit at slot: "<<std::hex << tag << std::dec<<std::endl;
             stats->load_hits++;
             it_slot->access_ts = timestamp;
             it_slot->load_ts = timestamp;
-            // stats->total_loads += 1;
             stats->total_cycles++;
         }
     }
-    
     timestamp++;
-    //TODO: below to be deleted
-    // if (sets[0].slots.size() > param->num_blocks) std::cout<<"overflow"<<std::endl;
 }
 
 void Cache::write_slot(unsigned tag, unsigned index){
@@ -173,7 +143,6 @@ void Cache::write_slot(unsigned tag, unsigned index){
         }
     }
     else{ // if a write hit (found corresponding tag)
-    // std::cout<<"write hit at slot: "<<std::hex << tag << std::dec<<std::endl;
         if (param->write_policy == Param_type::write_back){
             write_back(it_slot);
         }
@@ -190,10 +159,7 @@ void Cache::write_alloc_miss(unsigned tag, unsigned index){
     }
     sets[index].slots.push_back({tag, timestamp, timestamp, true, false});
     stats->store_misses++;
-    // stats->total_loads += param->block_size/4; //load block from memory to cache
     stats->total_cycles +=  param->block_size/4 * 100; //load block from memory
-    // stats->total_stores += 1; //store to cache
-    // stats->total_cycles++; //store to cache
     if (param->write_policy == Param_type::write_through) {
         stats->total_cycles += 100; //write to mem
         stats->total_cycles++; //store to cache
@@ -201,13 +167,11 @@ void Cache::write_alloc_miss(unsigned tag, unsigned index){
     else { //write back
         stats->total_cycles++; //store to cache
     }
-    // std::cout<<"alloc"<<std::endl;
     timestamp++; 
 }
 
 void Cache::no_write_alloc_miss(){
     stats->store_misses++;
-    
     stats->total_cycles += 100; //store to memory
     timestamp++;
 }
@@ -216,17 +180,14 @@ void Cache::write_back(std::vector<Slot>::iterator it_slot){
     it_slot->access_ts = timestamp;
     it_slot->dirty = true;
     stats->store_hits++;
-    
     stats->total_cycles++; 
     timestamp++;
 }
 
 void Cache::write_through(std::vector<Slot>::iterator it_slot){
     stats->store_hits++;
-
     stats->total_cycles++; //write to cache;
     it_slot->access_ts = timestamp; // update access timestamp
-    // stats->total_stores += param->block_size/4;
     stats->total_cycles += 100; // write to memory
     timestamp++;
 }
@@ -242,10 +203,6 @@ void Cache::print_stats(){
     << "Total cycles: " << stats->total_cycles  << std::endl;
 }
 
-unsigned decode_index(unsigned address){
-    //To be implemented
-    return address;
-}
 
 
 
