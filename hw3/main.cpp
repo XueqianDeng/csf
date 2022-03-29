@@ -45,6 +45,8 @@ int main(int argc, char* argv[]) {
       }
     }
     cache.print_stats();
+    delete(param);
+    delete(stats);
   } catch(std::invalid_argument& e) {
       std::cerr << "error: "<<e.what() <<std::endl;
       return -1;
