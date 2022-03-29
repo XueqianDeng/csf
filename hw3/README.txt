@@ -1,5 +1,5 @@
 Xueqian Deng, Chujian Yu
-
+ 
 <<<<<<< HEAD
 Chujian Yu contribute to the helper methods and functionality of cache_funcs.cpp and cache_funcs.h. 
 Xueqian Deng contribute to the main function. 
