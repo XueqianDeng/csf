@@ -133,7 +133,6 @@ void Cache::load_slot(unsigned tag, unsigned index){
         else{
             stats->load_hits++;
             it_slot->access_ts = timestamp;
-            it_slot->load_ts = timestamp;
             stats->total_cycles++;
         }
     }
