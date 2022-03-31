@@ -91,6 +91,18 @@ void Cache::evict(unsigned index){
     }
     else {
         //TODO: to be implemented for fifo
+        auto cmp = [](const Slot& lhs, const Slot& rhs){
+            return lhs.load_ts < rhs.load_ts; //compare load timestamp
+        };
+        // find in the slot with the smallest (oldest) timestamp
+        std::vector<Slot>::iterator it_slot = std::min_element(sets[index].slots.begin(), sets[index].slots.end(), cmp);
+        if (it_slot->dirty){ // if dirty, store to memory before evict
+            // stats->total_stores += param->block_size/4;
+            stats->total_cycles += param->block_size/4 * 100;
+            // std::cout<< "dirty evicted" <<std::endl;
+        }
+        // std::cout<<"evicted: " << std::hex << it_slot->tag << std::dec << std::endl;
+        sets[index].slots.erase(it_slot);
     }
 }
 
