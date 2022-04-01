@@ -498,8 +498,6 @@ on the efficiency of cache. It is found that in this case a block size of 16 cau
 but has lower miss rates. A block size of 16 implicates greater miss penalty each time it 
 loads an entire block. For a block size of 4, even though it has greater miss rates, its miss penalty is smaller
 so it has fewer total cycles. 
-
-
 ----------
 EXPERIMENT 8
 different number of bytes
@@ -552,4 +550,5 @@ Store hits: 79428
 Store misses: 3097
 Total cycles: 9840793
 
+Analysis: As we can see, when the bytes in each block increase, we see a significant drop of the store misses and load misses in both the experimentation of the data gcc.trace and swim.trace. The rationality is very simple, when each block has more space, the cache could just keep those data rather than evict them. The conclusion of this experiment is that with more bytes, the cache would have fewer cache misses, and thus the cache could be faster with fewer cycles. 
 ----------
