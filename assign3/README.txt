@@ -146,13 +146,71 @@ Total cycles: 10944793
 EXPERIMENT 3
 write-through vs. write-back
 
+testing write-through with gcc.trace
+./csim 256 4 16 write-allocate write-through lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314798
+Load misses: 3399
+Store hits: 188250
+Store misses: 9236
+Total cycles: 25318283
+
+testing write-back with gcc.trace
+./csim 256 4 16 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314798
+Load misses: 3399
+Store hits: 188250
+Store misses: 9236
+Total cycles: 9185283
+
+testing write-through with swim.trace
+./csim 256 4 16 write-allocate write-through lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219507
+Load misses: 1161
+Store hits: 71956
+Store misses: 10569
+Total cycles: 13247693
+
+testing write-back with swim.trace
+./csim 256 4 16 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219507
+Load misses: 1161
+Store hits: 71956
+Store misses: 10569
+Total cycles: 8491993
+
 ----------
 EXPERIMENT 4
 write-allocate vs. no-write-allocate
 
+testing write-allocate with gcc.trace
+
+testing no-write-allocate with gcc.trace
+
+testing write-allocate with swim.trace
+
+testing no-write-allocate with swim.trace
+
 ----------
 EXPERIMENT 5
-different number of sets
+different number of sets: 16384 bytes cache
+
+testing 
 
 ----------
 EXPERIMENT 6
