@@ -68,13 +68,43 @@ Analysis: First, we will analyze the data with gcc.trace in experimenting lru an
 
 ----------
 EXPERIMENT 2
-direct-mapped, set-associative, and fully associative caches
+direct-mapped, set-associative, and fully associative caches: cache size 16384 bytes
 
 testing direct-mapped with gcc.trace
+./csim 256 1 64 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 312297
+Load misses: 5900
+Store hits: 194064
+Store misses: 3422
+Total cycles: 21858083
 
 testing set-associative with gcc.trace
+./csim 256 4 16 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314798
+Load misses: 3399
+Store hits: 188250
+Store misses: 9236
+Total cycles: 9185283
 
 testing fully associative caches with gcc.trace
+./csim 1 256 64 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 316383
+Load misses: 1814
+Store hits: 194867
+Store misses: 2619
+Total cycles: 12109283
 
 testing direct-mapped with swim.trace
 
