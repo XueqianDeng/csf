@@ -40,3 +40,6 @@ different number of blocks
 EXPERIMENT 7
 different number of bytes
 
+----------
+EXPERIMENT 8
+direct-mapped, set-associative, and fully associative caches
