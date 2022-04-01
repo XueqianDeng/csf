@@ -1,4 +1,3 @@
-
 /*
  * Cache functions for Cache simulator
  * CSF Assignment 3
@@ -52,6 +51,7 @@ Parameters::Parameters(char* input[]):num_sets(strtoul(input[1], NULL, 10)), num
     }
 }
 
+
 void Parameters::print_param(){
     std::cout << "num_sets: " << num_sets << std::endl;
     std::cout << "num_blocks: " << num_blocks << std::endl;
@@ -59,7 +59,6 @@ void Parameters::print_param(){
     std::cout << "allocation_decision: " << (int)allocation_decision << std::endl;
     std::cout << "write_policy: " << (int)write_policy << std::endl;
     std::cout << "evict_policy: " << (int)evict_policy << std::endl;
-
 }
 
 
@@ -73,6 +72,7 @@ std::vector<Slot>::iterator Cache::find_slot(unsigned tag, unsigned index){
     std::vector<Slot>::iterator it_slot = std::find_if(sets[index].slots.begin(), sets[index].slots.end(), pred);
     return it_slot;
 } 
+
 
 void Cache::evict(unsigned index){
     if (param->evict_policy == Param_type::lru){    
@@ -106,12 +106,14 @@ void Cache::evict(unsigned index){
     }
 }
 
+
 void Cache::load_slot(unsigned tag, unsigned index){
     // find in the vector the slot containing the given tag
     stats->total_loads += 1;
     if (param->num_sets == 1) index = 0;
     std::vector<Slot>::iterator it_slot = param->num_blocks == 1 ? sets[index].slots.begin() : find_slot(tag, index);
-    if ((param->num_blocks == 1 && sets[index].slots.size() == 1 && sets[index].slots[0].tag!=tag)|| it_slot == sets[index].slots.end()) { // if no corresponding slot, add a new slot
+    if ((param->num_blocks == 1 && sets[index].slots.size() == 1 && sets[index].slots[0].tag!=tag)|| it_slot == sets[index].slots.end()) { 
+        // if no corresponding slot, add a new slot
         // std::cout<<"adding new slot: "<<std::hex << tag << std::dec<<std::endl;
         if (sets[index].slots.size() == param->num_blocks) {
             evict(index);
@@ -164,6 +166,7 @@ void Cache::write_slot(unsigned tag, unsigned index){
     timestamp++;
 }
 
+
 void Cache::write_alloc_miss(unsigned tag, unsigned index){
     if (sets[index].slots.size() == param->num_blocks){
         evict(index);
@@ -181,11 +184,13 @@ void Cache::write_alloc_miss(unsigned tag, unsigned index){
     timestamp++; 
 }
 
+
 void Cache::no_write_alloc_miss(){
     stats->store_misses++;
     stats->total_cycles += 100; //store to memory
     timestamp++;
 }
+
 
 void Cache::write_back(std::vector<Slot>::iterator it_slot){
     it_slot->access_ts = timestamp;
@@ -194,6 +199,7 @@ void Cache::write_back(std::vector<Slot>::iterator it_slot){
     stats->total_cycles++; 
     timestamp++;
 }
+
 
 void Cache::write_through(std::vector<Slot>::iterator it_slot){
     stats->store_hits++;
