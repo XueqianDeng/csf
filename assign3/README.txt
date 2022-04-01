@@ -107,10 +107,41 @@ Store misses: 2619
 Total cycles: 12109283
 
 testing direct-mapped with swim.trace
+./csim 256 1 64 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 218041
+Load misses: 2627
+Store hits: 78826
+Store misses: 3699
+Total cycles: 16415193
 
 testing set-associative with swim.trace
+ ./csim 256 4 16 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219507
+Load misses: 1161
+Store hits: 71956
+Store misses: 10569
+Total cycles: 8491993
 
 testing fully associative caches with swim.trace
+./csim 1 256 64 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 220127
+Load misses: 541
+Store hits: 79422
+Store misses: 3103
+Total cycles: 10944793
+
 ----------
 EXPERIMENT 3
 write-through vs. write-back
