@@ -199,25 +199,206 @@ EXPERIMENT 4
 write-allocate vs. no-write-allocate
 
 testing write-allocate with gcc.trace
+./csim 256 4 16 write-allocate write-back fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314171
+Load misses: 4026
+Store hits: 188047
+Store misses: 9439
+Total cycles: 9685683
 
 testing no-write-allocate with gcc.trace
+./csim 256 4 16 no-write-allocate write-through fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 311017
+Load misses: 7180
+Store hits: 163705
+Store misses: 33781
+Total cycles: 23102502
 
 testing write-allocate with swim.trace
+./csim 256 4 16 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 218357
+Load misses: 2311
+Store hits: 71787
+Store misses: 10738
+Total cycles: 9136793
 
 testing no-write-allocate with swim.trace
+./csim 256 4 16 no-write-allocate write-through fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 217968
+Load misses: 2700
+Store hits: 57994
+Store misses: 24531
+Total cycles: 9611162
 
 ----------
 EXPERIMENT 5
 different number of sets: 16384 bytes cache
 
-testing 
+testing 128 sets with gcc.trace
+./csim 128 4 32 write-allocate write-back fifo < gcc.trace
 
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 315101
+Load misses: 3096
+Store hits: 192511
+Store misses: 4975
+Total cycles: 11242883
+
+testing 256 sets with gcc.trace
+./csim 256 4 16 write-allocate write-back fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314171
+Load misses: 4026
+Store hits: 188047
+Store misses: 9439
+Total cycles: 9685683
+
+testing 128 sets with swim.trace
+./csim 128 4 32 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219116
+Load misses: 1552
+Store hits: 76531
+Store misses: 5994
+Total cycles: 10642393
+
+testing 256 sets with swim.trace
+./csim 256 4 16 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 218357
+Load misses: 2311
+Store hits: 71787
+Store misses: 10738
+Total cycles: 9136793
 ----------
 EXPERIMENT 6
-different number of blocks
+different number of blocks: 16384 bytes cache
+
+testing 4 block with gcc.trace
+./csim 256 4 16 write-allocate write-back fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314171
+Load misses: 4026
+Store hits: 188047
+Store misses: 9439
+Total cycles: 9685683
+
+testing 8 block with gcc.trace
+./csim 256 8 8 write-allocate write-back fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 312729
+Load misses: 5468
+Store hits: 179369
+Store misses: 18117
+Total cycles: 7686283
+
+testing 4 block with swim.trace
+./csim 256 4 16 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 218357
+Load misses: 2311
+Store hits: 71787
+Store misses: 10738
+Total cycles: 9136793
+
+testing 8 block with swim.trace
+./csim 256 8 8 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 217539
+Load misses: 3129
+Store hits: 63712
+Store misses: 18813
+Total cycles: 5898593
 
 ----------
 EXPERIMENT 7
 different number of bytes
+
+testing 16 bytes with gcc.trace
+./csim 256 4 16 write-allocate write-back fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314171
+Load misses: 4026
+Store hits: 188047
+Store misses: 9439
+Total cycles: 9685683
+
+testing 64 bytes with gcc.trace
+./csim 256 4 64 write-allocate write-back fifo < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 316802
+Load misses: 1395
+Store hits: 195030
+Store misses: 2456
+Total cycles: 9997283
+
+testing 16 bytes with swim.trace 
+./csim 256 4 16 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 218357
+Load misses: 2311
+Store hits: 71787
+Store misses: 10738
+Total cycles: 9136793
+
+testing 64 bytes with swim.trace
+./csim 256 4 64 write-allocate write-back fifo < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 220146
+Load misses: 522
+Store hits: 79428
+Store misses: 3097
+Total cycles: 9840793
 
 ----------
