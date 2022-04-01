@@ -68,8 +68,19 @@ Analysis: First, we will analyze the data with gcc.trace in experimenting lru an
 
 ----------
 EXPERIMENT 2
-write-through vs. write-back
+direct-mapped, set-associative, and fully associative caches
 
+testing direct-mapped with gcc.trace
+
+testing set-associative with gcc.trace
+
+testing fully associative caches with gcc.trace
+
+testing direct-mapped with swim.trace
+
+testing set-associative with swim.trace
+
+testing fully associative caches with swim.trace
 ----------
 EXPERIMENT 3
 write-through vs. write-back
@@ -91,5 +102,3 @@ EXPERIMENT 7
 different number of bytes
 
 ----------
-EXPERIMENT 8
-direct-mapped, set-associative, and fully associative caches
