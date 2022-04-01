@@ -8,10 +8,27 @@
 
 #include "cache_funcs.h"
 
+/*
+ * To check if it's a power of two or not. 
+ *
+ * Parameters:
+ *   number - pointer to a C character string
+ *
+ * Returns:
+ *   yes or no
+ */
 bool is_power_of_two(unsigned number){
     return ((number & (number - 1)) == 0) && (number != 0);
 }
 
+
+/*
+ * To check if the input parameters given by the user 
+ * of the main program is valid. 
+ *
+ * Parameters: input parameters of the main program.
+ *   
+ */
 Parameters::Parameters(char* input[]):num_sets(strtoul(input[1], NULL, 10)), num_blocks(strtoul(input[2], NULL, 10)), block_size(strtoul(input[3], NULL, 10)){
     if (input[1][0] == '-' || input[2][0] == '-' || input[3][0] == '-') {
         throw std::invalid_argument("invalid argument for numerical parameter");
@@ -52,6 +69,10 @@ Parameters::Parameters(char* input[]):num_sets(strtoul(input[1], NULL, 10)), num
 }
 
 
+/*
+ * This helper function is to print the parameters before 
+ * printing the stats
+ */
 void Parameters::print_param(){
     std::cout << "num_sets: " << num_sets << std::endl;
     std::cout << "num_blocks: " << num_blocks << std::endl;
@@ -62,7 +83,19 @@ void Parameters::print_param(){
 }
 
 
-//in a set given the set's index, find slot based on the tag
+/*
+ * What this helper function does is that 
+ * in a set given the set's index, 
+ * find slot based on the tag
+ *
+ * Parameters:
+ *   -tag the tag of the to find slot
+ *   -index the index of the to find slot
+ *
+ * Returns:
+ *   -it_slot the location of the slot that has the 
+ *   -the tag and the index as inputs. 
+ */
 std::vector<Slot>::iterator Cache::find_slot(unsigned tag, unsigned index){
     // if (param->num_sets == 1) index = 0;
     auto pred = [tag](const Slot & slot) {
@@ -73,7 +106,13 @@ std::vector<Slot>::iterator Cache::find_slot(unsigned tag, unsigned index){
     return it_slot;
 } 
 
-
+/*
+ * This helpher function does the evicting of 
+ * the cache
+ *
+ * Parameters:
+ *   -index the index of the current slot
+ */
 void Cache::evict(unsigned index){
     if (param->evict_policy == Param_type::lru){    
         auto cmp = [](const Slot& lhs, const Slot& rhs){
@@ -106,7 +145,14 @@ void Cache::evict(unsigned index){
     }
 }
 
-
+/*
+ * This helpher function does loading of 
+ * the cache
+ *
+ * Parameters:
+ *   -index the index of the current slot
+ *   -tag the tag of the slot
+ */
 void Cache::load_slot(unsigned tag, unsigned index){
     // find in the vector the slot containing the given tag
     stats->total_loads += 1;
@@ -141,6 +187,14 @@ void Cache::load_slot(unsigned tag, unsigned index){
     timestamp++;
 }
 
+/*
+ * This helpher function does writing of 
+ * the cache
+ *
+ * Parameters:
+ *   -index the index of the slot
+ *   -tag the tag of the slot
+ */
 void Cache::write_slot(unsigned tag, unsigned index){
     // find in the vector the slot containing the given tag
     if (param->num_sets == 1) index = 0;
@@ -166,7 +220,14 @@ void Cache::write_slot(unsigned tag, unsigned index){
     timestamp++;
 }
 
-
+/*
+ * This helpher function does writing of 
+ * the cache when allocation miss
+ *
+ * Parameters:
+ *   -index the index of the slot
+ *   -tag the tag of the slot
+ */
 void Cache::write_alloc_miss(unsigned tag, unsigned index){
     if (sets[index].slots.size() == param->num_blocks){
         evict(index);
@@ -185,13 +246,22 @@ void Cache::write_alloc_miss(unsigned tag, unsigned index){
 }
 
 
+/*
+ * This helpher function does no writing of 
+ * the cache when allocation miss
+ */
 void Cache::no_write_alloc_miss(){
     stats->store_misses++;
     stats->total_cycles += 100; //store to memory
     timestamp++;
 }
 
-
+/*
+ * This helpher function does writing back
+ * 
+ * Parameters:
+ *   -iterator to fid the slot
+ */
 void Cache::write_back(std::vector<Slot>::iterator it_slot){
     it_slot->access_ts = timestamp;
     it_slot->dirty = true;
@@ -200,7 +270,12 @@ void Cache::write_back(std::vector<Slot>::iterator it_slot){
     timestamp++;
 }
 
-
+/*
+ * This helpher function does writing through
+ * 
+ * Parameters:
+ *   -iterator to fid the slot
+ */
 void Cache::write_through(std::vector<Slot>::iterator it_slot){
     stats->store_hits++;
     stats->total_cycles++; //write to cache;
@@ -209,7 +284,9 @@ void Cache::write_through(std::vector<Slot>::iterator it_slot){
     timestamp++;
 }
 
-
+/*
+ * This helpher function prints the stats
+ */
 void Cache::print_stats(){
     std::cout << "Total loads: " << stats->total_loads << std::endl
     << "Total stores: " << stats->total_stores << std::endl
