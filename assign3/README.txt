@@ -355,7 +355,95 @@ writes to that block. So, write-allocate combined with write-back is a better ch
 
 
 ----------
+
 EXPERIMENT 6
+different number of blocks per set
+
+testing 4 block with gcc.trace
+./csim 256 4 16 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 314798
+Load misses: 3399
+Store hits: 188250
+Store misses: 9236
+Total cycles: 9185283
+
+testing 8 block with gcc.trace
+./csim 256 8 16 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 315261
+Load misses: 2936
+Store hits: 188513
+Store misses: 8973
+Total cycles: 8478083
+
+testing 16 block with gcc.trace
+./csim 256 16 16 write-allocate write-back lru < gcc.trace
+
+data:
+Total loads: 318197
+Total stores: 197486
+Load hits: 315548
+Load misses: 2649
+Store hits: 188565
+Store misses: 8921
+Total cycles: 7572483
+
+testing 4 block with swim.trace
+./csim 256 4 16 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219507
+Load misses: 1161
+Store hits: 71956
+Store misses: 10569
+Total cycles: 8491993
+
+testing 8 block with swim.trace
+./csim 256 8 16 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219607
+Load misses: 1061
+Store hits: 72010
+Store misses: 10515
+Total cycles: 7998393
+
+testing 16 block with swim.trace
+./csim 256 16 16 write-allocate write-back lru < swim.trace
+
+data:
+Total loads: 220668
+Total stores: 82525
+Load hits: 219651
+Load misses: 1017
+Store hits: 72017
+Store misses: 10508
+Total cycles: 7256393
+
+
+Analysis:
+The aim of this expriment is to test the effect of different number of blocks per set on the
+efficiency. Here we controled for the block size because it is found to have significant
+impact on total cycles (in the next experiment we've controled for the net cache size).
+It is found that with these trace files, a larger number of blocks per set leads to lower
+miss rates and lower total cycles. The reason could be that with more blocks per set,
+it is more likely for the subsequent operations to be a hit because the set is more likely
+to contain the location it wants to access.
+
+
+-----------
+EXPERIMENT 7
 different number of sets and blocks per set: 16384 bytes set-associative cache
 
 testing 128 sets with gcc.trace
@@ -410,94 +498,12 @@ Total cycles: 8491993
 Analysis:
 The aim of this experiment is to compare the different efficiency of caches with 
 different number of sets and blocks per set, but with the same block size and total size.
-We controlled for the same block size to make sure it introduce additioanl biases.
-It is found that the confiuration 256 4 16 results in fewer total cycles, possibly due to
-a lower load miss rate (but it has higher store miss rate). The improvement, therefore, is contingent on
-the ratio of load and write operations and is not significant.
-
-----------
-EXPERIMENT 7
-different number of blocks per set: 16384 bytes cache
-
-testing 4 block with gcc.trace
-./csim 256 4 16 write-allocate write-back lru < gcc.trace
-
-data:
-Total loads: 318197
-Total stores: 197486
-Load hits: 314798
-Load misses: 3399
-Store hits: 188250
-Store misses: 9236
-Total cycles: 9185283
-
-testing 8 block with gcc.trace
-./csim 256 8 8 write-allocate write-back lru < gcc.trace
-
-data:
-Total loads: 318197
-Total stores: 197486
-Load hits: 313484
-Load misses: 4713
-Store hits: 179709
-Store misses: 17777
-Total cycles: 7348283
-
-testing 8 block with gcc.trace
-./csim 256 16 4 write-allocate write-back lru < gcc.trace
-
-data:
-Total loads: 318197
-Total stores: 197486
-Load hits: 312729
-Load misses: 5468
-Store hits: 169711
-Store misses: 27775
-Total cycles: 4619183
-
-testing 4 block with swim.trace
-./csim 256 4 16 write-allocate write-back lru < swim.trace
-
-data:
-Total loads: 220668
-Total stores: 82525
-Load hits: 219507
-Load misses: 1161
-Store hits: 71956
-Store misses: 10569
-Total cycles: 8491993
-
-testing 8 block with swim.trace
-./csim 256 8 8 write-allocate write-back lru < swim.trace
-
-data:
-Total loads: 220668
-Total stores: 82525
-Load hits: 219112
-Load misses: 1556
-Store hits: 63941
-Store misses: 18584
-Total cycles: 5458793
-
-testing 4 block with swim.trace
-./csim 256 16 4 write-allocate write-back lru < swim.trace
-
-data:
-Total loads: 220668
-Total stores: 82525
-Load hits: 218925
-Load misses: 1743
-Store hits: 61610
-Store misses: 20915
-Total cycles: 3016593
+We controlled for the same block size to make sure it doesn't introduce additioanl biases.
+It is found that the configuration 256 4 16 results in fewer total cycles, possibly due to
+a lower load miss rate (though it has higher store miss rate). The improvement, therefore, is contingent on
+the ratio of load and write operations and is not very significant.
 
 
-Analysis:
-The aim of this expriment is to test the effect of different block sizes and number of blocks per set
-on the efficiency of cache. It is found that in this case a block size of 16 caused greater total cycles
-but has lower miss rates. A block size of 16 implicates greater miss penalty each time it 
-loads an entire block. For a block size of 4, even though it has greater miss rates, its miss penalty is smaller
-so it has fewer total cycles. 
 ----------
 EXPERIMENT 8
 different number of bytes
@@ -550,5 +556,20 @@ Store hits: 79428
 Store misses: 3097
 Total cycles: 9840793
 
-Analysis: As we can see, when the bytes in each block increase, we see a significant drop of the store misses and load misses in both the experimentation of the data gcc.trace and swim.trace. The rationality is very simple, when each block has more space, the cache could just keep those data rather than evict them. The conclusion of this experiment is that with more bytes, the cache would have fewer cache misses, and thus the cache could be faster with fewer cycles. 
+Analysis: As we can see, when the bytes in each block increase, 
+we see a significant drop of the store misses and load misses in 
+both the experimentation of the data gcc.trace and swim.trace. 
+The rationality is very simple, when each block has more space, 
+it is more likely that a subsequent access is performed on the
+same block. However, loading bigger blocks from memory could also be a 
+notable cost. As seen, with smaller block sizes, the total cycles
+are reduced - i.e., faster, which implies that the access pattern could be less 
+concentrative in these traces with respect to our choices of block size, 
+diminishing the advantage of spacial locality of larger block sizes.
+
+The conclusion of these experiments is that write-allocate write-back lru
+is generally faster in our scenario, and that with smaller block sizes,
+though the miss rates might be higher, the cache runs fewer cycles and 
+thus the cache could be faster in cases where spatial locality is less significant
+with respect to the block size.
 ----------
