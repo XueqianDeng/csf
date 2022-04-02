@@ -11,6 +11,16 @@
 #include <vector>
 #include "cache_funcs.h"
 
+/*
+ * The main function. 
+ *
+ * Parameters:
+ *   argc - number of arguments
+ *   argv - the argument vector
+ *
+ * Returns:
+ *   0 if executed successfully, -1 if error
+ */
 int main(int argc, char* argv[]) {
   try{
     if (argc != 7) { // missing parameters
@@ -51,4 +61,5 @@ int main(int argc, char* argv[]) {
       std::cerr << "error: "<< e.what() <<std::endl;
       return -1;
   }
+  return 0;
 }
