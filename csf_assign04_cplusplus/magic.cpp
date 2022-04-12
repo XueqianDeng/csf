@@ -51,6 +51,34 @@ int main(int argc, char **argv) {
   Elf64_Shdr file_table = (Elf64_Shdr *) ((unsigned char *) elf_header + elf_header->e_shoff);
   Elf64_Shdr file_table_header = &(file_table[(elf_header->e_shstrndx)]);
   uint32_t file_num_sections = elf_header->e_shnum;
-  section(elf_header, file_table, file_table_header, file_num_sections);
-  symbol(elf_header, file_table_header, symbol_table_header);
+  // section(elf_header, file_table, file_table_header, file_num_sections);
+  Elf64_Shdr sec;
+  Elf64_Shdr *symbol_table_header = NULL;
+  Elf64_Shdr *symbol_string_table = NULL;
+  unsigned char *name = NULL;
+  uint64_t name_index = 0;
+  for (uint64_t i = 0; i < file_num_sections: i++) {
+    sec = file_table[i];
+    name_index = sec.sh_name;
+    name = (unsigned char *) elf_header + file_table_header->sh_offset + name_index;
+    printf("Section header %lu: name =%s, type=%lx,", i, name, (uint32_t) sec.sh_type);
+    printf("offset=%lx, size=%lx\n", sec.sh_offset, sec.sh_size);
+    if (sec.sh_type == 2) {
+      symbol_table_header = &file_table[i];
+    }
+    if ((sec.sh_type == 3) && (string((char *) name)) == ".strtab") {
+      symbol_string_table = &file_table[i];
+    }
+  }
+  // symbol(elf_header, symbol_table_header, symbol_string_table);
+  Elf64_Sym* symbol_table = (Elf64_Sym*)((unsigned char *) elf_header + symbol_table_header->sh_offset);
+  Elf64_Sym symbol;
+  unsigned char * symbol_name = NULL;
+  uint32_t numbers_of_symbols = (symbol_table_header->sh_size) / (symbol_table_header->sh_entsize);
+  for (int i = 0; i < numbers_of_symbols; i++) {
+    symbol = symbol_table[i];
+    name_index = symbol.st_name;
+    name = (unsigned char *) elf_header + symbol_string_table->sh_offset + name_index;
+    printf("Symbol %lu: name=%s, size=%lx, info=%lx, other=%lx\n", i, name, symbol.st_size, (uint32_t)symbol_st_info, (uint32_t)symbol.st_other);
+  }
 }
