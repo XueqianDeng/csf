@@ -39,5 +39,18 @@ int main(int argc, char **argv) {
   if (!is_elf_or_not) {
     printf("Not an ELF file\n");
   }
-  
+  int little_or_not = elf_header->e_ident[EI_DATA] == 1;
+  if (little_or_not == 1) {
+    string print_endian = "Little Endian";
+  } else (little_or_not == 0) {
+    string print_endian = "Big Endian"
+  }
+  cout << "Object File Type" << get_type_name(elf_header->e_type) << endl;
+  cout << "Instruction Set" << get_machine_name(elf_header->e_machine) << endl;
+  cout << "Endianness" << print_endian << endl;
+  Elf64_Shdr file_table = (Elf64_Shdr *) ((unsigned char *) elf_header + elf_header->e_shoff);
+  Elf64_Shdr file_table_header = &(file_table[(elf_header->e_shstrndx)]);
+  uint32_t file_num_sections = elf_header->e_shnum;
+  section(elf_header, file_table, file_table_header, file_num_sections);
+  symbol(elf_header, file_table_header, symbol_table_header);
 }
