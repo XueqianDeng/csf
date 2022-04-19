@@ -1,3 +1,11 @@
+/*
+ * Analyzing ELF files
+ * CSF Assignment 4
+ * Chujian Yu cyu62@jhu.edu
+ * Xueqian Deng xdeng13@jhu.edu
+ * 
+ */
+
 #ifndef ELF_NAMES_H
 #define ELF_NAMES_H
 
