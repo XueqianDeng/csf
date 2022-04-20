@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 
 struct Message {
   // An encoded message may have at most this many characters,
@@ -25,6 +26,11 @@ struct Message {
     std::vector<std::string> result;
     // TODO: split the message data into fields separated by ':', add them
     //       to result vector
+    std::string token;
+    std::stringstream ss(data);
+    while (getline(ss, token, ':')){
+        result.push_back(token);
+    }
     return result;
   }
 };
