@@ -7,7 +7,17 @@
 #include "connection.h"
 #include "client_util.h"
 
-//return false if entered /quit, true otherwise
+/*
+ * This is the function to send comment and return 
+ * false if entered /quit, true otherwise
+ *
+ * Parameters:
+ *   conn - the connection object
+ *   input - the input of the user 
+ * 
+ * Returns:
+ *   return true if successful otherwise false
+ */
 bool send_command(Connection& conn, std::string input) {
   if (input.compare("/quit") == 0) {
       Message quit = {TAG_QUIT, ""};
@@ -29,7 +39,6 @@ bool send_command(Connection& conn, std::string input) {
     }
     return true;
 }
-
 
 int main(int argc, char **argv) {
   if (argc != 4) {
