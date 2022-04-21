@@ -90,11 +90,16 @@ bool Connection::send(const Message &msg) {
   return true;
 }
 
-
+/*
+ * This function is used to recieve the message through the connection object. 
+ *
+ * Parameters:
+ *   msg - the string of the message that the user wants to recieve. 
+ *
+ * Returns:
+ *   whether the message is sent successfully. 
+ */
 bool Connection::receive(Message &msg) {
-  // TODO: send a message, storing its tag and data in msg
-  // return true if successful, false if not
-  // make sure that m_last_result is set appropriately
     char buf_3[1000];
     int n = rio_readlineb(&m_fdbuf, buf_3, sizeof(buf_3)-1);
     if (n > 0) { // print response
