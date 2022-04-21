@@ -8,12 +8,24 @@
 //TODO: testing
 #include <iostream>
 
-
+/*
+ * To construct a connection object instance with '-1'.
+ *
+ */
 Connection::Connection()
   : m_fd(-1)
   , m_last_result(SUCCESS) {
 }
 
+/*
+ * To get the endianness of a valid elf file
+ *
+ * Parameters:
+ *   fd - the pointer to elf header
+ *
+ * Returns:
+ *   a string containning the corresponding endianness of the valid elf file
+ */
 Connection::Connection(int fd)
   : m_fd(fd)
   , m_last_result(SUCCESS) {
@@ -52,40 +64,13 @@ bool Connection::send(const Message &msg) {
   // make sure that m_last_result is set appropriately
   std::string tag_payload = msg.tag+":"+msg.data;
   tag_payload += '\n';
-  // std::cout<<"[send]to send:" <<tag_payload << std::endl;
   int n = rio_writen(m_fd, tag_payload.c_str(), tag_payload.length());
-  // std::cout<<"[send]sent:" <<tag_payload << std::endl;
-  // rio_writen(m_fd, "\n", 1);
-  // Message response;
-  // receive(response);
   if (n <= 0) {
     m_last_result = Connection::Result::EOF_OR_ERROR;
     return false;
   }
   m_last_result = Connection::Result::SUCCESS;
   return true;
-  
-  // if (response.tag == TAG_OK) {
-  //   m_last_result = Connection::Result::SUCCESS;
-  //   return true;
-  // }
-  // if (response.tag == TAG_ERR) {
-  //   m_last_result = Connection::Result::EOF_OR_ERROR;
-  //   return false;
-  // }
-  // char buf_2[1000];
-  // int n = rio_readlineb(&m_fdbuf, buf_2, sizeof(buf_2)-1);
-  // buf_2[n] = '\0';
-  // std::string result(buf_2);
-  // std::cout << "[send]conn received: "<< result;
-  // if (n > 0 && result.substr(0,3).compare("ok:") == 0) {
-  //   m_last_result = Connection::Result::SUCCESS;
-  //   std::cout << "[send]result: success; exiting" << std::endl;
-  //   return true;
-  // } else {
-  //   m_last_result = Connection::Result::EOF_OR_ERROR;
-  // }
-  // return false;
 }
 
 bool Connection::receive(Message &msg) {
