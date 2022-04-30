@@ -40,15 +40,14 @@ int main(int argc, char **argv) {
 
   Connection conn;
 
-  // TODO: connect to server
+  // connect to server
   conn.connect(server_hostname, server_port);
   if (!conn.is_open()) {
     std::cerr<< "connection failure" <<std::endl;
     return -1;
   }
 
-  // TODO: send rlogin and join messages (expect a response from
-  //       the server for each one)
+  // send rlogin and join messages (expect a response from the server for each one)
   Message rlogin = {TAG_RLOGIN, username};
   Message ok_response;
   conn.send(rlogin);
@@ -57,7 +56,7 @@ int main(int argc, char **argv) {
     return -1;
   }
 
-  //TODO: send join
+  //send join
   Message join = {TAG_JOIN, room_name};
   conn.send(join);
   if (!conn.receive(ok_response)) {
@@ -66,8 +65,7 @@ int main(int argc, char **argv) {
   }
 
 
-  // TODO: loop waiting for messages from server
-  //       (which should be tagged with TAG_DELIVERY)
+  // loop waiting for messages from serve(which should be tagged with TAG_DELIVERY)
   Message from_server;
   while (true) {
     do {
@@ -75,7 +73,6 @@ int main(int argc, char **argv) {
         std::cerr << from_server.data;
       }
     } while (from_server.tag != TAG_DELIVERY);
-
    std::vector<std::string> message = from_server.split_payload();
    std::cout << message[1] <<": " << message[2];
   }
