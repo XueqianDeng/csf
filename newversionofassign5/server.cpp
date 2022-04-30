@@ -135,22 +135,38 @@ void *worker(void *arg) {
 // Server member function implementation
 ////////////////////////////////////////////////////////////////////////
 
+ /*
+  * Create the server object.
+  *
+  * Parameters:
+  *   port - port number
+  */
 Server::Server(int port)
   : m_port(port)
   , m_ssock(-1) {
   pthread_mutex_init(&m_lock, nullptr);
 }
 
+ /*
+  * Destroy the server object. 
+  *
+  */
 Server::~Server() {
   pthread_mutex_destroy(&m_lock);
 }
 
+ /*
+  * See if there is something sent to the server
+  */
 bool Server::listen() {
   std::string port = std::to_string(m_port);
   m_ssock = open_listenfd(port.c_str());
   return m_ssock >= 0;
 }
 
+ /*
+  * This is used to handle the client's request. 
+  */
 void Server::handle_client_requests() {
   assert(m_ssock >= 0);
   while (true) {
@@ -168,6 +184,12 @@ void Server::handle_client_requests() {
   }
 }
 
+ /*
+  * This is used to find or to create a room
+  *
+  * Parameters:
+  *   room_name - the string of the room name
+  */
 Room *Server::find_or_create_room(const std::string &room_name) {
   // this function can be called from multiple threads, so
   // make sure the mutex is held while accessing the shared
