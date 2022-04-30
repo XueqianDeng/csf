@@ -3,35 +3,39 @@
 #include "message_queue.h"
 
 
-
+/*
+ * To construct the message queue object
+ */
 MessageQueue::MessageQueue() {
   // initialize the mutex and the semaphore
   sem_init(&m_avail, 0, 0);
   pthread_mutex_init(&m_lock, NULL);
-
-
-
 }
 
+/*
+ * To destruct the message queue object
+ */
 MessageQueue::~MessageQueue() {
-  // TODO: destroy the mutex and the semaphore
+  // destroy the mutex and the semaphore
   sem_destroy(&m_avail);
   pthread_mutex_destroy(&m_lock);
 
 }
 
+/*
+ * To put the message in to the message queue object
+ * 
+ * Parameters:
+ * msg - the message that is to be put into the queue
+ */
 void MessageQueue::enqueue(Message *msg) {
-  // TODO: put the specified message on the queue
-
-  // sem_wait(m_messages.size() - m_avail);
+  // put the specified message on the queue
+  // be sure to notify any thread waiting for a message to be
+  // available by calling sem_post
   pthread_mutex_lock(&m_lock);
   m_messages.push_back(msg);
   pthread_mutex_unlock(&m_lock);
   sem_post(&m_avail);
-
-
-  // be sure to notify any thread waiting for a message to be
-  // available by calling sem_post
 }
 
 Message *MessageQueue::dequeue() {
