@@ -72,14 +72,14 @@ int main(int argc, char **argv) {
 
   Connection conn;
 
-  // TODO: connect to server
+  // connect to server
   conn.connect(server_hostname, server_port);
   if (!conn.is_open()) {
     std::cerr<< "connection failure" <<std::endl;
     return -1;
   }
 
-  // TODO: send slogin message
+  // send slogin message
   Message slogin = {TAG_SLOGIN, username};
   Message ok_response;
   conn.send(slogin);
@@ -88,8 +88,8 @@ int main(int argc, char **argv) {
     return -1;
   }
 
-  // TODO: loop reading commands from user, sending messages to
-  //       server as appropriate
+  // loop reading commands from user, sending messages to
+  // server as appropriate
   std::string input;
   bool proceed = true;
   while (proceed) {
