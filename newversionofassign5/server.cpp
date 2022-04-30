@@ -17,10 +17,15 @@
 // Server implementation data types
 ////////////////////////////////////////////////////////////////////////
 
+/*
+ *  Connection Information Data Structure
+ */
 struct ConnInfo {
+  // introduce basic data structure in the struct
   Connection *conn;
   Server *server;
-
+  
+  //constructor and destructor
   ConnInfo(Connection *conn, Server *server) : conn(conn), server(server) { }
   ~ConnInfo() {
     // destroy connection when ConnInfo object is destroyed
@@ -34,47 +39,50 @@ struct ConnInfo {
 
 namespace {
 
+ /*
+  * This is parsing, or namely, handling function 
+  *
+  * Parameters:
+  *   arg - tells the parsing or say handling function basic info. about the 
+  *   what to parse and what to do. 
+  */
 void *worker(void *arg) {
   pthread_detach(pthread_self());
-  // std::cout<<"[worker] init"<<std::endl;
-
+  
+  //intake the info
   ConnInfo *info_ = static_cast<ConnInfo *>(arg);
 
   // use a std::unique_ptr to automatically destroy the ConnInfo object
   // when the worker function finishes; this will automatically ensure
   // that the Connection object is destroyed
   std::unique_ptr<ConnInfo> info(info_);
-
   Message msg;
-
+  
+  // invalid messsage handling
   if (!info->conn->receive(msg)) {
     if (info->conn->get_last_result() == Connection::INVALID_MSG) {
       info->conn->send(Message(TAG_ERR, "invalid message"));
     }
     return nullptr;
   }
-  // std::cout<<"[worker] msg tag: " <<msg.tag<<std::endl;
 
+  //check the tag of the message
   if (msg.tag != TAG_SLOGIN && msg.tag != TAG_RLOGIN) {
     info->conn->send(Message(TAG_ERR, "first message should be slogin or rlogin"));
     return nullptr;
   }
 
-
+  
   std::string username = msg.data;
   if (!info->conn->send(Message(TAG_OK, "welcome " + username))) {
-    // std::cout<<"[worker] failed to send login msg: "<<std::endl;
     return nullptr;
   } 
-  //TODO: to delete else stmt
-  else {
-    // std::cout<<"[worker] succeeded to send login msg: "<<std::endl;
-  }
+  // to delete else stmt
   User * user = nullptr;
-  if (msg.tag == TAG_RLOGIN) { //only registers user when it's receiver
+  if (msg.tag == TAG_RLOGIN) { 
+    //only registers user when it's receiver
     user = new User(username);
   }
-  
 
   // Just loop reading messages and sending an ok response for each one
   while (true) {
@@ -84,7 +92,6 @@ void *worker(void *arg) {
       if (info->conn->get_last_result() == Connection::INVALID_MSG) {
         // std::cout<<"[worker] invalid msg received "<<std::endl;
         info->conn->send(Message(TAG_ERR, "invalid message"));
-        
       }
       break;
       
