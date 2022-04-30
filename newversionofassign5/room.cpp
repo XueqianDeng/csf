@@ -8,15 +8,15 @@
 
 #include <iostream>
 
-// std::string room_name;
-//   pthread_mutex_t lock;
-
-//   typedef std::set<User *> UserSet;
-//   UserSet members;
-
+/*
+ * To construct the room object with the string name of the room
+ * 
+ * Parameters:
+ * room_name - the string of the room name
+ */
 Room::Room(const std::string &room_name)
   : room_name(room_name) {
-  // TODO: initialize the mutex
+      // initialize the mutex
   pthread_mutex_init(&lock, NULL);
 
 }
