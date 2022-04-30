@@ -16,7 +16,7 @@
  */
 Room::Room(const std::string &room_name)
   : room_name(room_name) {
-      // initialize the mutex
+  // initialize the mutex
   pthread_mutex_init(&lock, NULL);
 
 }
